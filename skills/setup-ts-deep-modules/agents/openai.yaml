@@ -1,0 +1,5 @@
+interface:
+  display_name: "Configurer les modules TypeScript profonds"
+  short_description: "Imposer des modules TypeScript profonds"
+policy:
+  allow_implicit_invocation: false

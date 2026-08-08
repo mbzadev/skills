@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# NOTE: This is a dev-only script, intended for use by maintainers of this repo.
-# It is not a supported installer. Modifications to it — or requests for
-# modifications — will not be approved.
+# REMARQUE : ce script est réservé au développement et destiné aux mainteneurs
+# de ce dépôt. Ce n’est pas un programme d’installation pris en charge. Les
+# modifications apportées à ce script — ou les demandes en ce sens — ne seront
+# pas approuvées.
 #
-# Links all skills in the repository into the local skill directories used by
-# each agent harness:
-#   - ~/.claude/skills  — Claude Code
-#   - ~/.agents/skills  — Codex and other Agent Skills-compatible harnesses
-# Each entry is a symlink into this repo, so a `git pull` is all that's needed
-# to keep installed skills up to date.
+# Crée des liens vers tous les skills du dépôt dans les répertoires locaux de
+# skills utilisé par Codex :
+#   - ~/.agents/skills
+# Chaque entrée est un lien symbolique vers ce dépôt : un simple `git pull`
+# suffit donc à maintenir les skills installés à jour.
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
-DESTS=("$HOME/.claude/skills" "$HOME/.agents/skills")
+DESTS=("$HOME/.agents/skills")
 
-# Collect the repo's skills once, link into every destination.
+# Recense une seule fois les skills du dépôt, puis crée les liens dans chaque destination.
 names=()
 srcs=()
 while IFS= read -r -d '' skill_md; do
@@ -25,15 +25,15 @@ while IFS= read -r -d '' skill_md; do
 done < <(find "$REPO/skills" -name SKILL.md -not -path '*/node_modules/*' -not -path '*/deprecated/*' -print0)
 
 for DEST in "${DESTS[@]}"; do
-  # If $DEST is a symlink that resolves into this repo, we'd end up writing the
-  # per-skill symlinks back into the repo's own skills/ tree. Detect and bail
-  # out instead of polluting the working copy.
+  # Si $DEST est un lien symbolique qui pointe vers ce dépôt, les liens de
+  # chaque skill seraient écrits dans l’arborescence skills/ du dépôt lui-même.
+  # Détecte ce cas et s’arrête afin de ne pas polluer la copie de travail.
   if [ -L "$DEST" ]; then
     resolved="$(readlink -f "$DEST")"
     case "$resolved" in
       "$REPO"|"$REPO"/*)
-        echo "error: $DEST is a symlink into this repo ($resolved)." >&2
-        echo "Remove it (rm \"$DEST\") and re-run; the script will recreate it as a real dir." >&2
+        echo "erreur : $DEST est un lien symbolique vers ce dépôt ($resolved)." >&2
+        echo "Supprimez-le (rm \"$DEST\"), puis relancez le script ; il le recréera sous forme de répertoire réel." >&2
         exit 1
         ;;
     esac
@@ -51,6 +51,6 @@ for DEST in "${DESTS[@]}"; do
     fi
 
     ln -sfn "$src" "$target"
-    echo "linked $name -> $src ($DEST)"
+    echo "lien créé : $name -> $src ($DEST)"
   done
 done

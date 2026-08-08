@@ -1,10 +1,10 @@
-# Explicit `/setup-matt-pocock-skills` pointer only for hard dependencies
+# Exiger `/setup-matt-pocock-skills` uniquement pour les dépendances strictes
 
-Engineering skills depend on per-repo config (issue tracker, triage label vocabulary, domain doc layout) seeded by `/setup-matt-pocock-skills`. Some skills cannot meaningfully function without that config — they have to publish to a specific issue tracker or apply a specific label string. Others only use it to sharpen output (vocabulary, ADR awareness) and degrade gracefully without it.
+Les compétences d'ingénierie dépendent d'une configuration par dépôt (outil de suivi des issues, vocabulaire des étiquettes de triage, disposition des documents de domaine) initialisée par `/setup-matt-pocock-skills`. Certaines compétences ne peuvent fonctionner de manière significative sans cette configuration — elles doivent publier sur un outil de suivi des issues spécifique ou appliquer une chaîne d'étiquettes spécifique. D'autres l'utilisent uniquement pour affiner la sortie (vocabulaire, prise de conscience des ADR) et se dégradent de manière élégante sans elle.
 
-We split these into **hard-dependency** and **soft-dependency** skills:
+Nous avons divisé celles-ci en compétences de **dépendance stricte** et de **dépendance souple** :
 
-- **Hard dependency** (`to-tickets`, `to-spec`, `triage`) — include an explicit one-liner: _"… should have been provided to you — run `/setup-matt-pocock-skills` if not."_ Without the mapping, output is wrong, not just fuzzy.
-- **Soft dependency** (`diagnose`, `tdd`, `improve-codebase-architecture`) — reference "the project's domain glossary" and "ADRs in the area you're touching" in vague prose only. If the docs aren't there, the skill still works; output is just less sharp.
+- **Dépendance stricte** (`to-tickets`, `to-spec`, `triage`) — incluent une ligne explicite : _« … aurait dû vous être fourni — exécutez `/setup-matt-pocock-skills` s'il n'en est pas ainsi. »_ Sans la correspondance, la sortie est incorrecte, pas seulement imprécise.
+- **Dépendance souple** (`diagnose`, `tdd`, `improve-codebase-architecture`) — font référence au « glossaire de domaine du projet » et aux « ADR dans la zone que vous touchez » uniquement dans un propos vague. Si les documents ne sont pas là, la compétence fonctionne toujours ; la sortie est simplement moins tranchante.
 
-The split keeps soft-dependency skills token-light and avoids cargo-culting the setup pointer into places where it isn't load-bearing.
+Cette division maintient les compétences de dépendance souple légères en termes de jetons et évite d'appliquer mécanquement sans raison le renvoi vers la configuration dans des endroits où il n'est pas porteur de charge.

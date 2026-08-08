@@ -1,0 +1,3 @@
+interface:
+  display_name: "Assistant de configuration"
+  short_description: "Générer un assistant de configuration interactif"

@@ -1,98 +1,98 @@
-## What it does
+## Ce qu’il fait
 
-`wizard` generates an interactive bash script that walks a human, step by step, through a manual procedure — wiring up third-party services, running a one-off migration, moving a project from state A to state B. It opens each URL, says what to click and copy, captures what comes back, and writes it into `.env` files and GitHub Actions secrets.
+`wizard` génère un script bash interactif qui guide un humain, étape par étape, à travers une procédure manuelle : câblage de services tiers, exécution d'une migration unique, déplacement d'un projet de l'état A à l'état B. Il ouvre chaque URL, indique sur quoi cliquer et copier, capture ce qui revient et l'écrit dans les fichiers `.env`  et les secrets des actions GitHub.
 
-The [agent](https://www.aihero.dev/ai-coding-dictionary/agent) writes the script; it never runs it. You do, on your own machine. So a wizard is not a list of instructions you follow — it is a program that drives the procedure and holds the state, and your part is to click, paste, and press Enter.
+L'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) écrit le script ; il ne l'exécute jamais. Vous le faites, sur votre propre machine. Ainsi, un assistant n'est pas une liste d'instructions que vous suivez : c'est un programme qui pilote la procédure et gère l'état, et votre rôle consiste à cliquer, coller et appuyer sur Entrée.
 
-## When to reach for it
+## Quand l’utiliser
 
-You can type `/wizard`, and the agent can also reach for it on its own. When it hits a step you have to take — a key it can't mint, a dashboard it can't click — it builds you a wizard instead of writing the instructions into the chat, where they scroll away.
+Vous pouvez taper `/wizard`, et l'agent peut également l'atteindre lui-même. Lorsqu'il franchit une étape que vous devez franchir – une clé sur laquelle il ne peut pas frapper, un tableau de bord sur lequel il ne peut pas cliquer – il vous crée un assistant au lieu d'écrire les instructions dans le chat, où elles défilent.
 
-Reach for it when the next thing blocking you is a trip through a dashboard:
+Atteignez-le lorsque la prochaine chose qui vous bloque est un voyage dans un tableau de bord :
 
-| Situation | What the wizard does |
+| Situation | Que fait l'assistant |
 | --- | --- |
-| A new dev needs six services configured before the app boots | Opens each dashboard in order, captures the keys, writes them to `.env` and CI |
-| A one-off migration needs switches flipped in a specific order | Sequences the irreversible steps behind confirmation gates |
-| A project has to move from state A to state B once | Walks the transition and reports what it could not do |
-| You are about to write those steps into a README | Writes an executable version instead, which can't rot as quietly |
+| Un nouveau développeur a besoin de six services configurés avant le démarrage de l'application | Ouvre chaque tableau de bord dans l'ordre, capture les clés, les écrit dans `.env` et CI |
+| Une migration ponctuelle nécessite d'activer les commutateurs dans un ordre spécifique | Séquence les étapes irréversibles derrière les portes de confirmation |
+| Un projet doit passer de l'état A à l'état B une fois | Parcourt la transition et rapporte ce qu'il n'a pas pu faire |
+| Vous êtes sur le point d'écrire ces étapes dans un fichier README | Écrit une version exécutable à la place, qui ne peut pas pourrir aussi silencieusement |
 
-Don't reach for it to *decide* what to build; for that, [grill-with-docs](https://aihero.dev/skills-grill-with-docs) and [to-spec](https://aihero.dev/skills-to-spec) are the tools.
+Ne l'atteignez pas pour *décider* quoi construire ; pour cela, [grill-with-docs](https://aihero.dev/skills-grill-with-docs) et [to-spec](https://aihero.dev/skills-to-spec) sont les outils.
 
-## Prerequisites
+## Prérequis
 
-None to generate one. The wizard it writes runs on bash, and uses `gh` when a stage sets a GitHub secret or variable. If `gh` is missing or unauthenticated, that stage becomes a warning and the closing summary tells you what to set by hand, instead of failing the run.
+Aucun pour en générer un. L'assistant qu'il écrit s'exécute sur bash et utilise `gh` lorsqu'une étape définit un secret ou une variable GitHub. Si `gh` est manquant ou non authentifié, cette étape devient un avertissement et le résumé de clôture vous indique ce qu'il faut définir manuellement, au lieu d'échouer l'exécution.
 
-## Stages
+## Étapes
 
-A **stage** is one focused task on one screen. The script clears the terminal between stages, so a stage that overflows the screen loses the part that scrolled away. You author stages in dependency order and set `TOTAL_STAGES`, which drives the progress display.
+Une **étape** est une tâche ciblée sur un seul écran. Le script efface le terminal entre les étapes, donc une étape qui déborde de l'écran perd la partie qui a défilé. Vous créez des étapes dans l'ordre de dépendance et définissez `TOTAL_STAGES`, qui pilote l'affichage de la progression.
 
-Scoping happens before a line is written. The [skill](https://www.aihero.dev/ai-coding-dictionary/skill) reads the repo instead of asking cold: `.env*`, `docker-compose*`, framework config, and every `secrets.*` / `vars.*` reference in `.github/workflows/` — each of those is a value the wizard has to produce. It then shows you the ordered stage list to confirm, and only after that maps each stage to the exact path a human follows ("Dashboard → Developers → API keys → Reveal test key → copy"). Where it doesn't know the current UI, it asks you or checks the docs rather than inventing clicks.
+La définition de la portée se produit avant l'écriture d'une ligne. La [skill](https://www.aihero.dev/ai-coding-dictionary/skill) lit le dépôt au lieu de demander à froid : `.env*`, `docker-compose*`, la configuration du framework et chaque `secrets.*` / `vars.*` référence dans `.github/workflows/` — chacun d’eux est une valeur que l’assistant doit produire. Il vous montre ensuite la liste des étapes ordonnées à confirmer, et seulement après cela, mappe chaque étape au chemin exact suivi par un humain ("Tableau de bord → Développeurs → Clés API → Révéler la clé de test → copier"). Lorsqu'il ne connaît pas l'interface utilisateur actuelle, il vous le demande ou vérifie la documentation plutôt que d'inventer des clics.
 
-For each captured value, scoping settles where it lands:
+Pour chaque valeur capturée, le cadrage s’établit là où il atterrit :
 
-| Destination | When |
+| Destination | Quand |
 | --- | --- |
-| `.env` only | Local dev needs it, CI doesn't |
-| GitHub secret | CI reads it, and it's sensitive |
-| GitHub variable | CI reads it, and it's public |
-| Both `.env` and a secret | Local dev and CI both need it |
-| Nowhere | The stage is a pure action — a switch flipped, a plan upgraded |
+| `.env` uniquement | Les développeurs locaux en ont besoin, pas CI |
+| Secret GitHub | CI le lit, et c'est sensible |
+| Variable GitHub | CI le lit et c'est public |
+| À la fois `.env` et un secret | Les développeurs locaux et CI en ont tous deux besoin |
+| Nulle part | La scène est une pure action – un interrupteur actionné, un plan amélioré |
 
-## The template already solves the UX
+## Le modèle résout déjà l'UX
 
-The [template](https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/template.sh) ships the whole experience: progress with time remaining, confirmation gates, cross-platform URL opening including WSL, hidden entry for secrets, idempotent `.env` upserts, `gh secret` / `gh variable` writes, and a closing summary of everything it had to skip. Everything above the `STAGES` marker is a fixed library, identical in every wizard and never hand-edited. The consistency is the point. Your job is only to scope the procedure and author its stages.
+Le [modèle](https://github.com/mbzadev/skills/blob/main/skills/wizard/template.sh) fournit toute l’expérience : progression et temps restant, confirmations, ouverture d’URL multiplateforme — y compris sous WSL —, saisie masquée des secrets, mise à jour idempotente de `.env`, écriture via `gh secret` et `gh variable`, puis résumé final des étapes ignorées. Tout ce qui précède le marqueur `STAGES` forme une bibliothèque fixe, identique dans chaque assistant et jamais modifiée manuellement. Votre travail consiste uniquement à définir la procédure et à créer ses étapes.
 
-The agent that writes a wizard never runs it end to end, because it opens browsers and waits for human input. It verifies statically instead: `bash -n`, `shellcheck` where available, and a trace that every value lands where scoping said it would, with every `set_secret` name matching a real `secrets.*` reference in CI. Set your expectations accordingly — the first run is yours, and that run is the test.
+L'agent qui écrit un assistant ne l'exécute jamais de bout en bout, car il ouvre les navigateurs et attend l'intervention humaine. Il vérifie statiquement à la place : `bash -n`, `shellcheck` lorsque disponible, et une trace que chaque valeur atterrit là où la portée l'a indiqué, avec chaque `set_secret` nom correspondant à une vraie `secrets.*` référence dans CI. Définissez vos attentes en conséquence : la première exécution vous appartient et cette exécution est le test.
 
-## Ephemeral by default
+## Éphémère par défaut
 
-| What you have | What to do with the script |
+| Ce que vous avez | Que faire avec le script |
 | --- | --- |
-| A one-off migration, a personal setup, a transition you'll never repeat | Save it to a scratch or `scripts/` path, run it, delete it |
-| A setup path the next person on the repo will also need | Commit it and link it from the README, so they run the script instead of re-asking an agent |
+| Une migration ponctuelle, une configuration personnelle, une transition que vous ne répéterez jamais | Enregistrez-le dans un chemin scratch ou `scripts/` , exécutez-le, supprimez-le |
+| Un chemin de configuration dont la prochaine personne sur le dépôt aura également besoin | Validez-le et liez-le à partir du README, afin qu'ils exécutent le script au lieu de demander à nouveau à un agent |
 
-## Common questions
+## Questions fréquentes
 
-**Do my API keys end up in the model's context?**
+**Mes clés API se retrouvent-elles dans le contexte du modèle ?**
 
-No. The agent writes a script; it doesn't run it. You run the script yourself, and it captures the key with hidden terminal entry and writes it straight to `.env` or `gh secret`. The wizard is a CLI, and the model is not connected to it. One caveat: that holds for values the wizard captures at runtime. If you paste a key into the chat while scoping the procedure, it's in the [context](https://www.aihero.dev/ai-coding-dictionary/context) like any other pasted text.
+Non. L’agent écrit un script ; ça ne le fait pas fonctionner. Vous exécutez le script vous-même, et il capture la clé avec une entrée de terminal cachée et l'écrit directement dans `.env` ou `gh secret`. L'assistant est une CLI et le modèle n'y est pas connecté. Une mise en garde : cela vaut pour les valeurs capturées par l'assistant au moment de l'exécution. Si vous collez une clé dans le chat tout en délimitant la procédure, elle se trouve dans le [context](https://www.aihero.dev/ai-coding-dictionary/context) comme tout autre texte collé.
 
-**Can I go back and fix a value I mistyped?**
+**Puis-je revenir en arrière et corriger une valeur que j'ai mal saisie ?**
 
-Not mid-run. There is no back button — the stages run forward, and a wrong answer on stage 3 means Ctrl-C and re-run. Re-running is cheap by design: any value already written to `.env` is offered back as a default, so you press Enter through the stages you got right and retype only the wrong one. This came up in the launch week and hasn't been closed since: "loved it! One thing though — is there a way to go back and correct what you've entered?"
+Pas à mi-parcours. Il n'y a pas de bouton de retour - les étapes avancent et une mauvaise réponse à l'étape 3 signifie Ctrl-C et réexécuter. La réexécution est peu coûteuse de par sa conception : toute valeur déjà écrite dans `.env` est proposée par défaut, vous appuyez donc sur Entrée pendant les étapes que vous avez réussies et ne retapez que la mauvaise. Cela s'est produit au cours de la semaine de lancement et n'a pas été fermé depuis : "J'ai adoré ! Une chose cependant : existe-t-il un moyen de revenir en arrière et de corriger ce que vous avez saisi ?"
 
-There's a related open bug. Arrow keys in an `ask` prompt insert `^[[D` / `^[[C` instead of moving the cursor, because the prompt uses `read -r` rather than Readline ([issue #741](https://github.com/mattpocock/skills/issues/741)). Backspace works; arrow keys don't. Delete back to the mistake rather than moving the cursor into it.
+Il y a un bug ouvert associé. Les touches fléchées dans une invite `ask` insèrent `^[[D` / `^[[C` au lieu de déplacer le curseur, car l'invite utilise `read -r` plutôt que Readline ([numéro 741](https://github.com/mattpocock/skills/issues/741)). Le retour arrière fonctionne ; les touches fléchées ne le font pas. Supprimez l'erreur plutôt que d'y déplacer le curseur.
 
-**Does it know what I've already set up?**
+**Est-ce qu'il sait ce que j'ai déjà configuré ?**
 
-Partly, and less than the launch reactions assumed. It reads the repo before it asks — your `.env` files, `docker-compose`, framework config, the `secrets.*` references in CI — so it scopes to values that are genuinely missing rather than starting from zero the way a README does. What it doesn't do is check the third-party service. If a key exists in your `.env` the wizard offers it back and Enter keeps it; if you already created the Stripe account but never saved the key, the wizard still sends you to the dashboard for it.
+En partie, et moins que ce que supposaient les réactions au lancement. Il lit le dépôt avant de demander - vos fichiers `.env` , `docker-compose`, la configuration du framework, les références `secrets.*`  dans CI - il s'étend donc aux valeurs qui sont véritablement manquantes plutôt que de partir de zéro comme le fait un README. Ce qu'il ne fait pas, c'est vérifier le service tiers. Si une clé existe dans votre `.env` l'assistant la propose et Entrée la conserve ; si vous avez déjà créé le compte Stripe mais n'avez jamais enregistré la clé, l'assistant vous envoie quand même au tableau de bord correspondant.
 
-**Where does it sit in the workflow — after grilling and the spec?**
+**Où se situe-t-il dans le flux de travail – après le grillage et les spécifications ?**
 
-Nowhere in particular. It's a standalone, not a chain step. The common guess is `/grill-with-docs → /to-spec → /wizard`, and that sequence is fine, but the trigger is a manual procedure showing up, which can happen at any point: before you start, mid-build, or long after ship. It also works as a discovery tool — scoping surfaces the hidden prerequisites of a task, like the three API keys you hadn't thought about, before you commit to the work.
+Nulle part en particulier. Il s'agit d'une étape autonome et non d'une chaîne. L'hypothèse courante est  `/grill-with-docs → /to-spec → /wizard`, et cette séquence est correcte, mais le déclencheur est une procédure manuelle qui apparaît, qui peut se produire à tout moment : avant de commencer, à mi-construction ou longtemps après l'expédition. Il fonctionne également comme un outil de découverte : la portée fait apparaître les prérequis cachés d'une tâche, comme les trois clés API auxquelles vous n'aviez pas pensé, avant de vous engager dans le travail.
 
-**Does it work outside Claude Code?**
+**Est-ce que ça marche en dehors de Codex ?**
 
-The artifact does, unconditionally: it's a plain bash script and it doesn't care what [harness](https://www.aihero.dev/ai-coding-dictionary/harness) generated it. The skill itself is model-invoked, so it's listed everywhere — type `/wizard` in Claude Code or `$wizard` in Codex, or just describe the setup you're stuck on. Being model-invoked also keeps it clear of [#693](https://github.com/mattpocock/skills/issues/693), where Claude's desktop and web surfaces drop *user-invoked* skills from the [model](https://www.aihero.dev/ai-coding-dictionary/model)'s listing and report them as not installed.
+L'artefact le fait, sans condition : c'est un simple script bash et peu importe ce que [harness](https://www.aihero.dev/ai-coding-dictionary/harness) l'a généré. La compétence elle-même est invoquée par le modèle, elle est donc répertoriée partout – tapez `/wizard` dans Codex ou `$wizard` dans le Codex, ou décrivez simplement la configuration sur laquelle vous êtes bloqué. Le fait d'être invoqué par le modèle permet également d'éviter [#693](https://github.com/mattpocock/skills/issues/693), où les surfaces de bureau et Web de Codex suppriment les compétences *invoquées par l'utilisateur* de la liste du [model](https://www.aihero.dev/ai-coding-dictionary/model) et les signalent comme non installées.
 
-**Didn't this used to be user-invoked?**
+**N'était-ce pas invoqué par l'utilisateur ?**
 
-It did. It's now model-invoked, so the agent reaches for it unprompted when it hits a step you have to take. Nothing you could do before stopped working — model-invocation *adds* the agent's reach, it never removes yours, so `/wizard` behaves exactly as it did. What changed is the failure mode it retires: the agent hitting a credentials wall mid-build and dumping six numbered steps into the chat for you to follow by hand.
+C’est effectivement le cas. Il est désormais invoqué par le modèle, de sorte que l'agent l'atteint sans y être invité lorsqu'il atteint une étape que vous devez franchir. Rien de ce que vous pouviez faire avant de cesser de fonctionner - l'invocation de modèle *ajoute* la portée de l'agent, elle ne supprime jamais la vôtre, donc `/wizard`  se comporte exactement comme il le faisait. Ce qui a changé, c'est le mode d'échec qu'il abandonne : l'agent heurte un mur d'informations d'identification en cours de construction et envoie six étapes numérotées dans le chat que vous pouvez suivre manuellement.
 
-**It used to be in `in-progress/` — where is it now?**
+**Auparavant, c'était dans `in-progress/` — où est-il maintenant ?**
 
-`engineering/`, as of v1.2. It graduated out of the beta bucket and now ships in the plugin, so it arrives with the rest of the promoted set rather than needing an individual install. Its behaviour didn't change on graduation.
+Depuis la version 1.2, il appartient à la catégorie `engineering/`. Il a quitté la catégorie bêta et est désormais livré avec le reste des skills promus, sans installation individuelle. Ce changement de statut n’a pas modifié son comportement.
 
-## It's working if
+## Indicateurs de réussite
 
-- You're shown an ordered list of stages, and the values each one produces, and asked to confirm — before any script exists.
-- Every URL is opened before the value from that page is asked for. You're never asked to paste something you haven't been sent to fetch.
-- Secrets are typed blind. Nothing sensitive echoes into your scrollback.
-- Each stage fits one screen. Nothing you still need has scrolled away.
-- Ctrl-C and re-run picks up where you left off, offering the values already saved as defaults.
-- The final screen lists what it wrote, and separately lists what it couldn't do and you have to finish by hand.
+- Une liste ordonnée d'étapes et les valeurs que chacune d'elles produit s'affichent, et il vous est demandé de confirmer - avant qu'un script n'existe.
+- Chaque URL est ouverte avant que la valeur de cette page ne soit demandée. On ne vous demande jamais de coller quelque chose que vous n'avez pas été envoyé chercher.
+- Les secrets sont tapés à l'aveugle. Rien de sensible ne résonne dans votre défilement.
+- Chaque étape correspond à un écran. Rien de ce dont vous avez encore besoin n’a disparu.
+- Ctrl-C et réexécutez reprend là où vous vous étiez arrêté, offrant les valeurs déjà enregistrées par défaut.
+- L'écran final répertorie ce qu'il a écrit, et répertorie séparément ce qu'il n'a pas pu faire et que vous devez terminer à la main.
 
-## Where it fits
+## Où il s’inscrit
 
-`wizard` is a reach-for-it-anytime standalone, sitting at the line where automation stops and a human has to click. Its nearest neighbour is [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills), because both exist to get a repo into a working state — that one configures this skill set, while `wizard` generates a setup path for everything else. It also pairs with [implement](https://aihero.dev/skills-implement): when a build lands a feature that needs credentials or a manual cutover, a wizard is how the human half gets done. When you're unsure which skill fits the moment, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+`wizard` est un outil autonome accessible à tout moment, situé à la ligne où l'automatisation s'arrête et où un humain doit cliquer. Son voisin le plus proche est [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills), car les deux existent pour mettre un dépôt en état de fonctionnement - celui-ci configure cet ensemble de compétences, tandis que  `wizard`  génère un chemin de configuration pour tout le reste. Il s'associe également à [implement](https://aihero.dev/skills-implement) : lorsqu'une version intègre une fonctionnalité qui nécessite des informations d'identification ou un basculement manuel, un assistant permet de réaliser la moitié humaine. Lorsque vous ne savez pas quelle compétence vous convient le mieux, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.

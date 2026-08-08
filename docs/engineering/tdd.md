@@ -1,94 +1,94 @@
-## What it does
+## Ce qu’il fait
 
-`tdd` builds a feature or fixes a bug test-first: one failing test, then just enough code to pass it, then the next behaviour. It carries the standards that make that loop produce tests worth keeping — what a good test is, where tests go, what mocks are for, and the three anti-patterns that quietly ruin a suite.
+`tdd`  crée une fonctionnalité ou corrige un test de bug en premier : un test qui échoue, puis juste assez de code pour le réussir, puis le comportement suivant. Il contient les normes qui font que cette boucle produit des tests qui valent la peine d'être conservés : ce qu'est un bon test, où vont les tests, à quoi servent les simulations et les trois anti-modèles qui ruinent discrètement une suite.
 
-It writes no test at a seam you have not agreed to first. Before any test exists, it names the public boundaries it intends to test at and stops for your confirmation, because testing effort is finite and this is where you spend it on the critical paths instead of on every edge case. The other thing to know is that `tdd` is a **reference**, not a driver. It holds the rules of the loop, and something else (you, or [implement](https://aihero.dev/skills-implement)) runs the [session](https://www.aihero.dev/ai-coding-dictionary/session) that applies them.
+Il n'écrit aucun test sur une couture que vous n'avez pas acceptée au préalable. Avant qu'un test n'existe, il nomme les limites publiques auxquelles il a l'intention de tester et s'arrête pour votre confirmation, car l'effort de test est limité et c'est là que vous le dépensez sur les chemins critiques plutôt que sur chaque cas limite. L'autre chose à savoir est que `tdd` est une **référence**, pas un pilote. Il contient les règles de la boucle, et quelque chose d'autre (vous, ou [implement](https://aihero.dev/skills-implement)) exécute la [session](https://www.aihero.dev/ai-coding-dictionary/session) qui les applique.
 
-## When to reach for it
+## Quand l’utiliser
 
-Type `/tdd`, or the [agent](https://www.aihero.dev/ai-coding-dictionary/agent) reaches for it automatically when a task fits — building a feature or fixing a bug test-first, or when you say "red-green-refactor".
+Tapez `/tdd`, ou l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) l'atteint automatiquement lorsqu'une tâche convient : créer une fonctionnalité ou corriger un test de bogue en premier, ou lorsque vous dites "refactor rouge-vert".
 
-Reach for it when there is a concrete behaviour to build, with an input and an observable output, and you want tests that survive a refactor.
+Atteignez-le lorsqu'il y a un comportement concret à construire, avec une entrée et une sortie observable, et que vous voulez des tests qui survivent à un refactor.
 
-| Your situation | Where to go |
+| Votre situation | Où aller |
 | --- | --- |
-| A behaviour with defined inputs and outputs — business logic, a request/response contract, a transformation, validation | `tdd` |
-| The behaviour isn't pinned down yet | [to-spec](https://aihero.dev/skills-to-spec), which also agrees the test seams before any code is written |
-| The question is really the shape of the interface, not the tests | [codebase-design](https://aihero.dev/skills-codebase-design) |
-| You have a [spec](https://www.aihero.dev/ai-coding-dictionary/spec) or [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) and want the whole build run for you | [implement](https://aihero.dev/skills-implement), which drives `tdd` per ticket |
-| Config, wiring, glue, type annotations, straight CRUD delegation | Nothing here fits well — see the open gap below |
+| Un comportement avec des entrées et des sorties définies — une logique métier, un contrat de requête/réponse, une transformation, une validation | `tdd` |
+| Le comportement n'est pas encore cerné | [to-spec](https://aihero.dev/skills-to-spec), qui accepte également les coutures de test avant qu'un code ne soit écrit |
+| La question porte sur la forme de l’interface, pas sur les tests | [codebase-design](https://aihero.dev/skills-codebase-design) |
+| Vous avez une [spécification](https://www.aihero.dev/ai-coding-dictionary/spec) ou des [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) et souhaitez exécuter toute la construction | [implement](https://aihero.dev/skills-implement), qui pilote `tdd` ticket par ticket |
+| Configuration, câblage, collage, annotations de type, délégation CRUD directe | Rien ici ne va bien — voir l'écart ouvert ci-dessous |
 
-That last row is a real hole, not a stylistic preference. The skill decides *where* the seams go; nothing in it decides *whether* a change is worth the loop at all. Run it on a change with no independent source of truth to assert against and you get a test that restates the implementation — the tautological anti-pattern the skill itself warns about, arrived at from the other direction. It is [issue #746](https://github.com/mattpocock/skills/issues/746) and it is open. Until it closes, that judgement is yours or your `CLAUDE.md`'s.
+Cette dernière ligne correspond à une véritable lacune, pas à une préférence de style. Le skill décide *où* placer les coutures, mais pas *si* un changement mérite un test. Sur un changement dépourvu de source de vérité indépendante, le test risque de ne faire que reformuler l’implémentation : c’est l’anti-modèle tautologique que le skill cherche lui-même à éviter. Ce point fait l’objet du [ticket nº 746](https://github.com/mattpocock/skills/issues/746), toujours ouvert. En attendant sa résolution, ce jugement vous revient ou doit être défini dans votre fichier `AGENTS.md`.
 
-## Prerequisites
+## Prérequis
 
-[codebase-design](https://aihero.dev/skills-codebase-design) needs to be installed. `tdd` used to carry its own deep-module and interface-design notes; in v1.0 those were deleted in favour of the shared skill, and `tdd` now leans on it for interface-design vocabulary. Nothing else — the skill is [stateless](https://www.aihero.dev/ai-coding-dictionary/stateless) and writes no files of its own.
+[codebase-design](https://aihero.dev/skills-codebase-design) doit être installé. Auparavant, `tdd` contenait ses propres conseils sur les modules profonds et la conception d’interfaces. Depuis la version 1.0, ces conseils appartiennent au skill partagé, dont `tdd` reprend le vocabulaire. Rien d’autre n’est requis : le skill est [sans état](https://www.aihero.dev/ai-coding-dictionary/stateless) et ne crée aucun fichier qui lui soit propre.
 
-## The loop, and the seam it runs at
+## La boucle et la couture sur laquelle elle passe
 
-Three words carry this skill.
+Trois mots portent cette compétence.
 
-**Red-green.** Write the failing test, then only enough code to pass it. No anticipating the test after next. There is no refactor phase: it was dropped in June 2026 because agents essentially never performed it, and because review and implementation work better as separate sessions. Refactoring belongs to [code-review](https://aihero.dev/skills-code-review).
+**Rouge-vert.** Écrivez d’abord un test qui échoue, puis juste assez de code pour le faire réussir. N’anticipez pas le test suivant. Il n’y a pas de phase de refactorisation : elle a été retirée en juin 2026, car les agents l’exécutaient rarement et la révision fonctionne mieux dans une session distincte. La refactorisation relève de [code-review](https://aihero.dev/skills-code-review).
 
-**Vertical slice.** One seam, one test, one minimal implementation, then repeat — the first cycle being a **tracer bullet** that proves a single path end to end. The opposite is horizontal slicing: all the tests first, then all the code. Bulk tests verify *imagined* behaviour, they check the shape of things rather than what a user does, and they commit you to a test structure before you understand the implementation.
+**Tranche verticale.** Une couture, un test, une implémentation minimale, puis recommencez. Le premier cycle est une **balle traçante** qui prouve un chemin de bout en bout. À l’inverse, le découpage horizontal écrit tous les tests avant tout le code. Ces tests groupés vérifient un comportement *imaginé* et imposent une structure avant que l’implémentation soit comprise.
 
-**Pre-agreed seam.** A seam is the public boundary you observe behaviour at without reaching inside. The rule is absolute: no test at an unconfirmed seam. In the full chain the seams are agreed earlier, during [to-spec](https://aihero.dev/skills-to-spec) — "`/tdd` is told to only work at pre-agreed test seams, `/code-review` checks that only agreed-upon test seams were used." Invoked on its own, `tdd` asks you directly.
+**Couture convenue à l'avance.** Une couture est la limite publique sur laquelle vous observez un comportement sans atteindre l'intérieur. La règle est absolue : pas de test sur une couture non confirmée. Dans la chaîne complète, les coutures sont convenues plus tôt, lors de [to-spec](https://aihero.dev/skills-to-spec) — "`/tdd`  doit fonctionner uniquement sur des coutures de test préalablement convenues,  `/code-review`  vérifie que seules les coutures de test convenues ont été utilisées." Invoqué seul,  `tdd`  vous le demande directement.
 
-The three anti-patterns it is written to prevent:
+Les trois anti-modèles qu’il est écrit pour empêcher :
 
-| Anti-pattern | The tell |
+| Anti-modèle | Le dire |
 | --- | --- |
-| Implementation-coupled | The test breaks when you rename an internal function, though behaviour did not change. Mocked internal collaborators, asserted call counts, database queries used to verify instead of the interface. |
-| Tautological | The expected value is computed the way the code computes it, so the test passes by construction. Expected values have to come from somewhere else — a known-good literal, a worked example, the spec. |
-| Horizontal slicing | A batch of tests landed before any implementation. |
+| Couplé à la mise en œuvre | Le test s'interrompt lorsque vous renommez une fonction interne, même si le comportement n'a pas changé. Collaborateurs internes moqués, nombre d'appels affirmé, requêtes de base de données utilisées pour vérifier à la place de l'interface. |
+| Tautologique | La valeur attendue est calculée de la même manière que le code la calcule, donc le test réussit par construction. Les valeurs attendues doivent provenir d'ailleurs : un littéral connu, un exemple concret, la spécification. |
+| Tranchage horizontal | Un lot de tests a atterri avant toute implémentation. |
 
-Mocks are for system boundaries only — external APIs, time, randomness, sometimes the filesystem or the database. Not your own modules.
+Les simulations concernent uniquement les limites du système : les API externes, le temps, le caractère aléatoire, parfois le système de fichiers ou la base de données. Pas vos propres modules.
 
-## Common questions
+## Questions fréquentes
 
-**Why doesn't it refactor? The description says "red-green-refactor".**
+**Pourquoi n'est-il pas refactorisé ? La description dit "rouge-vert-refactor".**
 
-Because the refactor step was removed and the description was not. The removal was deliberate: agents essentially never did it, and keeping implementation and review in separate sessions works better. Whether the result still counts as TDD by the book matters less than whether the loop produces better code. The mismatch between the trigger phrase and the body is filed as [issue #589](https://github.com/mattpocock/skills/issues/589) and is still open, so "red-green-refactor" continues to work as a phrase that fires the skill. What you get is red → green, and refactoring in [code-review](https://aihero.dev/skills-code-review).
+Parce que l'étape de refactorisation a été supprimée et la description ne l'a pas été. La suppression était délibérée : les agents ne l'ont pratiquement jamais fait, et il est préférable de conserver la mise en œuvre et la révision dans des sessions séparées. Que le résultat compte toujours comme TDD selon le livre importe moins que de savoir si la boucle produit un meilleur code. L'inadéquation entre la phrase de déclenchement et le corps est classée sous le numéro [numéro 589](https://github.com/mattpocock/skills/issues/589) et est toujours ouverte, donc "refactor rouge-vert" continue de fonctionner comme une phrase qui déclenche la compétence. Ce que vous obtenez est rouge → vert et refactorisé dans [code-review](https://aihero.dev/skills-code-review).
 
-**It asked me to choose a test seam and I had no idea which to pick.**
+**Il m'a demandé de choisir une couture de test et je ne savais pas laquelle choisir.**
 
-This is the most-reported friction with the skill ([issue #607](https://github.com/mattpocock/skills/issues/607)). The prompt lists candidate seams by name only, with nothing about what each one catches or misses, so you are choosing between labels. There is no fix shipped yet. The practical workaround is to ask the agent for the trade-offs before answering — what does the component-level seam miss that the integration seam catches, and how much slower is it. It is also why the chain agrees seams up front in `to-spec`, where you have the whole feature in view rather than one prompt.
+Il s'agit de la friction la plus signalée avec la compétence ([numéro 607](https://github.com/mattpocock/skills/issues/607)). L'invite répertorie les coutures candidates par leur nom uniquement, sans rien indiquer sur ce que chacune d'entre elles capture ou manque, vous choisissez donc entre les étiquettes. Aucun correctif n'a encore été livré. La solution pratique consiste à demander à l'agent quels sont les compromis avant de répondre : qu'est-ce qui manque à la couture au niveau du composant que la couture d'intégration rattrape, et à quel point est-elle plus lente. C'est aussi pourquoi la chaîne accepte les coutures à l'avant dans `to-spec`, où vous avez toute la fonctionnalité en vue plutôt qu'une seule invite.
 
-**It wrote the implementation before the test, even though the skill says red first.**
+**Il a écrit l'implémentation avant le test, même si la compétence indique rouge en premier.**
 
-It happens. One user pushed the [model](https://www.aihero.dev/ai-coding-dictionary/model) on it and got an unusually honest answer: "I knew the skill said 'one test at a time, watch it fail for the right reason' — I read it. I just defaulted to my normal habit." The skill is written to live with this. No instruction makes an agent comply 100% of the time, and forcing the point harder restricts the agent's creativity for little gain — the loop is worth running even when it is not followed strictly, because the results are still better overall. If strict adherence matters for a particular slice, watch the run rather than trusting the skill to enforce it.
+Cela arrive. Un utilisateur a poussé le [model](https://www.aihero.dev/ai-coding-dictionary/model) dessus et a obtenu une réponse inhabituellement honnête : "Je savais que la compétence disait 'un test à la fois, regardez-le échouer pour la bonne raison' - je l'ai lu. J'ai simplement repris mon habitude normale par défaut." La compétence est écrite pour vivre avec cela. Aucune instruction n'oblige un agent à se conformer à 100 % du temps, et forcer plus fort restreint la créativité de l'agent pour peu de gain : la boucle vaut la peine d'être exécutée même si elle n'est pas strictement suivie, car les résultats sont quand même globalement meilleurs. Si une stricte adhésion est importante pour une tranche particulière, surveillez la course plutôt que de vous fier aux compétences nécessaires pour la faire respecter.
 
-**Should it write browser or end-to-end tests first?**
+**Devrait-il d'abord écrire des tests de navigateur ou de bout en bout ?**
 
-Usually not, and the skill will not stop it. A user reported the agent writing a Playwright test first, then burning a long loop re-running it and concluding the *test* was broken for a feature that did not exist yet. Configure this in your `CLAUDE.md`. Browser tests are slow enough that the red-green feedback loop stops paying for itself; declare in your repo's `CLAUDE.md` that they are written after the behaviour works.
+Généralement non, et la compétence ne l’arrêtera pas. Un utilisateur a signalé que l'agent avait d'abord écrit un test Playwright, puis avait gravé une longue boucle en le réexécutant et en concluant que le *test* était interrompu pour une fonctionnalité qui n'existait pas encore. Configurez-le dans votre `AGENTS.md`. Les tests du navigateur sont suffisamment lents pour que la boucle de rétroaction rouge-vert cesse d'être rentabilisée ; déclarez dans votre dépôt `AGENTS.md` qu'ils sont écrits après le fonctionnement du comportement.
 
-**Does `/tdd` replace `/implement`, or the course's `/do-work`?**
+**Est-ce que `/tdd` remplace `/implement`, ou le `/do-work` du cours ?**
 
-No. `/tdd` documents the methodology; `/implement` is a very simple work→feedback→commit loop and is the direct stand-in for `/do-work`. The course's single `/do-work` step is now split across `/implement`, `/tdd` and `/code-review`. If you are asking which one to run against a ticket, the answer is almost always `/implement`.
+Non. `/tdd` documente la méthodologie ; `/implement` est une boucle travail → feedback → commit très simple et constitue le remplacement direct de `/do-work`. Le cours est unique `/do-work` l'étape est maintenant divisée en `/implement`, `/tdd` et `/code-review`. Si vous demandez lequel présenter contre un ticket, la réponse est presque toujours `/implement`.
 
-**Where did the deep-modules and interface-design guidance go?**
+**Où sont passés les modules profonds et les conseils de conception d'interface ?**
 
-Into [codebase-design](https://aihero.dev/skills-codebase-design) in v1.0, generalised so several skills share one vocabulary. `refactoring.md` left at the same time; refactoring is now [code-review](https://aihero.dev/skills-code-review)'s job, and that skill carries the Fowler smell baseline.
+Ces conseils ont rejoint [codebase-design](https://aihero.dev/skills-codebase-design) dans la version 1.0, afin que plusieurs skills partagent le même vocabulaire. `refactoring.md` a disparu au même moment : la refactorisation relève désormais de [code-review](https://aihero.dev/skills-code-review), qui porte aussi la référence aux mauvaises odeurs de Fowler.
 
-**Does it know about my other tickets?**
+**Est-il au courant de mes autres tickets ?**
 
-No. Run against one ticket, it will happily propose work that belongs to a sibling ticket, because it has no view of the rest of the issue graph ([issue #129](https://github.com/mattpocock/skills/issues/129)). Matt's position is that this is not `tdd`'s job. Passing the spec alongside the ticket helps; right-sizing the tickets in the first place helps more.
+Non. Exécuté contre un ticket, il proposera volontiers un travail appartenant à un ticket frère, car il n'a pas de vue sur le reste du graphique du problème ([numéro #129](https://github.com/mattpocock/skills/issues/129)). La position de Matt est que ce n'est pas le travail de  `tdd`. Transmettre la spécification à côté du ticket est utile ; En premier lieu, le bon dimensionnement des tickets aide davantage.
 
-## It's working if
+## Indicateurs de réussite
 
-- It stops and names the seams it intends to test at, and waits, before any test file exists.
-- One test appears, goes red, gets just enough code to pass, and only then does the next test appear — not a batch of tests followed by a batch of code.
-- Test names read as capabilities ("user can checkout with valid cart"), not as internals ("checkout calls paymentService.process").
-- Expected values in assertions are literals you can trace to the spec, not values recomputed the way the code computes them.
-- Renaming an internal function breaks nothing in the suite.
-- Mocks appear only at external boundaries — the payment API, the clock — and never around your own modules.
+- Il s'arrête et nomme les coutures sur lesquelles il a l'intention de tester, et attend avant qu'un fichier de test n'existe.
+- Un test apparaît, devient rouge, obtient juste assez de code pour réussir, et alors seulement le test suivant apparaît – pas un lot de tests suivi d'un lot de code.
+- Les noms des tests sont lus comme des capacités ("l'utilisateur peut payer avec un panier valide"), et non comme des éléments internes ("la caisse appelle paymentService.process").
+- Les valeurs attendues dans les assertions sont des littéraux que vous pouvez retracer jusqu'à la spécification, et non des valeurs recalculées de la même manière que le code les calcule.
+- Renommer une fonction interne ne casse rien dans la suite.
+- Les simulations n'apparaissent qu'aux frontières externes - l'API de paiement, l'horloge - et jamais autour de vos propres modules.
 
-## Where it fits
+## Où il s’inscrit
 
-`tdd` is the engine inside the build step of the main chain, rather than a step of its own:
+`tdd` est le moteur à l'intérieur de l'étape de construction de la chaîne principale, plutôt qu'une étape en soi :
 
 ```txt
 grill-with-docs → to-spec → to-tickets → implement → code-review
 ```
 
-[to-spec](https://aihero.dev/skills-to-spec) agrees the test seams up front, [implement](https://aihero.dev/skills-implement) drives `tdd` per ticket, and [code-review](https://aihero.dev/skills-code-review) checks afterwards that only the agreed seams were used — and owns the refactoring `tdd` no longer does. Its other neighbour is [codebase-design](https://aihero.dev/skills-codebase-design), the shared source of the seam and deep-module vocabulary `tdd` speaks. You can also reach for it on its own, whenever there is a concrete behaviour to build and no full spec in play. When you are unsure which skill fits your situation, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+[to-spec](https://aihero.dev/skills-to-spec) fait approuver les coutures de test en amont, [implement](https://aihero.dev/skills-implement) pilote ensuite `tdd` ticket par ticket et [code-review](https://aihero.dev/skills-code-review) vérifie que seules les coutures convenues ont été utilisées ; la refactorisation lui appartient désormais. [codebase-design](https://aihero.dev/skills-codebase-design) fournit le vocabulaire commun des coutures et des modules profonds employé par `tdd`. Vous pouvez aussi invoquer `tdd` seul lorsqu’un comportement concret doit être construit sans spécification complète. Si vous hésitez sur le bon skill, [ask-matt](https://aihero.dev/skills-ask-matt) vous oriente.

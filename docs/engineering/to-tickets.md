@@ -1,99 +1,107 @@
-## What it does
+## Ce qu’il fait
 
-`to-tickets` takes a plan, a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), or the conversation you are in, and breaks it into a set of **[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)** on your issue tracker. Each ticket declares its **blocking edges** — the other tickets that have to finish before it can start.
+`to-tickets` prend un plan, une [spec](https://www.aihero.dev/ai-coding-dictionary/spec) ou la conversation dans laquelle vous vous trouvez, et le divise en un ensemble de **[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)** sur votre outil de suivi des problèmes. Chaque ticket déclare ses **bords de blocage** — les autres tickets qui doivent se terminer avant de pouvoir commencer.
 
-Every ticket is a **tracer bullet**: a narrow but complete path through every layer of the change — schema, API, UI, tests — that can be demoed on its own the moment it lands. That is the constraint that makes it behave differently from the obvious way to split work, which is to cut one layer at a time and integrate at the end. It also sizes each ticket to fit in a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), because the thing that will pick the ticket up is a [session](https://www.aihero.dev/ai-coding-dictionary/session) that has never seen your spec.
+Chaque ticket est une **puce de traçage** : un chemin étroit mais complet à travers chaque couche du changement (schéma, API, interface utilisateur, tests) qui peut être démontré seul dès son arrivée. C’est la contrainte qui fait qu’il se comporte différemment de la manière évidente de diviser le travail, qui consiste à couper une couche à la fois et à l’intégrer à la fin. Il dimensionne également chaque ticket pour qu'il tienne dans une seule nouvelle [fenêtre contextuelle](https://www.aihero.dev/ai-coding-dictionary/context-window), car la chose qui récupérera le ticket est une [session](https://www.aihero.dev/ai-coding-dictionary/session) qui n'a jamais vu vos spécifications.
 
-## When to reach for it
+## Quand l’utiliser
 
-You invoke this by typing `/to-tickets` — the [agent](https://www.aihero.dev/ai-coding-dictionary/agent) won't reach for it on its own.
+Vous l'invoquez en tapant `/to-tickets` — l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul.
 
-| Where you are | What to run |
+| Où êtes-vous | Que courir |
 | --- | --- |
-| You have a spec issue and the build spans several sessions | `/to-tickets`, or `/to-tickets #<spec_issue>` |
-| The plan is only in the conversation, never written up | `/to-tickets` reads the thread directly — no spec needed |
-| The whole change fits in one context window | [implement](https://aihero.dev/skills-implement) — skip the tickets |
-| Nothing is decided yet | [grill-with-docs](https://aihero.dev/skills-grill-with-docs), then [to-spec](https://aihero.dev/skills-to-spec) |
-| A [wayfinder](https://aihero.dev/skills-wayfinder) map has cleared | [to-spec](https://aihero.dev/skills-to-spec) first, to collapse the map, then `/to-tickets` |
+| Vous rencontrez un problème de spécifications et la build s'étend sur plusieurs sessions | `/to-tickets`, ou `/to-tickets #<spec_issue>` |
+| Le plan est uniquement dans la conversation, jamais écrit | `/to-tickets` lit le fil directement — aucune spécification n'est nécessaire |
+| L'ensemble du changement tient dans une seule fenêtre contextuelle | [implement](https://aihero.dev/skills-implement) — ignorer les tickets |
+| Rien n'est encore décidé | [grill-with-docs](https://aihero.dev/skills-grill-with-docs), puis [to-spec](https://aihero.dev/skills-to-spec) |
+| Une carte [wayfinder](https://aihero.dev/skills-wayfinder) a été effacée | [to-spec](https://aihero.dev/skills-to-spec) d'abord, pour réduire la carte, puis `/to-tickets` |
 
-Tickets that `to-tickets` produced are agent-ready by construction. Don't run [triage](https://aihero.dev/skills-triage) over them — triage is for work that arrived from someone else.
+Les tickets produits par  `to-tickets`  sont prêts pour l'agent par construction. N'exécutez pas [triage](https://aihero.dev/skills-triage) dessus - le tri est destiné au travail arrivé de quelqu'un d'autre.
 
-## Prerequisites
+## Prérequis
 
-`to-tickets` publishes into a tracker, so [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) must have configured one for this repo, along with the triage-label vocabulary. Either kind works: a real tracker like GitHub or Linear, or local markdown files under `.scratch/`, which is supported out of the box.
+`to-tickets` publie dans un tracker, donc [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) doit en avoir configuré un pour ce dépôt, ainsi que le vocabulaire des étiquettes de triage. Les deux types fonctionnent : un vrai tracker comme GitHub ou Linear, ou des fichiers Markdown locaux sous `.scratch/`, qui sont pris en charge dès le départ.
 
-## Tracer bullets, not layers
+## Balles traçantes, pas de couches
 
-A **horizontal** slice ships one layer of the change. Nothing works until every layer has landed, and each ticket's acceptance criteria have to reach into work that another ticket owns. A **vertical** slice — the tracer bullet — ships one thin path through all the layers at once, so it is verifiable alone and owns everything it grades.
+Une tranche **horizontale** expédie une couche du changement. Rien ne fonctionne tant que chaque couche n'a pas atterri, et les critères d'acceptation de chaque ticket doivent s'appliquer au travail détenu par un autre ticket. Une tranche **verticale** - la balle traçante - trace un mince chemin à travers toutes les couches à la fois, elle est donc vérifiable seule et possède tout ce qu'elle note.
 
-This is the rule people break most often, and the consequences are well documented. One team ran a 26-ticket stack sliced by layer — corpus, producer, aggregator, selector — and got roughly twenty agent runs per closed ticket, about three quarters of them rework. Their own post-mortem traced every failure class back to the horizontal slicing rather than to the implementations.
+C’est la règle que les gens enfreignent le plus souvent, et les conséquences sont bien documentées. Une équipe a exécuté une pile de 26 tickets découpés par couche (corpus, producteur, agrégateur, sélecteur) et a obtenu environ vingt agents par ticket fermé, dont environ les trois quarts ont été retravaillés. Leur propre autopsie a retracé chaque classe d'échec jusqu'au découpage horizontal plutôt qu'aux implémentations.
 
-Two things happen before anything is published. `to-tickets` looks for prefactoring — "make the change easy, then make the easy change" — and orders that work first. Then it presents the breakdown as a numbered list and quizzes you on it: is the granularity right, are the blocking edges real, should anything merge or split. Nothing reaches the tracker until you approve, and that quiz is the place to push back.
+Deux choses se produisent avant que quoi que ce soit ne soit publié. `to-tickets` recherche la préfactorisation — « faciliter le changement, puis effectuer le changement facile » — et les commandes qui fonctionnent en premier. Ensuite, il présente la répartition sous forme de liste numérotée et vous interroge : la granularité est-elle correcte, les bords bloquants sont-ils réels, si quelque chose fusionne ou se divise. Rien n'atteint le tracker tant que vous n'avez pas approuvé, et ce quiz est l'endroit idéal pour repousser.
 
-## Blocking edges
+## Dépendances bloquantes
 
-The edges are the point of the artifact. They read two ways depending on the tracker:
+Les bords sont la pointe de l’artefact. Ils lisent de deux manières selon le tracker :
 
-| Tracker | Where the edges live | How you work them |
+| Traqueur | Où vivent les bords | Comment les travailler |
 | --- | --- | --- |
-| Local markdown | Text in one file per ticket under `.scratch/<feature>/issues/<NN>-<slug>.md`, numbered blockers-first | Top to bottom, by hand |
-| A real tracker (GitHub, Linear) | Native blocking links, or sub-issues where the tracker has them | Any ticket whose blockers are done is on the **frontier** and can be grabbed |
+| Markdown local | Texte dans un fichier par ticket sous `.scratch/<feature>/issues/<NN>-<slug>.md`, bloqueurs numérotés en premier | De haut en bas, à la main |
+| Un vrai tracker (GitHub, Linear) | Liens de blocage natifs ou sous-problèmes là où le tracker les contient | Tout ticket dont les bloqueurs sont terminés se trouve sur la **frontière** et peut être saisi |
 
-The edges live in the ticket either way. The medium only decides whether anything can act on them in parallel. `to-tickets` produces the artifact; running it — one session at a time, or a fleet — is your job, not the skill's.
+Les bords vivent dans le ticket de toute façon. Le médium décide seulement si quelque chose peut agir sur eux en parallèle. `to-tickets` produit l'artefact ; le gérer – une session à la fois ou une flotte – est votre travail, pas celui de la compétence.
 
-## The wide-refactor exception
+## L’exception des refactorisations transversales
 
-One shape breaks the tracer-bullet rule. A **wide refactor** is a single mechanical change — rename a column, retype a shared symbol — whose **blast radius** fans across the whole codebase, so one edit breaks thousands of call sites and no vertical slice can land green.
+Une forme de changement échappe à la règle de la balle traçante. Un **refactoring transversal** est une modification mécanique unique — renommer une colonne ou retaper un symbole partagé — dont le rayon d’impact couvre toute la base de code. Une seule étape peut alors casser des milliers de sites d’appel, sans qu’une tranche verticale puisse rester verte.
 
-`to-tickets` sequences that as **expand–contract** instead:
+`to-tickets` séquences qui se transforment en **expansion-contraction** à la place :
 
-- **Expand** — add the new form beside the old, so nothing breaks.
-- **Migrate** — move call sites over in batches sized by blast radius (per package, per directory), one ticket per batch, each blocked by the expand. CI stays green because the old form still exists.
-- **Contract** — delete the old form once no caller remains, in a ticket blocked by every migrate batch.
+- **Développer** — ajoutez le nouveau formulaire à côté de l'ancien pour que rien ne se casse.
+- **Migrer** — déplacez les sites d'appel par lots dimensionnés par rayon d'explosion (par package, par répertoire), un ticket par lot, chacun bloqué par l'extension. CI reste vert car l'ancien formulaire existe toujours.
+- **Contrat** — supprimez l'ancien formulaire une fois qu'il ne reste plus d'appelant, dans un ticket bloqué par chaque lot de migration.
 
-Where even the batches can't stay green alone, they share an integration branch and all block a final integrate-and-verify ticket. Green is promised only there.
+Là où même les lots ne peuvent pas rester verts seuls, ils partagent une branche d'intégration et bloquent tous un ticket final d'intégration et de vérification. Le vert n'est promis que là-bas.
 
-## Common questions
+## Questions fréquentes
 
-**It produced twelve tickets for a three-line change.**
-Over-decomposition is the most reported friction on this skill, and it is consistent across practitioners: the [model](https://www.aihero.dev/ai-coding-dictionary/model) defaults to atomic units and loses the grouping that would make them meaningful. The quiz step exists for exactly this — ask it to merge, and it will. The deeper answer is that the tickets have a floor: if the whole change fits in one context window, you don't need this skill at all. Go straight to [implement](https://aihero.dev/skills-implement).
+**Il a produit douze tickets pour un changement de trois lignes.**
 
-**The tickets came out one per layer — all the schema in one, all the API in another.**
-This is the failure the vertical-slice rule is written against, and the skill still produces it sometimes. Catch it at the quiz step by asking one question per ticket: what can I demo when this is done? A ticket with no answer is a horizontal slice. Some people add a "demo path" line to each ticket for this reason, and report it nudges the model toward vertical decomposition.
+La décomposition excessive est la friction la plus signalée sur cette compétence, et elle est cohérente entre les praticiens : le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) utilise par défaut les unités atomiques et perd le regroupement qui leur donnerait un sens. L'étape du quiz existe exactement pour cela : demandez-lui de fusionner, et elle le fera. La réponse la plus profonde est que les tickets ont un plancher : si l'ensemble du changement tient dans une seule fenêtre contextuelle, vous n'avez pas du tout besoin de cette compétence. Accédez directement à [implement](https://aihero.dev/skills-implement).
 
-**On GitHub the tickets weren't created as sub-issues of the spec issue.**
-Known and unfixed. It has been reported across a dozen runs and several models, [most fully in issue #554](https://github.com/mattpocock/skills/issues/554), and it is worse on Codex than on Claude. `gh` has supported this natively since v2.94: `gh issue create --parent <n>`, and `gh issue edit <parent> --add-sub-issue <n>` after the fact. Until the tracker template prefers those, wiring the parent links yourself after a run is the reliable move.
+**Les tickets sont sortis un par couche : tous les schémas dans un, toutes les API dans un autre.**
 
-**"Blocked by" was written into the issue body instead of a real blocking link.**
-Same class of problem, [reported in issue #513](https://github.com/mattpocock/skills/issues/513), where the agent went as far as asserting GitHub has no native blocking relationship at all. It does — `gh issue create --blocked-by 12,15`. Because blockers are published first, their numbers are always available at creation time. The body text is meant to be the fallback for trackers with no native edge, not the default.
+C'est l'échec contre lequel la règle de la tranche verticale est écrite, et la compétence le produit encore parfois. Découvrez-le à l'étape du quiz en posant une question par ticket : que puis-je démontrer une fois cela fait ? Un ticket sans réponse est une tranche horizontale. Certaines personnes ajoutent une ligne « chemin de démonstration » à chaque ticket pour cette raison et signalent que cela pousse le modèle vers une décomposition verticale.
 
-**Where do the local tickets go? The v1.1 notes said a root-level `tickets.md`.**
-They did, and that was a bug — a single shared file also raced when parallel agents wrote to it. Local mode now writes one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, in dependency order, matching the layout the local tracker template already described. The `NN` prefix is a real ticket ID, so `/implement 03` works instead of retyping a long title.
+**Sur GitHub, les tickets n'ont pas été créés en tant que sous-problèmes du problème de spécification.**
 
-**It kept truncating when it tried to read my spec.**
-A very large spec can outgrow what a tracker issue serves back cleanly, and there is no local copy to fall back on — the agent then burns [tool calls](https://www.aihero.dev/ai-coding-dictionary/tool-call) re-fetching chunks and never reaches the end. Don't [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) or [compact](https://www.aihero.dev/ai-coding-dictionary/compaction) between `/to-spec` and `/to-tickets`. Run them in the same context window and the spec never has to be fetched back at all.
+Connu et non corrigé. Le problème a été signalé sur une douzaine d’exécutions et plusieurs modèles, [notamment dans le ticket 554](https://github.com/mattpocock/skills/issues/554). `gh` le prend en charge nativement depuis la v2.94 avec `gh issue create --parent <n>`, puis `gh issue edit <parent> --add-sub-issue <n>`. Tant que le modèle de tracker ne privilégie pas ces relations, reliez manuellement les tickets parents après l’exécution.
 
-**The acceptance criteria graded nothing — some passed before any work was done.**
-The template asks for criteria and says nothing about whether they can fail, so this happens. Three shapes recur: a criterion already true at the base commit, a criterion that can only be satisfied by work another ticket owns, and one that restates the request rather than deriving from the artifact. Vertical slicing prevents most of it — a slice that delivers behaviour which didn't exist before is red at the base commit by construction — but the check is worth doing by hand. For each criterion, name the observation that would show it false, and confirm it fails at the commit the implementer starts from.
+** « Bloqué par » a été écrit dans le corps du problème au lieu d'un véritable lien de blocage.**
 
-**The tickets are published. How do I actually run them?**
-The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is manual: look at the board, count the tickets with no open blockers, and open that many agent sessions. One ticket per fresh context, cleared between them. Be aware that [implement](https://aihero.dev/skills-implement) does not reliably close or check off the ticket when it finishes, on GitHub or in local markdown, so the ticket's state is yours to update.
+Même classe de problème, [rapporté dans le numéro 513](https://github.com/mattpocock/skills/issues/513), où l'agent est allé jusqu'à affirmer que GitHub n'a aucune relation de blocage native. C'est le cas — `gh issue create --blocked-by 12,15`. Étant donné que les bloqueurs sont publiés en premier, leurs numéros sont toujours disponibles au moment de la création. Le corps du texte est censé être la solution de secours pour les trackers sans bord natif, et non la valeur par défaut.
 
-## It's working if
+**Où vont les tickets locaux ? Les notes de la v1.1 indiquaient un niveau racine `tickets.md`.**
 
-- Every ticket has an answer to "what can I demo when this is done?" — and the answer is behaviour, not a layer.
-- The list comes back to you numbered, with a "Blocked by" line on each, before anything is published.
-- The ticket at the top has no blockers and can be started immediately.
-- Nothing in a ticket body is a file path or a line number, except a snippet a prototype produced.
-- Each ticket reads like something a fresh session could finish without you in the room.
-- Prefactoring, where it found any, is at the front of the order rather than mixed into feature tickets.
+Ils l’ont fait, et c’était un bug : un seul fichier partagé s’exécutait également lorsque des agents parallèles lui écrivaient. Le mode local écrit désormais un fichier par ticket sous `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, dans l'ordre des dépendances, correspondant à la disposition du modèle de suivi local déjà décrit. Le préfixe `NN`  est un véritable identifiant de ticket, donc `/implement 03`  fonctionne au lieu de retaper un long titre.
 
-## Where it fits
+**Il n'arrêtait pas de tronquer lorsqu'il essayait de lire mes spécifications.**
 
-`to-tickets` is a step in the main build chain:
+Une spécification très volumineuse peut dépasser proprement ce qu'un problème de tracker renvoie, et il n'y a pas de copie locale sur laquelle s'appuyer - l'agent brûle ensuite les [appels d'outil](https://www.aihero.dev/ai-coding-dictionary/tool-call) récupérant des morceaux et n'atteint jamais la fin. Ne pas [effacer](https://www.aihero.dev/ai-coding-dictionary/clearing) ou [compact](https://www.aihero.dev/ai-coding-dictionary/compaction) entre `/to-spec` et `/to-tickets`. Exécutez-les dans la même fenêtre contextuelle et la spécification n'a jamais besoin d'être récupérée.
+
+**Les critères d'acceptation n'ont rien noté – certains ont réussi avant que le travail ne soit effectué.**
+
+Le modèle demande des critères et ne dit rien quant à savoir s'ils peuvent échouer, c'est ce qui se produit. Trois formes reviennent : un critère déjà vrai au niveau de la validation de base, un critère qui ne peut être satisfait que par le travail détenu par un autre ticket, et un critère qui reformule la demande plutôt que de dériver de l'artefact. Le découpage vertical empêche la plupart de cela - une tranche qui offre un comportement qui n'existait pas auparavant est rouge à la base du commit par construction - mais la vérification vaut la peine d'être effectuée à la main. Pour chaque critère, nommez l'observation qui le montrerait faux et confirmez qu'elle échoue au moment de la validation à partir de laquelle l'implémenteur commence.
+
+**Les tickets sont publiés. Comment puis-je les exécuter réellement ?**
+
+La compétence s'arrête à l'artefact et il n'y a pas de mode de répartition automatique. La répartition est manuelle : regardez le tableau, comptez les tickets sans bloqueurs ouverts et ouvrez autant de sessions d'agent. Un ticket par nouveau contexte, effacé entre eux. Sachez que [implement](https://aihero.dev/skills-implement) ne ferme ni ne coche le ticket de manière fiable une fois terminé, sur GitHub ou lors d'un suivi Markdown local, vous devez donc mettre à jour l'état du ticket.
+
+## Indicateurs de réussite
+
+- Chaque ticket a une réponse à la question "Que puis-je faire une démonstration une fois cela fait ?" – et la réponse est le comportement, pas une couche.
+- La liste vous revient numérotée, avec une ligne "Bloqué par" sur chacune, avant que quoi que ce soit ne soit publié.
+- Le ticket en haut n'a pas de bloqueur et peut être démarré immédiatement.
+- Rien dans le corps d'un ticket n'est un chemin de fichier ou un numéro de ligne, à l'exception d'un extrait produit par un prototype.
+- Chaque ticket se lit comme quelque chose qu'une nouvelle session pourrait terminer sans vous dans la salle.
+- Le préfactoring, là où il en a trouvé, se trouve au début de la commande plutôt que mélangé aux tickets de fonctionnalité.
+
+## Où il s’inscrit
+
+`to-tickets` est une étape dans la chaîne de construction principale :
 
 ```txt
 grill-with-docs → to-spec → to-tickets → implement → code-review
 ```
 
-Upstream is [to-spec](https://aihero.dev/skills-to-spec), which hands it a settled spec to slice against — keep both in one unbroken context window. Downstream is [implement](https://aihero.dev/skills-implement), which builds one ticket per fresh session, driving [tdd](https://aihero.dev/skills-tdd) for the tests and closing with [code-review](https://aihero.dev/skills-code-review). When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+En amont se trouve [to-spec](https://aihero.dev/skills-to-spec), ce qui lui donne une spécification établie à découper - conservez les deux dans une seule fenêtre contextuelle ininterrompue. En aval se trouve [implement](https://aihero.dev/skills-implement), qui crée un ticket par nouvelle session, pilotant [tdd](https://aihero.dev/skills-tdd) pour les tests et se terminant par [code-review](https://aihero.dev/skills-code-review). Lorsque vous ne savez pas quelle compétence ou quel flux vous convient, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.

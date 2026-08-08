@@ -1,0 +1,5 @@
+interface:
+  display_name: "Éclaireur"
+  short_description: "Cartographier un projet d’envergure en tickets de décision"
+policy:
+  allow_implicit_invocation: false

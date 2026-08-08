@@ -1,0 +1,5 @@
+interface:
+  display_name: "Configurer les skills de Matt Pocock"
+  short_description: "Configurer un dépôt pour les skills"
+policy:
+  allow_implicit_invocation: false

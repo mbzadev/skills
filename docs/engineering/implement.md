@@ -1,97 +1,97 @@
-## What it does
+## Ce qu’il fait
 
-`implement` builds work that has already been decided. You point it at a [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), or the plan you just agreed in the conversation, and it writes the code, drives [tdd](https://aihero.dev/skills-tdd) at the seams, typechecks as it goes, runs [code-review](https://aihero.dev/skills-code-review) at the end, and commits to the current branch.
+`implement` construit des travaux déjà décidés. Vous le pointez vers un [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), un [spec](https://www.aihero.dev/ai-coding-dictionary/spec), ou le plan que vous venez de convenir dans la conversation, et il écrit le code, conduit [tdd](https://aihero.dev/skills-tdd) au coutures, vérifie le type au fur et à mesure, exécute [code-review](https://aihero.dev/skills-code-review) à la fin et s'engage dans la branche actuelle.
 
-It never reopens the plan. There is no interview, no clarifying round, no proposal of a different approach. Whatever was settled upstream is the input, and the skill's whole job is to turn that into a commit. That is what separates it from typing "build this" at a fresh [agent](https://www.aihero.dev/ai-coding-dictionary/agent), which will happily redesign the work while it builds it.
+Il ne rouvre jamais le plan. Il n’y a ni nouvel entretien, ni tour de clarification, ni proposition d’approche différente. Tout ce qui a été réglé en amont constitue l’entrée ; le skill transforme cet accord en code. C’est ce qui le distingue d’un simple « construis ceci » envoyé à un nouvel [agent](https://www.aihero.dev/ai-coding-dictionary/agent), qui risquerait de repenser le travail pendant son exécution.
 
-## When to reach for it
+## Quand l’utiliser
 
-You invoke this by typing `/implement` — the agent won't reach for it on its own. It ships with `disable-model-invocation: true`, so no other skill can call it either. Wherever [ask-matt](https://aihero.dev/skills-ask-matt) or [to-tickets](https://aihero.dev/skills-to-tickets) says "then `/implement` per ticket", that is an instruction to you, not something the agent will do unprompted.
+Vous l’invoquez explicitement avec `/implement` : Codex ne le déclenche pas seul, car `agents/openai.yaml` définit `policy.allow_implicit_invocation: false`. Lorsque [ask-matt](https://aihero.dev/skills-ask-matt) ou [to-tickets](https://aihero.dev/skills-to-tickets) indique « puis `/implement` pour chaque ticket », il s’agit d’une instruction destinée à l’utilisateur.
 
-Where the work currently lives decides whether this is the right skill:
+Le lieu de résidence actuel du travail détermine s'il s'agit de la bonne compétence :
 
-| The work is… | Reach for |
+| Le travail est… | Atteindre |
 | --- | --- |
-| A ticket on the tracker | `/implement #42`, one ticket per [session](https://www.aihero.dev/ai-coding-dictionary/session), [clearing](https://www.aihero.dev/ai-coding-dictionary/clearing) context between tickets |
-| A spec, not yet split up, and the build spans sessions | [to-tickets](https://aihero.dev/skills-to-tickets) first, then `/implement` per ticket |
-| A spec, and the build is small | `/implement` directly against the spec |
-| Only in the conversation you just had, and it's still small | `/implement` right there, in the same window |
-| Not written down anywhere yet | [grill-with-docs](https://aihero.dev/skills-grill-with-docs), or [grill-me](https://aihero.dev/skills-grill-me) if there's no codebase |
-| One concrete behaviour you want test-first, with no spec | [tdd](https://aihero.dev/skills-tdd) directly |
-| Already built, and you want it checked | [code-review](https://aihero.dev/skills-code-review) directly |
+| Un ticket sur le tracker | `/implement #42`, un ticket par [session](https://www.aihero.dev/ai-coding-dictionary/session), [clearing](https://www.aihero.dev/ai-coding-dictionary/clearing) contexte entre tickets |
+| Une spécification, pas encore divisée, et la construction s'étend sur des sessions | [to-tickets](https://aihero.dev/skills-to-tickets) d'abord, puis `/implement` par ticket |
+| Une spécification, et la construction est petite | `/implement` directement par rapport à la spécification |
+| Seulement dans la conversation que vous venez d'avoir, et c'est encore petit | `/implement` juste là, dans la même fenêtre |
+| Pas encore écrit nulle part | [grill-with-docs](https://aihero.dev/skills-grill-with-docs), ou [grill-me](https://aihero.dev/skills-grill-me) s'il n'y a pas de base de code |
+| Un comportement concret que vous souhaitez tester en premier, sans spécification | [tdd](https://aihero.dev/skills-tdd) directement |
+| Déjà construit et vous souhaitez qu'il soit vérifié | [code-review](https://aihero.dev/skills-code-review) directement |
 
-The same-session case is worth naming because the skill's own first line doesn't cover it. `SKILL.md` says "the spec or tickets", which nudges the [model](https://www.aihero.dev/ai-coding-dictionary/model) to go hunting for a file that doesn't exist. If the plan lives only in the thread, say so when you invoke it.
+Le cas de la même session mérite d'être nommé car la première ligne de la compétence ne le couvre pas.  `SKILL.md`  dit "la spécification ou les tickets", ce qui pousse le [model](https://www.aihero.dev/ai-coding-dictionary/model) à partir à la recherche d'un fichier qui n'existe pas. Si le plan réside uniquement dans le fil de discussion, dites-le lorsque vous l'invoquez.
 
-## Prerequisites
+## Prérequis
 
-`implement` commits to the branch you are on. It does not create one, and it does not ask. Check you are on the branch you want the work on before you start.
+`implement`  s'engage sur la branche sur laquelle vous vous trouvez. Il n’en crée pas et ne le demande pas. Vérifiez que vous êtes sur la branche sur laquelle vous souhaitez travailler avant de commencer.
 
-If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), the tracker they live on was configured by [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills). `code-review` reads the same configuration to find the originating spec at close-out.
+Si les tickets provenaient de [to-tickets](https://aihero.dev/skills-to-tickets), le tracker sur lequel ils vivent a été configuré par [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills). `code-review` lit la même configuration pour trouver la spécification d'origine à la clôture.
 
-## What one run does
+## Ce qu'une seule exécution fait
 
-A run is five beats, in order:
+Une course comporte cinq temps, dans l'ordre :
 
-1. Read the ticket or spec and work out the seams.
-2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
-3. Typecheck often, run single test files as it goes.
-4. Run the full test suite once, at the end.
-5. Run [code-review](https://aihero.dev/skills-code-review), then commit to the current branch.
+1. Lisez le ticket ou les spécifications et résolvez les coutures.
+2. Conduisez [tdd](https://aihero.dev/skills-tdd) aux coutures préalablement convenues, une tranche rouge-verte à la fois.
+3. Typecheck souvent, exécutez des fichiers de test uniques au fur et à mesure.
+4. Exécutez la suite de tests complète une fois, à la fin.
+5. Exécutez [code-review](https://aihero.dev/skills-code-review), puis validez-vous dans la branche actuelle.
 
-One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to-tickets) produces are tracer-bullet vertical slices sized to fit a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), so the intended rhythm is: clear context, implement one ticket, commit, clear again. Each ticket is self-contained, which is what makes the previous ticket's context disposable.
+Un trajet couvre un ticket. Les tickets produits par [to-tickets](https://aihero.dev/skills-to-tickets) sont des tranches verticales de balle traçante dimensionnées pour s'adapter à une seule nouvelle [fenêtre contextuelle](https://www.aihero.dev/ai-coding-dictionary/context-window), le rythme prévu est donc : effacer le contexte, implémenter un ticket, valider, effacer à nouveau. Chaque ticket est autonome, ce qui rend le contexte du ticket précédent jetable.
 
-## Pre-agreed seams
+## Coutures pré-convenues
 
-The idea the skill runs on is the **seam**: the public boundary you observe behaviour at, without reaching inside. Tests live at seams. Working at a seam agreed before any code is written is what keeps the tests durable, because the implementation underneath can be rewritten without the tests moving.
+L'idée sur laquelle repose la compétence est la **couture** : la limite publique à laquelle vous observez le comportement, sans atteindre l'intérieur. Les tests sont à portée de main. Travailler selon un accord convenu avant l'écriture d'un code est ce qui maintient les tests durables, car l'implémentation en dessous peut être réécrite sans que les tests ne bougent.
 
-The word "pre-agreed" is doing real work, and it is also the skill's weakest joint. Nothing inside `implement` agrees the seams. `tdd` is the skill that asks, and it refuses to write a test at an unconfirmed seam. So in practice the agreement happens either upstream in the spec, or in the first exchange of the run. If it happens nowhere, the precondition never fires and the run quietly becomes "just write the code". Naming the seams in the spec is what stops that.
+Le mot « convenu à l'avance » fait un vrai travail, et c'est aussi l'articulation la plus faible de la compétence. Rien à l'intérieur `implement` ne correspond aux coutures. `tdd` est la compétence qui demande, et elle refuse d'écrire un test sur une couture non confirmée. Ainsi, en pratique, l'accord se produit soit en amont de la spécification, soit lors du premier échange du run. Si cela ne se produit nulle part, la précondition ne se déclenche jamais et l'exécution devient silencieusement "il suffit d'écrire le code". Nommer les coutures dans la spécification est ce qui arrête cela.
 
-## Common questions
+## Questions fréquentes
 
-**It finished, but my ticket is still open and the acceptance criteria are still unchecked.**
+**C'est terminé, mais mon ticket est toujours ouvert et les critères d'acceptation ne sont toujours pas cochés.**
 
-Correct, and expected. `implement` has no completion step. It ends at the commit and never touches the work item, confirmed on GitHub Issues and on the local markdown tracker, so it is not a tracker integration problem. It also does not act on the findings `code-review` produced, and does not tick the `- [ ]` boxes on the originating issue. Close the ticket and reconcile the criteria yourself. This bites hardest on a dependency chain, because `to-tickets` defines the frontier as tickets whose blockers are all closed. If nothing gets closed, nothing ever becomes visibly unblocked.
+Correct et attendu. `implement` n'a aucune étape d'achèvement. Il se termine à la validation et ne touche jamais à l'élément de travail, confirmé sur les problèmes GitHub et sur le tracker de Markdown local, il ne s'agit donc pas d'un problème d'intégration du tracker. Il ne donne pas non plus suite aux conclusions `code-review` produites et ne coche pas les cases `- [ ]` sur le problème d'origine. Fermez le ticket et rapprochez vous-même les critères. Cela mord le plus durement sur une chaîne de dépendance, car `to-tickets` définit la frontière comme des tickets dont les bloqueurs sont tous fermés. Si rien ne se ferme, rien ne se débloque visiblement.
 
-**Can I point it at all my tickets at once, or run several in parallel?**
+**Puis-je le pointer sur tous mes tickets à la fois, ou en exécuter plusieurs en parallèle ?**
 
-No. One invocation, one ticket. Batch dispatch across a ticket queue and [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) fan-out are both requested repeatedly, and neither exists. Running several `/implement` sessions side by side in one checkout is worse than unsupported: one field report describes a `git commit --amend` in one session landing on another session's commit, a stash vanishing from `refs/stash`, and commits landing on the wrong branch, all in a single afternoon across three issues. The sessions share one working directory, one index, and one HEAD. Git worktrees are the community workaround, and note that `refs/stash` is shared across worktrees too, so worktrees alone do not fix the stash case. If you want parallelism today, you are assembling it yourself.
+Non. Une invocation, un ticket. L'envoi par lots dans une file d'attente de tickets et la distribution du [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) sont tous deux demandés à plusieurs reprises, et aucun n'existe. Exécuter plusieurs sessions `/implement`  côte à côte dans une seule extraction est pire que non prise en charge : un rapport de terrain décrit un `git commit --amend` dans une session atterrissant sur le commit d'une autre session, une cache disparaissant de `refs/stash` et des commits atterrissant sur la mauvaise branche, le tout en un seul après-midi sur trois problèmes. Les sessions partagent un répertoire de travail, un index et un HEAD. Les arbres de travail Git sont la solution de contournement de la communauté, et notez que `refs/stash` est également partagé entre les arbres de travail, donc les arbres de travail à eux seuls ne résolvent pas le cas de dissimulation. Si vous voulez du parallélisme aujourd'hui, vous l'assemblez vous-même.
 
-**Can it open a pull request instead of committing?**
+**Peut-il ouvrir une pull request au lieu de valider ?**
 
-Not built in. It commits straight to the current branch, which several people find too eager: the code lands before they have had a chance to verify it works. There is no configuration flag and no PR mode. People override it in the invocation ("commit to a branch and open a PR") or by editing their local copy of the skill.
+Non intégré. Il s'engage directement sur la branche actuelle, ce que plusieurs personnes trouvent trop impatients : le code atterrit avant d'avoir eu l'occasion de vérifier son fonctionnement. Il n'y a pas d'indicateur de configuration ni de mode PR. Les gens le remplacent lors de l'invocation (« s'engager dans une branche et ouvrir un PR ») ou en modifiant leur copie locale de la compétence.
 
-**`code-review` says it cannot see my changes.**
+**`code-review` dit qu'il ne peut pas voir mes modifications.**
 
-`code-review` reviews `git diff <fixed-point>...HEAD`, which excludes staged and working-tree changes. `implement` runs it before committing, so unless an interim commit already exists there is nothing in that diff to review. Multiple people have reported this and it is unfixed on both sides. Commit first, then review against the point you branched from.
+`code-review` reviews `git diff <fixed-point>...HEAD`, qui exclut les modifications par étapes et dans l'arbre de travail. `implement` l'exécute avant la validation, donc à moins qu'une validation intermédiaire n'existe déjà, il n'y a rien dans cette différence à réviser. Plusieurs personnes l'ont signalé et le problème n'est pas résolu des deux côtés. Engagez-vous d’abord, puis examinez le point à partir duquel vous êtes parti.
 
-Separately, some people deliberately do not want the review inside the run at all, because an agent reviewing the code it just wrote is biased toward its own solution. Running [code-review](https://aihero.dev/skills-code-review) in a fresh session against a fixed point is a legitimate alternative, and is the same reason that skill runs its two axes in separate sub-agents.
+Par ailleurs, certaines personnes ne souhaitent délibérément pas que la révision soit effectuée au cours de l'exécution, car un agent révisant le code qu'il vient d'écrire est biaisé en faveur de sa propre solution. Exécuter [code-review](https://aihero.dev/skills-code-review) dans une nouvelle session par rapport à un point fixe est une alternative légitime, et c'est la même raison pour laquelle la compétence exécute ses deux axes dans des sous-agents distincts.
 
-**One ticket burned 150k tokens. Am I using it wrong?**
+**Un ticket a brûlé 150 000 jetons. Est-ce que je l'utilise mal ?**
 
-Probably the ticket is too big rather than the skill being misused. A run does codebase exploration, a red-green loop per seam, a full suite, and a review, so a non-trivial ticket exceeding 100k [tokens](https://www.aihero.dev/ai-coding-dictionary/token) is normal rather than a sign something broke. The lever is upstream: right-size the tickets in [to-tickets](https://aihero.dev/skills-to-tickets) so each fits one fresh window. If a single ticket keeps blowing out, split it rather than raising the [effort](https://www.aihero.dev/ai-coding-dictionary/effort) level.
+Il est probable que le ticket soit trop gros plutôt que la compétence soit mal utilisée. Une exécution effectue une exploration de la base de code, une boucle rouge-vert par couture, une suite complète et une révision, donc un ticket non trivial dépassant 100 000 [tokens](https://www.aihero.dev/ai-coding-dictionary/token) est normal plutôt qu'un signe que quelque chose s'est cassé. Le levier est en amont : dimensionnez correctement les tickets dans [to-tickets](https://aihero.dev/skills-to-tickets) afin que chacun s'adapte à une nouvelle fenêtre. Si un seul ticket continue d'exploser, divisez-le plutôt que d'augmenter le niveau [effort](https://www.aihero.dev/ai-coding-dictionary/effort).
 
-**`/implement #2` in a fresh session worked on something completely unrelated.**
+**`/implement #2` dans une nouvelle session, j'ai travaillé sur quelque chose de complètement sans rapport.**
 
-`#2` is resolved against whatever numbered list the agent can see, which in a fresh session may be a todo file, a checklist, or another work list rather than the configured tracker. The resolution is confident rather than fail-closed, so the mistake is not obvious until it has started. Pass the full reference, the issue URL or `owner/repo#2`, and ask it to confirm the title back before it begins.
+`#2` est résolu par rapport à toute liste numérotée que l'agent peut voir, qui dans une nouvelle session peut être un fichier de tâches, une liste de contrôle ou une autre liste de travail plutôt que le tracker configuré. La résolution est confiante plutôt que fermée, de sorte que l’erreur n’est évidente que lorsqu’elle a commencé. Transmettez la référence complète, l'URL du problème ou `owner/repo#2`, et demandez-lui de confirmer le titre avant qu'il ne commence.
 
-## It's working if
+## Indicateurs de réussite
 
-- The session opens by reading the ticket or spec and restating what it will build, rather than asking you what to build.
-- You can see an actual `/tdd` invocation in the trace, not just tests appearing in the diff.
-- Typechecks and single test files run repeatedly during the run, and the full suite runs once near the end.
-- The run reaches a commit on your current branch without you prompting it to carry on.
-- The diff is one ticket's worth of change: a vertical slice through every layer, not several tickets swept together.
+- La session s'ouvre en lisant le ticket ou la spécification et en reformulant ce qu'elle va construire, plutôt que de vous demander quoi construire.
+- Vous pouvez voir une véritable invocation `/tdd` dans la trace, pas seulement des tests apparaissant dans le diff.
+- Les contrôles de type et les fichiers de test uniques s'exécutent à plusieurs reprises pendant l'exécution, et la suite complète s'exécute une fois vers la fin.
+- L'exécution atteint une validation sur votre branche actuelle sans que vous lui demandiez de continuer.
+- Le différentiel correspond à la valeur d'un ticket : une tranche verticale à travers chaque couche, et non plusieurs tickets balayés ensemble.
 
-## Where it fits
+## Où il s’inscrit
 
-`implement` is the build step of the main chain, second from the end:
+`implement` est l'étape de construction de la chaîne principale, la deuxième à partir de la fin :
 
 ```txt
 grill-with-docs → to-spec → to-tickets → implement → code-review
 ```
 
-Its neighbours are [to-tickets](https://aihero.dev/skills-to-tickets), which produces the tickets it consumes and declares the blocking edges that decide their order; [tdd](https://aihero.dev/skills-tdd), which it drives internally at each seam; and [code-review](https://aihero.dev/skills-code-review), which it runs before committing. It sits downstream of the planning skills and trusts them. It does not re-validate the shape of what it was handed, so a badly-structured map or a horizontally-layered ticket gets built as written.
+Ses voisins sont [to-tickets](https://aihero.dev/skills-to-tickets), qui produit les tickets qu'il consomme et déclare les fronts de blocage qui décident de leur ordre ; [tdd](https://aihero.dev/skills-tdd), qu'il entraîne intérieurement à chaque couture ; et [code-review](https://aihero.dev/skills-code-review), qu'il exécute avant de s'engager. Il se situe en aval des compétences de planification et leur fait confiance. Il ne revalide pas la forme de ce qui lui a été remis, de sorte qu'une carte mal structurée ou un ticket superposé horizontalement est construit tel qu'écrit.
 
-That trust is why [wayfinder](https://aihero.dev/skills-wayfinder) merges onto the chain at [to-spec](https://aihero.dev/skills-to-spec) rather than looping its map straight into `implement`. Go straight to `implement` from a map only when the effort turned out genuinely small.
+Cette confiance est la raison pour laquelle [wayfinder](https://aihero.dev/skills-wayfinder) fusionne sur la chaîne à [to-spec](https://aihero.dev/skills-to-spec) plutôt que de boucler sa carte directement dans `implement`. Accédez directement à `implement` à partir d'une carte uniquement lorsque l'effort s'est avéré vraiment minime.
 
-[ask-matt](https://aihero.dev/skills-ask-matt) is the router over the whole set when you are not sure which flow you are in.
+[ask-matt](https://aihero.dev/skills-ask-matt) est le routeur sur l'ensemble de l'ensemble lorsque vous n'êtes pas sûr du flux dans lequel vous vous trouvez.

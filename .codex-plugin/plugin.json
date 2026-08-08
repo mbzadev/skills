@@ -1,0 +1,30 @@
+{
+  "name": "skills",
+  "version": "1.2.3",
+  "description": "Collection de skills Codex en français pour le travail d’ingénierie, la productivité et les flux d’agents.",
+  "author": {
+    "name": "mbzadev",
+    "url": "https://github.com/mbzadev"
+  },
+  "homepage": "https://github.com/mbzadev/skills",
+  "repository": "https://github.com/mbzadev/skills",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "engineering",
+    "skills",
+    "tdd",
+    "code-review",
+    "productivity"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Skills Codex en français",
+    "shortDescription": "Flux Codex pour l’ingénierie et la productivité.",
+    "longDescription": "Une collection de skills Codex composables pour cadrer, concevoir, implémenter, tester, diagnostiquer et documenter un véritable travail d’ingénierie.",
+    "developerName": "mbzadev",
+    "category": "Engineering",
+    "capabilities": [],
+    "defaultPrompt": "Aide-moi à choisir et utiliser le skill adapté à mon travail."
+  }
+}

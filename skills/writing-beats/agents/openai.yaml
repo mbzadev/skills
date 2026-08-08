@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rédaction des séquences"
+  short_description: "Organiser la matière brute en séquences"
+policy:
+  allow_implicit_invocation: false

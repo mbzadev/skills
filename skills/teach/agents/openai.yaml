@@ -1,0 +1,5 @@
+interface:
+  display_name: "Apprendre"
+  short_description: "Apprendre un concept dans un espace de travail guidé"
+policy:
+  allow_implicit_invocation: false

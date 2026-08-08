@@ -1,30 +1,34 @@
-# Matt Pocock Skills
+# Skills de Matt Pocock
 
-A collection of agent skills (slash commands and behaviors) loaded by Claude Code. Skills are organized into buckets and consumed by per-repo configuration emitted by `/setup-matt-pocock-skills`.
+Une collection de skills chargés par Codex. Les skills sont classés par catégorie et utilisent la configuration propre à chaque dépôt produite par `/setup-matt-pocock-skills`.
 
-## Language
+## Langage
 
-**Issue tracker**:
-The tool that hosts a repo's issues — GitHub Issues, Linear, a local `.scratch/` markdown convention, or similar. Skills like `to-tickets`, `to-spec`, and `triage` read from and write to it.
-_Avoid_: backlog manager, backlog backend, issue host
+**Outil de suivi**
 
-**Issue**:
-A single tracked unit of work inside an **Issue tracker** — a bug, task, spec, or slice produced by `to-tickets`.
-_Avoid_: ticket (use only when quoting external systems that call them tickets, or for a **Decision ticket** — see below)
+: Service ou convention qui héberge les tickets d’un dépôt : issues GitHub ou GitLab, Linear, fichiers Markdown sous `.scratch/`, etc. Des skills comme `to-tickets`, `to-spec` et `triage` y lisent et y écrivent.
 
-**Decision ticket**:
-A `wayfinder` unit — a child **Issue** of a `wayfinder:map` holding a *question* whose resolution is a decision, not a slice of a build to execute. The **decision** qualifier is what keeps it distinct from an implementation ticket; `wayfinder` introduces the term, then uses "ticket".
+_Éviter_ : gestionnaire de backlog, service de backlog, hébergeur de problèmes.
 
-**Triage role**:
-A canonical state-machine label applied to an **Issue** during triage (e.g. `needs-triage`, `ready-for-afk`). Each role maps to a real label string in the **Issue tracker** via `docs/agents/triage-labels.md`.
+**Ticket**
 
-## Relationships
+: Unité de travail enregistrée dans l’**outil de suivi** : bug, tâche, spécification ou tranche produite par `to-tickets`.
 
-- An **Issue tracker** holds many **Issues**
-- An **Issue** carries one **Triage role** at a time
-- A **Decision ticket** is an **Issue** (a child of a `wayfinder:map`)
+**Ticket de décision**
 
-## Flagged ambiguities
+: Ticket enfant d’une carte `wayfinder:map`. Il contient une *question* dont la résolution produit une décision, et non une tranche de construction à exécuter. Le qualificatif **de décision** le distingue d’un ticket de mise en œuvre ; Wayfinder peut ensuite l’abréger en « ticket » lorsque le contexte est clair.
 
-- "backlog" was previously used to mean both the *tool* hosting issues and the *body of work* inside it — resolved: the tool is the **Issue tracker**; "backlog" is no longer used as a domain term.
-- "backlog backend" / "backlog manager" — resolved: collapsed into **Issue tracker**.
+**Rôle de triage**
+
+: État canonique appliqué à un **ticket** pendant le triage, par exemple `needs-triage` ou `ready-for-agent`. La table `docs/agents/triage-labels.md` associe chaque rôle à l’étiquette réelle de l’**outil de suivi**.
+
+## Relations
+
+- Un **outil de suivi** contient plusieurs **tickets**.
+- Un **ticket** possède un seul **rôle de triage** à la fois.
+- Un **ticket de décision** est un **ticket** enfant d’une carte `wayfinder:map`.
+
+## Ambiguïtés résolues
+
+- « Backlog » désignait autrefois à la fois l’outil et l’ensemble du travail qu’il contenait. Désormais, le terme canonique pour l’outil est **outil de suivi**.
+- « Gestionnaire de backlog », « service de backlog » et « hébergeur de problèmes » sont remplacés par **outil de suivi**.

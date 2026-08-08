@@ -1,99 +1,104 @@
-## What it does
+## Ce qu’il fait
 
-`triage` works through the issues on your project's tracker, moving each one through a small state machine of **triage roles** — a category role and a state role — and leaving behind either an agent-ready brief, a specific question for the reporter, or a closed issue with a recorded reason.
+`triage` traite les tickets de votre projet au moyen d’une petite machine à états fondée sur des **rôles de tri** : un rôle de catégorie et un rôle d’état. Chaque passage produit soit un brief prêt pour l’agent, soit une question précise destinée à l’auteur du ticket, soit une fermeture accompagnée de son motif.
 
-It is only for issues **you didn't create**. Raw bug reports, incoming feature requests, an external pull request that arrived unannounced — work that landed in the tracker from outside, in whatever shape the reporter left it. [Tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) that [to-tickets](https://aihero.dev/skills-to-tickets) produced are already agent-ready by construction, and running `triage` over them is wasted work at best. The rule is flat: `/triage` is only for incoming issues, not for issues you created yourself.
+Il s’applique uniquement aux tickets **que vous n’avez pas créés** : rapports de bogue bruts, demandes de fonctionnalité entrantes ou pull requests externes arrivées sans préparation. Les [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) produits par [to-tickets](https://aihero.dev/skills-to-tickets) sont déjà prêts pour l’agent ; les repasser dans `triage` ne ferait qu’ajouter du travail inutile. La règle est simple : `/triage` traite les demandes entrantes, pas celles issues de votre propre planification.
 
-The second thing that separates it from labelling by hand: it recommends and waits. It tells you its category and state call with reasoning, plus what it found in the codebase, and applies nothing until you direct it.
+Autre différence avec un étiquetage manuel : le skill recommande une décision, puis attend votre accord. Il présente la catégorie et l’état proposés, les justifie et résume ce qu’il a trouvé dans la base de code avant de modifier quoi que ce soit.
 
-## When to reach for it
+## Quand l’utiliser
 
-You invoke this by typing `/triage` and then describing what you want in plain language — the [agent](https://www.aihero.dev/ai-coding-dictionary/agent) won't reach for it on its own. "Show me anything that needs my attention", "let's look at #42", "move #42 to ready-for-agent".
+Vous invoquez cela en tapant `/triage` puis en décrivant ce que vous voulez dans un langage simple – l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul. "Montrez-moi tout ce qui nécessite mon attention", "regardons le n°42", "déplaçons le n°42 vers prêt pour l'agent".
 
-| What you have | Where to go |
+| Ce que vous avez | Où aller |
 | --- | --- |
-| A tracker full of raw reports from other people | `/triage` |
-| A rough idea of your own, nothing written down | [grill-with-docs](https://aihero.dev/skills-grill-with-docs) |
-| A settled conversation to turn into a [spec](https://www.aihero.dev/ai-coding-dictionary/spec) | [to-spec](https://aihero.dev/skills-to-spec) |
-| A spec to split into agent-ready tickets | [to-tickets](https://aihero.dev/skills-to-tickets) |
-| A confirmed bug that needs a root cause, not a label | [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) |
+| Un tracker rempli de rapports bruts d'autres personnes | `/triage` |
+| Une idée approximative, rien d'écrit | [grill-with-docs](https://aihero.dev/skills-grill-with-docs) |
+| Une conversation réglée à transformer en [spec](https://www.aihero.dev/ai-coding-dictionary/spec) | [to-spec](https://aihero.dev/skills-to-spec) |
+| Une spécification à diviser en tickets prêts pour l'agent | [to-tickets](https://aihero.dev/skills-to-tickets) |
+| Un bug confirmé dont il faut trouver la cause profonde | [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) |
 
-## Prerequisites
+## Prérequis
 
-`triage` reads and writes your issue tracker, so [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) has to have configured that tracker and its label vocabulary first. The role names below are **canonical**; the label strings in your tracker may differ, and the mapping is what setup provides. If your tracker already uses the canonical names exactly, there is nothing to map and nothing to set up.
+`triage` lit et modifie votre outil de suivi. [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) doit donc avoir configuré cet outil et son vocabulaire d’étiquettes. Les rôles ci-dessous portent des noms **canoniques** ; vos étiquettes réelles peuvent être différentes, auquel cas la configuration définit leur correspondance. Si elles utilisent déjà les noms canoniques, aucune adaptation n’est nécessaire.
 
-The tracker config also decides whether external pull requests count as a request surface, and who counts as external. That flag defaults to off and is no longer a setup question — flip it in `docs/agents/issue-tracker.md` if you want PRs in scope.
+La configuration précise aussi si les pull requests externes font partie des demandes à traiter et définit ce qui est considéré comme externe. Cette option est désactivée par défaut ; activez-la dans `docs/agents/issue-tracker.md` pour inclure les PR.
 
-## The state machine
+## La machine à états
 
-Every triaged item ends up carrying exactly one category role and one state role. Two categories: `bug` (something is broken) and `enhancement` (new feature or improvement). Five states:
+Chaque élément trié finit par porter exactement un rôle de catégorie et un rôle d'état. Deux catégories : `bug` (quelque chose est cassé) et `enhancement` (nouvelle fonctionnalité ou amélioration). Cinq états :
 
-| State | Means |
+| État | Signification |
 | --- | --- |
-| `needs-triage` | You need to evaluate it. Where an unlabelled issue normally lands first. |
-| `needs-info` | Waiting on the reporter. Returns to `needs-triage` when they reply. |
-| `ready-for-agent` | Fully specified, with an agent brief attached. An [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) agent can take it. |
-| `ready-for-human` | The same brief, plus why this can't be delegated — judgment, external access, manual testing. |
-| `wontfix` | Closed, with the reason recorded. |
+| `needs-triage` | Vous devez l'évaluer. Là où un problème non étiqueté arrive normalement en premier. |
+| `needs-info` | En attente d’informations de la part de l’auteur. Revient à `needs-triage` après sa réponse. |
+| `ready-for-agent` | Entièrement spécifié, avec un dossier d'agent ci-joint. Un agent [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) peut le prendre. |
+| `ready-for-human` | Le même brief, plus pourquoi cela ne peut pas être délégué : jugement, accès externe, tests manuels. |
+| `wontfix` | Fermé, avec motif enregistré. |
 
-That is the whole vocabulary, and the "exactly one state role" invariant is what keeps the queries simple. It is also the most-requested area of the [skill](https://www.aihero.dev/ai-coding-dictionary/skill): users have asked for a sixth state for work that is specified but blocked on another issue, for `deferred` work gated on a future trigger, and for a terminal `implemented` state. None of those has shipped. See the questions below.
+C'est tout le vocabulaire, et l'invariant « exactement un rôle d'État » est ce qui maintient les requêtes simples. C'est également le domaine le plus demandé de la [compétence](https://www.aihero.dev/ai-coding-dictionary/skill) : les utilisateurs ont demandé un sixième état pour un travail spécifié mais bloqué sur un autre problème, pour un `deferred` travail bloqué sur un déclencheur futur et pour un état terminal `implemented` . Aucun d’entre eux n’a été expédié. Voir les questions ci-dessous.
 
-`wontfix` splits three ways, and the difference matters because only one of them writes to the knowledge base:
+`wontfix`  se divise en trois manières, et la différence est importante car une seule d'entre elles écrit dans la base de connaissances :
 
-| Why you're closing it | What happens |
+| Pourquoi vous le fermez | Que se passe-t-il |
 | --- | --- |
-| Already implemented | A comment pointing at where it already lives. Nothing is written to `.out-of-scope/` — it's a built feature, not a rejected one, and filing it there would poison the dedup checks. |
-| Rejected bug | Polite explanation, then close. |
-| Rejected enhancement | A file in `.out-of-scope/`, linked from the closing comment, then close. |
+| Déjà mis en œuvre | Un commentaire pointant vers l'endroit où il vit déjà. Rien n'est écrit dans `.out-of-scope/`  : il s'agit d'une fonctionnalité intégrée, pas d'une fonctionnalité rejetée, et le déposer ici empoisonnerait les vérifications de dédoublonnage. |
+| Bug rejeté | Explication polie, puis fermez. |
+| Amélioration rejetée | Un fichier dans `.out-of-scope/`, lié depuis le commentaire de clôture, puis fermez. |`.out-of-scope/` est un fichier Markdown par **concept** rejeté, et non par problème, écrit sous la forme d'un court document de conception plutôt que d'une ligne de base de données : ce qui a été rejeté, pourquoi et chaque problème qui l'a demandé. `triage` lit l'intégralité du répertoire avant d'évaluer quoi que ce soit et correspond par concept plutôt que par mot clé - "thème de nuit" correspond `dark-mode.md`. Lorsqu'il rencontre une correspondance, il fait apparaître l'ancienne décision et vous demande si vous ressentez toujours la même chose, au lieu de relancer la demande à partir de zéro.
 
-`.out-of-scope/` is one markdown file per rejected **concept**, not per issue, written as a short design document rather than a database row: what was rejected, why, and every issue that has asked for it. `triage` reads the whole directory before it evaluates anything, and matches by concept rather than keyword — "night theme" matches `dark-mode.md`. When it hits a match it surfaces the old decision and asks whether you still feel the same way, instead of re-litigating the request from scratch.
+## Vérifier avant de rédiger le brief
 
-## Verify before you brief
+Avant toute séance de [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), `triage` vérifie le bien-fondé de la demande. Pour un bug, il tente de le reproduire à partir des étapes fournies. Pour une PR, il examine la branche et exécute les tests appropriés. Il indique ensuite si le problème est confirmé, avec l’emplacement du code concerné, s’il n’a pas pu être reproduit ou si les informations sont insuffisantes — ce dernier cas justifie fortement l’état `needs-info`.
 
-Before any [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), `triage` checks that the claim actually holds. For a bug, it reproduces it from the reporter's steps. For a PR, it checks the branch out and runs the relevant tests. Then it reports which of three things happened: confirmed, with the code path; failed to reproduce; or not enough detail to try, which is itself the strongest `needs-info` signal there is.
+Il effectue deux vérifications supplémentaires dans la base de code : la **redondance** — le comportement existe-t-il déjà, en recherchant le concept métier plutôt que les mots employés dans le ticket ? — et le **rejet préalable** — `.out-of-scope/` contient-il déjà une décision négative ? Une correspondance mène dans les deux cas à `wontfix`.
 
-It runs two more checks against the codebase in the same pass — **redundancy** (is this already implemented, searched by domain concept rather than by the reporter's wording?) and **prior rejection** (does `.out-of-scope/` already say no?). Both are cheap, and both produce a `wontfix` when they hit.
+Tout cela existe pour rendre un seul artefact efficace : le **agent brief**, le commentaire structuré publié lorsqu'un problème est déplacé vers `ready-for-agent`. Une fois publié, le brief constitue le contrat et le rapport original n'est que le contexte. Les briefs sont rédigés pour être **durables** plutôt que précis, car un problème peut rester en suspens `ready-for-agent`  pendant des semaines pendant que le code se déplace en dessous. Ils nomment donc les types, les signatures et les contrats comportementaux, et ne classent jamais les chemins ou les numéros de ligne. Une reproduction confirmée constitue un mémoire bien plus solide qu’une supposition.
 
-All of it exists to make one artifact good: the **agent brief**, the structured comment posted when an issue moves to `ready-for-agent`. Once it's posted, the brief is the contract and the original report is only context. Briefs are written to be **durable** rather than precise, because an issue can sit in `ready-for-agent` for weeks while the code moves underneath it. So they name types, signatures and behavioural contracts, and never file paths or line numbers. A confirmed reproduction makes a far stronger brief than a guess does.
+## Un PR est un problème avec le code joint
 
-## A PR is an issue with attached code
+Lorsque l’outil de suivi inclut les pull requests externes parmi les demandes à traiter, elles passent par la même machine : mêmes catégories, mêmes états et mêmes transitions. Après lecture du diff, `ready-for-agent` signifie qu’un brief est joint et qu’un agent peut poursuivre le travail ; `ready-for-human` signifie que la PR est prête pour une fusion humaine. Le brief décrit ce qu’il reste à faire à partir du diff existant, pas comment reconstruire la fonctionnalité depuis zéro.
 
-Where the tracker treats external pull requests as a request surface, they run through the same machine — same categories, same states, same transitions. The states just read against the diff: `ready-for-agent` means a brief is attached and an agent should take the next step on the code, `ready-for-human` means it's ready for a person to merge. A brief on a PR describes what's left to do to the existing diff, not how to build the thing from nothing.
+La découverte ne fait apparaître que les PR *externes*, car la branche en cours d’un collaborateur n’est pas un travail de triage. Ce filtre ne concerne que la découverte : une PR nommée explicitement sera triée quel que soit son auteur. Une limite est connue : le modèle GitHub demande à `gh pr list` un champ `authorAssociation` que `gh` n’expose pas ; la commande fournie échoue donc ([#468](https://github.com/mattpocock/skills/issues/468)).
 
-Discovery surfaces only *external* PRs, because a collaborator's in-flight branch is not triage work. That filter is discovery-only — name a PR explicitly and it gets triaged whoever wrote it. One rough edge: the GitHub template's external-PR listing command asks `gh pr list` for an `authorAssociation` field that `gh` does not expose, so the command as written fails outright ([#468](https://github.com/mattpocock/skills/issues/468)).
+## Questions fréquentes
 
-## Common questions
+**J'ai couru `/to-spec` et `/to-tickets`, et maintenant ces tickets sont là, sans tri. Est-ce que je leur écrase `/triage`  ?**
 
-**I ran `/to-spec` and `/to-tickets`, and now those tickets are sitting there untriaged. Do I run `/triage` over them?**
-No. They are already agent-ready — `to-tickets` applies the `ready-for-agent` label as it publishes, precisely so an AFK runner picks them up without another pass. The user who hit this had run the spec flow, seen `needs-triage` on the output, and found their AFK runner ignoring everything. `triage` is the on-ramp for work that arrives from outside; the spec flow is the lane for work you originate. They meet at `ready-for-agent`, not before.
+Non, ils sont déjà prêts pour les agents — `to-tickets` applique le label `ready-for-agent`  au fur et à mesure de sa publication, précisément pour qu'un coureur AFK les récupère sans autre passe. L'utilisateur qui a cliqué sur cela avait exécuté le flux de spécifications, vu `needs-triage` sur la sortie et trouvé que son exécuteur AFK ignorait tout. `triage` est la rampe d'accès pour le travail qui arrive de l'extérieur ; le flux de spécifications est la voie pour le travail dont vous êtes à l'origine. Ils se rencontrent au `ready-for-agent`, pas avant.
 
-**Is `triage` still relevant now that there's a `to-spec` → `to-tickets` → `implement` flow?**
-Only if you have inbound work. `triage` predates that spine and does a different job: it is the lane for reports other people filed. If everything in your tracker came out of your own planning, you will rarely open it. If you maintain anything public, or your team files bugs at you, it is the front door. The main use is open-source repos taking issues from external contributors.
+**Est-ce que `triage` est toujours d'actualité maintenant qu'il existe un flux `to-spec` → `to-tickets` → `implement`  ?**
 
-**The agent tried to apply `ready-for-agent` and `gh` said the label doesn't exist.**
-Known open bug ([#616](https://github.com/mattpocock/skills/issues/616)). `setup-matt-pocock-skills` writes the label vocabulary into `docs/agents/triage-labels.md`, but does not create the labels in your tracker. Create the five state labels and two category labels yourself, once, with `gh label create` or the tracker's UI, and it stops. There is a community fix branch linked from the issue that hasn't been merged.
+Seulement si vous avez du travail entrant. `triage` est antérieur à cette colonne vertébrale et fait un travail différent : c'est la voie pour les rapports déposés par d'autres personnes. Si tout ce qui se trouve dans votre tracker est le résultat de votre propre planification, vous l'ouvrirez rarement. Si vous maintenez quelque chose de public ou si votre équipe vous signale des bugs, c'est la porte d'entrée. L'utilisation principale concerne les dépôts open source prenant en charge les problèmes de contributeurs externes.
 
-**Five states aren't enough — what about blocked, or deferred, or implemented?**
-This is the most-filed gap on the skill, in three shapes. An issue that is fully specified but waiting on another issue to close ([#139](https://github.com/mattpocock/skills/issues/139)) — the reporter's complaint was that `ready-for-agent` is "technically true" there but misleading, so an agent picks it up and hits a wall. Trigger-gated future work that is intended but not actionable yet ([#297](https://github.com/mattpocock/skills/issues/297)). And a terminal state for "implemented, awaiting verification", without which an AFK runner can re-queue finished tickets. Matt has agreed the blocked case is real and is undecided on the name (`blocked` versus `paused`). None of it has shipped. The workaround people use is a repo-local extra label alongside the category, which keeps the canonical state slot occupied by something honest at the cost of the skill not knowing about it. One community derivative goes further, adding `needs-slicing`, `tracking` and effort labels — that works, but it is theirs, not the skill's.
+**L'agent a essayé de postuler `ready-for-agent` et `gh` a déclaré que l'étiquette n'existait pas.**
 
-**How is this different from `/diagnosing-bugs`?**
-The verification step here is deliberately shallow — enough to answer "is this real, and roughly where does it live", not to find a root cause. When a bug won't reproduce from the reporter's steps in a few minutes, the honest move is `needs-info`, or [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) if you want to chase it now. Neither skill's text currently mentions the other; a user found that seam, and it is still open.
+Bogue ouvert connu ([#616](https://github.com/mattpocock/skills/issues/616)). `setup-matt-pocock-skills` écrit le vocabulaire des étiquettes dans `docs/agents/triage-labels.md`, mais ne crée pas les étiquettes dans votre tracker. Créez vous-même les cinq étiquettes d'état et les deux étiquettes de catégorie, une fois, avec `gh label create` ou l'interface utilisateur du tracker, et cela s'arrête. Il existe une branche de correctif communautaire liée au problème qui n'a pas été fusionnée.
 
-**Can I point it at my whole backlog and let it run?**
-You can ask, but watch what it reads. The "show what needs attention" pass is a cheap listing meant for *selection* — you pick one, and then it gathers full [context](https://www.aihero.dev/ai-coding-dictionary/context) on the one you picked. Run it across twenty issues at once and an agent can quietly fall back to that cheap listing as its evidence base, which returns issue bodies but not comments. A user hit exactly this: three issues already carried a comment saying "already fixed, recommend closing", and all three got fresh agent briefs instead. If you want a bulk pass, say explicitly that comments must be read per issue.
+**Cinq états ne suffisent pas : qu'en est-il du blocage, du report ou de la mise en œuvre ?**
 
-**Does it work with Linear, or anything other than GitHub Issues?**
-Yes — the tracker is config, not a hard-coded assumption, and people run it against Linear (via the `linear` CLI), GitLab, and plain markdown files under `.scratch/`. A common split is Linear for issues and planning, GitHub for code and PRs: skills that say "issue tracker" map to Linear, skills that say "PR" map to GitHub. On the local-markdown tracker there is an open template bug where the generated file can carry the acceptance criteria twice, once at the top level and once inside the agent brief ([#200](https://github.com/mattpocock/skills/issues/200)).
+Il s’agit de la lacune la plus souvent signalée, sous trois formes : un ticket entièrement spécifié mais bloqué par un autre ([#139](https://github.com/mattpocock/skills/issues/139)), un travail planifié dont le déclencheur futur n’est pas encore arrivé ([#297](https://github.com/mattpocock/skills/issues/297)) et un état terminal « mis en œuvre, en attente de vérification ». Sans ce dernier, un exécuteur AFK peut remettre en file d’attente des tickets terminés. Aucun de ces états n’est fourni aujourd’hui. La solution courante consiste à ajouter une étiquette propre au dépôt à côté de la catégorie. Certaines variantes communautaires ajoutent aussi `needs-slicing`, `tracking` et des étiquettes d’effort, mais cela ne fait pas partie du skill officiel.
 
-## It's working if
+**En quoi est-ce différent de `/diagnosing-bugs` ?**
 
-- Every item it touches ends with exactly one category role and one state role — never zero, never two states in conflict.
-- It gives you a recommendation with reasoning and stops, rather than relabelling and moving on.
-- The bug got reproduced, or the PR got checked out and run, before anything reached `ready-for-agent`.
-- The briefs it writes name types and behaviours, and contain no file paths and no line numbers.
-- A request that was rejected six months ago comes back, and it says so and quotes the old reason instead of triaging it fresh.
-- Every comment it posts opens with `> *This was generated by AI during triage.*`
+La vérification reste volontairement superficielle : elle répond à « est-ce réel et où cela se situe-t-il approximativement ? », sans rechercher la cause profonde. Si le bug ne se reproduit pas rapidement à partir des étapes fournies, choisissez `needs-info` ; utilisez [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) pour lancer immédiatement une enquête approfondie.
 
-## Where it fits
+**Puis-je le signaler à l'ensemble de mon retard et le laisser fonctionner ?**
 
-`triage` is an **on-ramp**, not a step in the main chain. The main flow runs from an idea you had — grill, spec, tickets, implement, review — and `triage` is the parallel lane for work that arrived instead. It merges at the same place: an issue labelled `ready-for-agent` with a brief on it, which [implement](https://aihero.dev/skills-implement) picks up exactly as it would a ticket from [to-tickets](https://aihero.dev/skills-to-tickets). When a request needs sharpening before it can be briefed, `triage` runs [grilling](https://aihero.dev/skills-grilling) and [domain-modeling](https://aihero.dev/skills-domain-modeling) together, a round of questions at a time, so decisions land in `CONTEXT.md` and the ADRs as they're made. When you're not sure which lane you are in, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+Vous pouvez demander, mais regardez ce qu’il lit. Le pass « montrer ce qui nécessite une attention » est une liste bon marché destinée à la *sélection* : vous en choisissez une, puis elle rassemble le [context](https://www.aihero.dev/ai-coding-dictionary/context) complet sur celui que vous avez choisi. Exécutez-le sur vingt numéros à la fois et un agent peut tranquillement se rabattre sur cette liste bon marché comme base de preuves, qui renvoie les corps des problèmes mais pas les commentaires. Un utilisateur a répondu exactement à ceci : trois problèmes comportaient déjà un commentaire disant "déjà corrigé, recommande la fermeture", et tous les trois ont reçu de nouveaux briefs d'agent à la place. Si vous souhaitez une transmission groupée, indiquez explicitement que les commentaires doivent être lus par numéro.
+
+**Est-ce que cela fonctionne avec Linear ou avec autre chose que les problèmes GitHub ?**
+
+Oui, le tracker est une configuration, pas une hypothèse codée en dur, et les gens l'exécutent sur Linear (via le `linear` CLI), GitLab et des fichiers Markdown simples sous `.scratch/`. Une division courante est Linear pour les problèmes et la planification, GitHub pour le code et les PR : les compétences qui disent « suivi des problèmes » sont mappées à Linear, les compétences qui disent « PR » sont mappées à GitHub. Sur le suivi Markdown local, il existe un bogue de modèle ouvert dans lequel le fichier généré peut contenir les critères d'acceptation deux fois, une fois au niveau supérieur et une fois dans le brief de l'agent ([#200](https://github.com/mattpocock/skills/issues/200)).
+
+## Indicateurs de réussite
+
+- Chaque élément touché se termine par exactement un rôle de catégorie et un rôle d'état - jamais zéro, jamais deux états en conflit.
+- Il vous donne une recommandation avec raisonnement et arrêts, plutôt que de réétiqueter et de passer à autre chose.
+- Le bug a été reproduit, ou le PR a été extrait et exécuté, avant que quoi que ce soit n'atteigne `ready-for-agent`.
+- Les mémoires dans lesquels il écrit nomment les types et les comportements, et ne contiennent aucun chemin de fichier ni numéro de ligne.
+- Une demande qui a été rejetée il y a six mois revient, et elle le dit et cite l'ancienne raison au lieu de la trier à nouveau.
+- Chaque commentaire publié commence par `> *Ce commentaire a été généré par l’IA pendant le triage.*`
+
+## Où il s’inscrit
+
+`triage` est une **rampe d’accès**, pas une étape de la chaîne principale. Le flux principal part de votre idée — questions, spécification, tickets, mise en œuvre, revue — tandis que `triage` traite en parallèle les demandes venues de l’extérieur. Les deux voies se rejoignent sur un ticket étiqueté `ready-for-agent` et accompagné d’un brief, que [implement](https://aihero.dev/skills-implement) peut prendre comme un ticket issu de [to-tickets](https://aihero.dev/skills-to-tickets). Lorsqu’une demande doit être précisée, `triage` associe [grilling](https://aihero.dev/skills-grilling) et [domain-modeling](https://aihero.dev/skills-domain-modeling) afin d’enregistrer progressivement les décisions dans `CONTEXT.md` et les ADR. En cas de doute sur le bon parcours, [ask-matt](https://aihero.dev/skills-ask-matt) vous oriente.

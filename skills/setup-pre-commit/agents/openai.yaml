@@ -1,0 +1,3 @@
+interface:
+  display_name: "Configurer les contrôles avant commit"
+  short_description: "Ajouter des contrôles qualité avant commit"

@@ -1,103 +1,113 @@
-## What it does
+## Ce qu’il fait
 
-`wayfinder` takes an effort too big for one agent [session](https://www.aihero.dev/ai-coding-dictionary/session) — an idea whose **destination** you can name but whose route you cannot yet see — and charts it as a shared **map** of **decision tickets** on your issue tracker, then resolves them one at a time until the way is clear.
+`wayfinder`  demande un effort trop important pour un seul agent [session](https://www.aihero.dev/ai-coding-dictionary/session) — une idée dont vous pouvez nommer la **destination** mais dont vous ne pouvez pas encore voir — et la trace comme une **carte** partagée de **tickets de décision** sur votre outil de suivi des problèmes, puis les résout un à la fois jusqu'à ce que la voie soit libre.
 
-It plans, it does not do. Every ticket holds a question whose resolution is a decision, not a slice of a build to execute, and the map is finished when nothing is left to decide before someone goes and builds the thing. That one rule is what separates a wayfinder ticket from an ordinary implementation [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), and it is the rule agents break most often. When the map clears, wayfinder hands off; it does not carry on into code.
+Ça planifie, ça ne fait pas. Chaque ticket contient une question dont la résolution est une décision, pas une tranche de construction à exécuter, et la carte est terminée lorsqu'il n'y a plus rien à décider avant que quelqu'un ne vienne construire la chose. Cette règle est ce qui sépare un ticket Wayfinder d'une implémentation ordinaire [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), et c'est la règle que les agents enfreignent le plus souvent. Lorsque la carte s'efface, Wayfinder s'en va ; cela ne se poursuit pas dans le code.
 
-## When to reach for it
+## Quand l’utiliser
 
-You invoke this by typing `/wayfinder` — the [agent](https://www.aihero.dev/ai-coding-dictionary/agent) won't reach for it on its own.
+Vous l'invoquez en tapant `/wayfinder` — l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul.
 
-It is the heaviest, densest flow in the set, so the trigger is narrow: the effort has to be genuinely larger than one agent session can hold, and the route to the destination has to be foggy. The split is a clean one: `/grill-with-docs` for single-session planning, `/wayfinder` for multi-session planning.
+Il s’agit du flux le plus lourd et le plus dense de l’ensemble, le déclencheur est donc étroit : l’effort doit être véritablement plus important que ce qu’une session d’agent peut contenir, et le chemin vers la destination doit être brumeux. La répartition est claire : `/grill-with-docs` pour la planification d'une seule session, `/wayfinder` pour la planification de plusieurs sessions.
 
-| What you have in front of you | What to run |
+| Ce que vous avez devant vous | Que courir |
 | --- | --- |
-| A well-scoped feature you can settle in one sitting | [grill-me](https://aihero.dev/skills-grill-me), or [grill-with-docs](https://aihero.dev/skills-grill-with-docs) when there is a codebase |
-| A greenfield project, or a build spanning many sessions, with the route still unclear | `/wayfinder` |
-| A thread where the deciding is already done | [to-spec](https://aihero.dev/skills-to-spec) — skip straight past the map |
-| A cleared wayfinder map | [to-spec](https://aihero.dev/skills-to-spec), then [to-tickets](https://aihero.dev/skills-to-tickets) and [implement](https://aihero.dev/skills-implement) |
-| An existing session that has already grown too big | say "hand off to `/wayfinder`" — [handoff](https://aihero.dev/skills-handoff) bridges into a map as well as out of one |
+| Une fonctionnalité bien étendue que vous pouvez régler en une seule séance | [grill-me](https://aihero.dev/skills-grill-me), ou [grill-with-docs](https://aihero.dev/skills-grill-with-docs) lorsqu'il y a une base de code |
+| Un nouveau projet, ou une construction s'étalant sur plusieurs sessions, dont le parcours n'est pas encore clair | `/wayfinder` |
+| Un fil de discussion où la décision est déjà prise | [to-spec](https://aihero.dev/skills-to-spec) — passer directement devant la carte |
+| Une carte de guidage dégagée | [to-spec](https://aihero.dev/skills-to-spec), puis [to-tickets](https://aihero.dev/skills-to-tickets) et [implement](https://aihero.dev/skills-implement) |
+| Une session existante qui est déjà devenue trop grande | dites "remettez à `/wayfinder`" — [handoff](https://aihero.dev/skills-handoff) ponts vers une carte ainsi que hors d'une |
 
-Greenfield is not a requirement. Wayfinder is used routinely on legacy and half-built codebases, and it is arguably sharper there, because a lot of the fog is "what is already true here" rather than "what should we do".
+Il n’est pas nécessaire de partir d’un projet neuf. Wayfinder s’utilise régulièrement sur des bases de code anciennes ou partiellement construites ; il peut même y être plus utile, car une grande partie de l’incertitude porte alors sur « ce qui est déjà vrai ici » plutôt que sur « ce que nous devrions faire ».
 
-## Prerequisites
+## Prérequis
 
-The map and its tickets live on the repo's issue tracker, so wayfinder needs the tracker wiring that [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) lays down. That step writes a "Wayfinding operations" section describing how the map, its child tickets, blocking edges, and frontier queries are expressed for GitHub, GitLab, or local markdown. Wayfinder resolves that doc through the pointer in your `CLAUDE.md` / `AGENTS.md` rather than a fixed path; with no tracker configured at all it falls back to local markdown files.
+La carte et ses tickets vivent dans l’outil de suivi du dépôt. Wayfinder dépend donc de la configuration créée par [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills). Celle-ci décrit, dans une section « Opérations d’orientation », la représentation de la carte, des tickets enfants, des dépendances et des requêtes de frontière pour GitHub, GitLab ou le suivi Markdown local. Wayfinder retrouve ce document au moyen du pointeur inscrit dans `AGENTS.md`, sans imposer de chemin fixe. Si aucun outil n’est configuré, il utilise des fichiers Markdown locaux.
 
-The tracker is not decoration. Blocking is what renders the frontier visually in the tracker's own UI, and a tracker without native dependency links — a self-hosted Gitea, say — degrades wayfinder to inferring blockers from the map text, which works but needs closer supervision.
+L’outil de suivi joue un rôle fonctionnel : ses relations de blocage rendent la frontière visible directement dans son interface. Lorsqu’il ne possède pas de dépendances natives — dans certaines installations Gitea, par exemple — Wayfinder doit déduire les blocages à partir du texte de la carte. Cette solution fonctionne, mais demande davantage de surveillance.
 
-## The map, the fog, and the frontier
+## La carte, le brouillard et la frontière
 
-The **map** is a single issue labelled `wayfinder:map`; its tickets are its child issues. It is an **index, not a store** — a decision lives in exactly one place, its ticket, and the map only gists it and links. A session loads the map at low resolution and zooms into individual tickets on demand, which is what lets a map keep growing without every session paying for its whole history.
+La **carte** est un ticket unique étiqueté `wayfinder:map` ; ses tickets de décision sont des tickets enfants. C’est un **index, pas un entrepôt** : chaque décision détaillée n’existe qu’à un seul endroit, dans son ticket, tandis que la carte la résume et fournit le lien. Une session charge d’abord cette vue synthétique, puis ouvre les tickets individuels à la demande. La carte peut ainsi grandir sans imposer tout son historique à chaque nouvelle session.
 
-Four things live on it:
+Quatre choses y vivent :
 
-- **Destination** — what reaching the end of this map looks like. Naming it is the first act of charting, before any ticket exists, because the destination fixes the scope every ticket is measured against.
-- **Decisions so far** — one line per closed ticket, each linking to where the detail actually lives.
-- **Not yet specified** — the **fog of war**. Decisions you can tell are coming but cannot yet phrase sharply. The test for fog versus ticket is whether you can state the question precisely *now*, not whether you can answer it. Resolving a ticket clears the fog ahead of it and graduates whatever is now specifiable into fresh tickets.
-- **Out of scope** — work ruled beyond the destination. Fog only ever gathers *toward* the destination, so out-of-scope work is closed and never graduates.
+- **Destination** — à quoi ressemble la fin de cette carte. La nommer est le premier acte de cartographie, avant qu’un ticket n’existe, car la destination fixe la portée par rapport à laquelle chaque ticket est mesuré.
+- **Décisions jusqu'à présent** — une ligne par ticket fermé, chacune renvoyant à l'endroit où se trouve réellement le détail.
+- **Pas encore spécifié** — le **brouillard de guerre**. Des décisions que vous pouvez prédire arrivent mais que vous ne pouvez pas encore exprimer clairement. Le test entre brouillard et ticket est de savoir si vous pouvez formuler la question avec précision *maintenant*, et non si vous pouvez y répondre. La résolution d'un ticket dissipe le brouillard qui l'attend et transforme tout ce qui est désormais spécifiable en de nouveaux tickets.
+- **Hors de portée** — le travail est au-delà de la destination. Le brouillard ne se rassemble que *vers* la destination, donc le travail hors du champ d'application est fermé et n'est jamais terminé.
 
-The **frontier** is the open, unblocked, unclaimed tickets — the edge of the known. A session claims a ticket by assigning it to itself before doing any work, so the assignee *is* the claim and concurrent sessions skip it. Tickets are referred to by name throughout, never by a bare `#42`; a wall of issue numbers is illegible in narration.
+La **frontière** réunit les tickets ouverts, débloqués et non attribués : c’est la limite actuelle du connu. Avant de commencer, une session s’attribue un ticket ; l’attribution matérialise donc la réservation et les autres sessions l’ignorent. Dans les descriptions, désignez toujours les tickets par leur titre, jamais par un simple `#42` : une suite de numéros serait illisible.
 
-## The four decision-ticket types
+## Les quatre types de tickets de décision
 
-Every ticket carries a `wayfinder:<type>` label, and is either **[HITL](https://www.aihero.dev/ai-coding-dictionary/human-in-the-loop)** — worked with a human who speaks for themselves — or **[AFK](https://www.aihero.dev/ai-coding-dictionary/afk)**, driven by the agent alone. A HITL ticket only resolves through the live exchange; an agent that answers its own [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) questions has broken it.
+Chaque ticket porte une étiquette `wayfinder:<type>`  et est soit **[HITL](https://www.aihero.dev/ai-coding-dictionary/human-in-the-loop)** — travaillé avec un humain qui parle pour lui-même — soit **[AFK](https://www.aihero.dev/ai-coding-dictionary/afk)**, piloté par l'agent seul. Un ticket HITL n'est résolu que via l'échange en direct ; un agent qui répond à ses propres questions [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) l'a cassé.
 
-| Type | Mode | Reach for it when | Resolved by |
+| Tapez | Mode | Atteignez-le quand | Résolu par |
 | --- | --- | --- | --- |
-| `grilling` | HITL | The default. The question can be settled by talking it through. | [grilling](https://aihero.dev/skills-grilling) plus [domain-modeling](https://aihero.dev/skills-domain-modeling), in a fresh session |
-| `prototype` | HITL | "How should this look" or "how should this behave" — a question talking cannot settle. | [prototype](https://aihero.dev/skills-prototype), with the built artifact linked from the ticket as an asset |
-| `research` | AFK | A fact outside the working directory is blocking a decision. | A [research](https://aihero.dev/skills-research) [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent), fired at charting time and burned down in parallel on a `research/<name>` branch |
-| `task` | Either | Nothing to decide, but manual work blocks a decision — provisioning access, signing up for a service, moving data so its shape can be seen. | The agent alone where it can, otherwise a precise checklist for the human |
+| `grilling` | HITL | La valeur par défaut. La question peut être réglée en en discutant. | [grilling](https://aihero.dev/skills-grilling) plus [modélisation de domaine](https://aihero.dev/skills-domain-modeling), dans une nouvelle session |
+| `prototype` | HITL | "À quoi cela devrait-il ressembler" ou "comment cela devrait-il se comporter" - une question qui ne peut être résolue par les discussions. | [prototype](https://aihero.dev/skills-prototype), avec l'artefact construit lié au ticket comme atout |
+| `research` | AFK | Un fait extérieur au répertoire de travail bloque une décision. | Un [research](https://aihero.dev/skills-research) [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent), tiré au moment de la cartographie et incendié en parallèle sur une `research/<name>` branche |
+| `task` | Soit | Rien à décider, mais le travail manuel bloque une décision : fournir un accès, s'inscrire à un service, déplacer des données pour que leur forme soit visible. | L'agent seul là où il peut, sinon une checklist précise pour l'humain |
 
-`task` is the only type that *does* rather than decides, and it earns its place by unblocking a decision — never by delivering a piece of the destination. This is the type that goes wrong most often in practice: agents interpret it as an implementation step and start writing product code inside the map.
+`task` est le seul type qui *fait* plutôt que décide, et il gagne sa place en débloquant une décision – jamais en livrant une partie de la destination. C’est le type de problème qui se produit le plus souvent dans la pratique : les agents l’interprètent comme une étape de mise en œuvre et commencent à écrire le code du produit à l’intérieur de la carte.
 
-Research is the only exception to *one ticket per session*.
+La recherche est la seule exception à *un ticket par session*.
 
-## Common questions
+## Questions fréquentes
 
-**How is this different from `/grill-with-docs`? Which should I start with?**
-Session count, not project size. `/grill-with-docs` is single-session planning; wayfinder is multi-session planning. If you can hold the whole thing in one conversation, grilling is the cheaper and better tool, and wayfinder is genuinely slower and denser for that case. The community shorthand that has settled on it: wayfinder only makes sense if the work doesn't fit into a single session. This is by a distance the most-asked wayfinder question, and it keeps being asked because the descriptions do not tell you where your own task sits on that line — you have to judge the session count yourself.
+**En quoi est-ce différent de `/grill-with-docs` ? Par quoi dois-je commencer ?**
 
-**When it asks for the "destination", does it mean the end of this session or the end of everything?**
-The whole map — the destination of the entire map, not just the initial session. The question reads ambiguously because wayfinder is by definition a multi-session tool, so a session-scoped answer never makes sense. Typical destinations are a [spec](https://www.aihero.dev/ai-coding-dictionary/spec) to hand off, a decision to lock before planning starts, a proof of concept, or a change made in place like a data migration.
+Le nombre de sessions, pas la taille du projet. `/grill-with-docs` est une planification en une seule session ; wayfinder est une planification multi-sessions. Si vous pouvez tout tenir en une seule conversation, le grillage est l'outil le moins cher et le meilleur, et Wayfinder est véritablement plus lent et plus dense dans ce cas. Le raccourci communautaire qui s'y est imposé : wayfinder n'a de sens que si le travail ne s'inscrit pas dans une seule session. C'est de loin la question d'orientation la plus posée, et elle continue d'être posée parce que les descriptions ne vous disent pas où se situe votre propre tâche sur cette ligne - vous devez juger vous-même du nombre de sessions.
 
-**The map is cleared. Why do I still need `/to-spec` and `/to-tickets` — didn't wayfinder already write the spec and make the tickets?**
-No. Wayfinder's tickets are decision tickets, and by the time the map closes they are all closed too. What is left is a map full of linked decisions, which is not a build plan. [to-spec](https://aihero.dev/skills-to-spec) collapses those linked decisions into one spec — `/to-spec #<map_issue>` — and [to-tickets](https://aihero.dev/skills-to-tickets) slices that into tracer-bullet implementation tickets. Looping the map straight into [implement](https://aihero.dev/skills-implement) skips the collapse and throws the linked detail away. Go straight to implementation only when the effort turned out genuinely small. People do run the abbreviated pipeline and report it working; the two extra steps buy you an explicit spec artifact that a reviewer or a colleague can read, which matters more the less solo you are.
+**Quand il demande la « destination », cela signifie-t-il la fin de cette session ou la fin de tout ?**
 
-**My agent started writing production code in the middle of a wayfinder session.**
-The most-reported failure with this skill, and there is a real hole behind it. Wayfinder's "plan, don't do" default can be overridden in the map's **Notes** — but the Notes are written by the agent, so the constraint and its exemption live in the same file the constrained party owns. One user watched an agent write "this map carries execution" into its own Notes and then read it back in later sessions as its own licence, building on a live server. There is no hard in-skill stop for "I meant the default." Until there is: read the Notes on any map you didn't chart yourself, keep implementation in its own sessions, and treat any `wayfinder:task` that looks like a slice of the build as mis-typed.
+La carte entière : la destination de la carte entière, pas seulement la session initiale. La question est ambiguë car Wayfinder est par définition un outil multi-session, donc une réponse à l'échelle de la session n'a jamais de sens. Les destinations typiques sont une [spec](https://www.aihero.dev/ai-coding-dictionary/spec) à transférer, une décision de verrouillage avant le début de la planification, une preuve de concept ou une modification mise en place comme une migration de données.
 
-**I charted 27 tickets, and by the time I got to the thirteenth, the rest no longer made sense.**
-A real and repeatedly-reported outcome, verbatim from a field report. Wayfinder's default instinct is to plan comprehensively, and a map whose later tickets rest on assumptions the earlier ones invalidate is exactly the waterfall trap the skill is accused of. Two things push back on it. Scope the map to a bounded destination rather than to the whole product — practitioners consistently report that maps scoped to one defined epic behave better than a sprawling "implement V1", and planning something very big is not the goal in the first place — shipping small increments is. And [prototype](https://www.aihero.dev/ai-coding-dictionary/prototyping) aggressively: the whole reason the route stays current is that uncertainty is flushed out by cheap concrete artifacts before implementation depends on it. Wayfinder is "prototypemaxxing", not "planmaxxing".
+**La carte est effacée. Pourquoi ai-je encore besoin de `/to-spec` et `/to-tickets` — Wayfinder n'a-t-il pas déjà rédigé les spécifications et créé les tickets ?**
 
-**Can I work several tickets in parallel?**
-The frontier is built to show you what is takeable, and blocking edges are there so parallel work is safe on paper. In practice one-at-a-time is the safer default. Users working two grilling tickets at once get asked in one session a question they just answered in the other, because the sessions share no [context](https://www.aihero.dev/ai-coding-dictionary/context). There is also a known gap on prototype tickets: an agent has been reported building three UI variations, choosing one itself, and closing the ticket — the selection is yours to make, and the skill does not currently say so loudly enough. If you do run in parallel, review the dependency graph yourself first.
+Les tickets de Wayfinder sont des tickets de décision, et au moment où la carte se ferme, ils sont tous fermés également. Ce qui reste est une carte pleine de décisions liées, qui n'est pas un plan de construction. [to-spec](https://aihero.dev/skills-to-spec) regroupe ces décisions liées en une seule spécification — `/to-spec #<map_issue>` — et [to-tickets](https://aihero.dev/skills-to-tickets) les découpe en tickets de mise en œuvre de traceurs. Boucler la carte directement dans [implement](https://aihero.dev/skills-implement) ignore le repli et supprime les détails liés. Passez directement à la mise en œuvre uniquement lorsque l’effort s’avère vraiment minime. Les gens gèrent le pipeline abrégé et signalent qu'il fonctionne ; les deux étapes supplémentaires vous achètent un artefact de spécification explicite qu'un critique ou un collègue peut lire, ce qui est d'autant plus important que vous êtes moins seul.
 
-**Do I have to use GitHub Issues?**
-No — any issue tracker works. GitHub is the best-supported path because its native sub-issues and blocking relationships are what make the frontier visible without opening the map; GitLab, Linear, Jira and local markdown all get used. Two honest caveats. A tracker with no native blocking means the dependency graph is inferred from text and needs manual correction. And local markdown puts the artifacts in your repo, which is not recommended: storing this material in the repo tends to lead to accidental persistence. Open-source maintainers hit the opposite problem — public trackers filling with agent-generated planning tickets — and tend to choose local markdown anyway.
+**Mon agent a commencé à écrire du code de production au milieu d'une session Wayfinder.**
 
-**The grilling is exhausting. Every question is three paragraphs long.**
-This is the sharpest live complaint about wayfinder and it is not resolved. The decomposition one user gave: the verbosity itself causes decision exhaustion, and the length strips out *why* a question is being asked, so you lose the chain from decision to decision as the map gets longer. The verbosity looks like a property of the current set of [models](https://www.aihero.dev/ai-coding-dictionary/model) rather than of the skill, and no fix has landed. Practitioner mitigations in circulation: run a lower [reasoning effort](https://www.aihero.dev/ai-coding-dictionary/effort), and put a plain-language instruction in your global `CLAUDE.md`. Expect to spend real thought here regardless — the amount of thinking wayfinder demands from you is not a defect, it is most of what it is for.
+L’échec le plus signalé avec cette compétence, et il y a un véritable trou derrière. La valeur par défaut « plan, ne pas faire » de Wayfinder peut être remplacée dans les **Notes** de la carte — mais les notes sont écrites par l'agent, donc la contrainte et son exemption se trouvent dans le même fichier que possède la partie contrainte. Un utilisateur a vu un agent écrire « cette carte effectue l'exécution » dans ses propres notes, puis la relire lors de sessions ultérieures en tant que sa propre licence, en s'appuyant sur un serveur en direct. Il n'y a pas d'arrêt strict dans les compétences pour "Je voulais dire la valeur par défaut". En attendant : lisez les notes sur n'importe quelle carte que vous n'avez pas tracée vous-même, conservez l'implémentation dans ses propres sessions et traitez tout `wayfinder:task` qui ressemble à une tranche de la construction comme mal tapé.
 
-**A decision I already closed turned out to be wrong. Do I edit the old ticket or make a new one?**
-There is no official guidance, and the agent's instinct is unhelpful: it tends to design around the bad decision rather than challenge it, so you have to steer manually. What does work is telling wayfinder plainly what changed — it updates the map, revises the affected tickets, and comments on already-closed ones. Scope changes mid-map are recoverable. A map you *designed* to change is a scoping smell.
+**J'ai enregistré 27 tickets, et au moment où je suis arrivé au treizième, le reste n'avait plus de sens.**
 
-**Where did `decision-mapping` go?**
-It is this skill, renamed to `wayfinder` in v1.1 and invoked as `/wayfinder`. "Decision map" was jargon and was also inaccurate, since only one of the four ticket types is really a decision by itself. The reframe gave the skill one coherent vocabulary — destination, fog of war, frontier, the map — instead of an invented term layered on top. The unit kept the "decision" word, though: a **decision ticket** is what a wayfinder ticket is called, precisely to stop people reading it as an implementation ticket.
+Un résultat réel et rapporté à plusieurs reprises, textuellement à partir d’un rapport de terrain. L'instinct par défaut de Wayfinder est de planifier de manière exhaustive, et une carte dont les tickets ultérieurs reposent sur des hypothèses que les précédents invalident est exactement le piège en cascade dont la compétence est accusée. Deux choses y font obstacle. Étendez la carte à une destination délimitée plutôt qu'à l'ensemble du produit - les praticiens rapportent systématiquement que les cartes limitées à une épopée définie se comportent mieux qu'un "outil V1" tentaculaire, et planifier quelque chose de très grand n'est pas l'objectif en premier lieu - l'expédition de petits incréments l'est. Et le [prototype](https://www.aihero.dev/ai-coding-dictionary/prototyping) de manière agressive : la seule raison pour laquelle l'itinéraire reste d'actualité est que l'incertitude est éliminée par des artefacts concrets bon marché avant que la mise en œuvre n'en dépende. Wayfinder est un "prototypemaxxing", pas un "planmaxxing".
 
-## It's working if
+**Puis-je traiter plusieurs tickets en parallèle ?**
 
-- The destination is written down and agreed before a single ticket exists.
-- Every open ticket reads as a question. Any ticket that reads "build the X" is either mis-typed or belongs downstream of the map.
-- You can look at your tracker and see which tickets are takeable without opening the map — that is the frontier rendering itself through native blocking.
-- A session resolves one ticket, posts the answer as a resolution comment, closes it, and leaves one line on the map's *Decisions so far*. Then it stops.
-- **Not yet specified** shrinks over time. A patch of fog that graduates into a ticket disappears from that section rather than living in both places.
-- When the opening breadth-first grill turns up no fog at all, the skill stops and tells you the effort is small enough to skip the map.
-- The session that finishes the map hands you toward a spec, not a pull request.
+La frontière est construite pour vous montrer ce qui est réalisable, et des bords bloquants sont là pour que le travail parallèle soit sûr sur papier. En pratique, un à la fois est la valeur par défaut la plus sûre. Les utilisateurs travaillant sur deux tickets de grillage à la fois se voient poser dans une session une question à laquelle ils viennent de répondre dans l'autre, car les sessions ne partagent pas de [context](https://www.aihero.dev/ai-coding-dictionary/context). Il existe également une lacune connue dans les prototypes de tickets : il a été signalé qu'un agent avait construit trois variantes d'interface utilisateur, en avait choisi une lui-même et fermé le ticket ; la sélection vous appartenait, et la compétence ne le dit pas assez fort actuellement. Si vous exécutez en parallèle, examinez d'abord vous-même le graphique de dépendance.
 
-## Where it fits
+**Dois-je utiliser les problèmes GitHub ?**
 
-`wayfinder` is a **situational on-ramp**, not the default front door. The grill-led idea → ship chain is still where most work starts; wayfinder is what you climb onto when the idea is too big to hold in one session, and it merges back onto that chain at [to-spec](https://aihero.dev/skills-to-spec), because a cleared map hands off rather than builds.
+Non. Tout outil de suivi peut convenir. GitHub est le mieux pris en charge, car ses sous-tickets et ses relations de blocage natives rendent la frontière visible sans ouvrir la carte ; GitLab, Linear, Jira et le suivi Markdown local sont également utilisés. Deux limites sont à connaître. Sans blocage natif, le graphe de dépendances est déduit du texte et peut nécessiter des corrections manuelles. Avec le suivi Markdown local, les artefacts restent dans le dépôt et risquent d’être conservés par inadvertance. À l’inverse, les mainteneurs de projets libres préfèrent parfois ce mode pour éviter d’encombrer un outil public avec des tickets de planification générés par des agents.
 
-Underneath, it is mostly other skills wearing wayfinder's scheduling: [grilling](https://aihero.dev/skills-grilling) and [domain-modeling](https://aihero.dev/skills-domain-modeling) resolve the default ticket type, [prototype](https://aihero.dev/skills-prototype) resolves the tickets that talking cannot, and [research](https://aihero.dev/skills-research) runs as a subagent so its reading never lands in your session. [handoff](https://aihero.dev/skills-handoff) is the bridge in and out — into a map from a conversation that outgrew itself, out of one when a side quest appears mid-session. For anything else, [ask-matt](https://aihero.dev/skills-ask-matt) routes over the whole set.
+**Les grillades sont épuisantes. Chaque question comporte trois paragraphes.**
+
+Il s’agit de la plainte la plus grave concernant Wayfinder et elle n’est pas résolue. La décomposition donnée par un utilisateur : la verbosité elle-même provoque l'épuisement des décisions, et la longueur supprime *pourquoi* une question est posée, de sorte que vous perdez la chaîne de décision en décision à mesure que la carte s'allonge. La verbosité ressemble à une propriété de l'ensemble actuel de [models](https://www.aihero.dev/ai-coding-dictionary/model) plutôt qu'à la compétence, et aucun correctif n'a été trouvé. Atténuations du praticien en circulation : exécutez un [effort de raisonnement](https://www.aihero.dev/ai-coding-dictionary/effort) inférieur et mettez une instruction en langage clair dans votre global `AGENTS.md`. Attendez-vous à y réfléchir sérieusement - la quantité de réflexion que Wayfinder vous demande n'est pas un défaut, c'est l'essentiel de sa fonction.
+
+**Une décision que j'avais déjà prise s'est avérée erronée. Dois-je modifier l'ancien ticket ou en créer un nouveau ?**
+
+Il n'existe pas de directives officielles et l'instinct de l'agent n'est d'aucune aide : il a tendance à concevoir autour de la mauvaise décision plutôt que de la contester, vous devez donc la piloter manuellement. Ce qui fonctionne, c'est d'indiquer clairement à Wayfinder ce qui a changé : il met à jour la carte, révise les tickets concernés et commente ceux déjà fermés. Les modifications de portée au milieu de la carte sont récupérables. Une carte que vous avez *conçue* pour changer est une odeur de cadrage.
+
+**Où est passé `decision-mapping`  ?**
+
+Il s'agit de cette compétence, renommée  `wayfinder`  dans la v1.1 et invoquée comme  `/wayfinder`. La « carte de décision » était un jargon et était également inexacte, car seul un des quatre types de tickets constitue réellement une décision en soi. Le recadrage a donné à la compétence un vocabulaire cohérent – ​​destination, brouillard de guerre, frontière, carte – au lieu d'un terme inventé superposé. L'unité a cependant conservé le mot « décision » : un **ticket de décision** est le nom d'un ticket d'orientation, précisément pour empêcher les gens de le lire comme un ticket de mise en œuvre.
+
+## Indicateurs de réussite
+
+- La destination est écrite et convenue avant qu'un seul ticket n'existe.
+- Chaque ticket ouvert se lit comme une question. Tout ticket indiquant « construire le X » est soit mal tapé, soit appartient en aval de la carte.
+- Vous pouvez consulter votre tracker et voir quels tickets peuvent être pris sans ouvrir la carte — c'est la frontière qui s'affiche grâce au blocage natif.
+- Une session résout un ticket, publie la réponse sous forme de commentaire de résolution, la ferme et laisse une ligne sur les *Décisions jusqu'à présent* de la carte. Puis ça s'arrête.
+- **Pas encore spécifié** rétrécit avec le temps. Une zone de brouillard qui se transforme en ticket disparaît de cette section plutôt que de vivre aux deux endroits.
+- Lorsque la grille d'ouverture en largeur ne révèle aucun brouillard, la compétence s'arrête et vous indique que l'effort est suffisamment faible pour sauter la carte.
+- La session qui termine la carte vous remet une spécification, pas une pull request.
+
+## Où il s’inscrit
+
+`wayfinder` est une **rampe d'accès situationnelle**, pas la porte d'entrée par défaut. L'idée menée par le grill → la chaîne maritime est toujours le point de départ de la plupart des travaux ; wayfinder est ce sur quoi vous grimpez lorsque l'idée est trop grande pour être retenue en une seule session, et il fusionne à nouveau sur cette chaîne à [to-spec](https://aihero.dev/skills-to-spec), car une carte effacée se transmet plutôt que de se construire.
+
+En dessous, ce sont principalement d'autres compétences qui portent la planification de Wayfinder : [grilling](https://aihero.dev/skills-grilling) et [domain-modeling](https://aihero.dev/skills-domain-modeling) résolvent le type de ticket par défaut, [prototype](https://aihero.dev/skills-prototype) résout les tickets impossibles à parler, et [research](https://aihero.dev/skills-research) s'exécute en tant que sous-agent afin que sa lecture n'arrive jamais dans votre session. [handoff](https://aihero.dev/skills-handoff) est le pont d'entrée et de sortie - vers une carte issue d'une conversation qui s'est dépassée, d'une seule lorsqu'une quête secondaire apparaît à mi-session. Pour tout le reste, [ask-matt](https://aihero.dev/skills-ask-matt) parcours l'ensemble de l'ensemble.

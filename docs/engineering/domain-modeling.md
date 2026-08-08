@@ -1,86 +1,93 @@
-## What it does
+## Ce qu’il fait
 
-`domain-modeling` builds and sharpens a project's **ubiquitous language** while you are designing — challenging a term that conflicts with the glossary, forcing a precise word where you used a vague one, and stress-testing a relationship with a concrete scenario until the boundaries are exact.
+`domain-modeling` construit et affine le **langage omniprésent** d'un projet pendant que vous concevez — en contestant un terme qui entre en conflit avec le glossaire, en forçant un mot précis là où vous en avez utilisé un vague et en testant une relation avec un scénario concret jusqu'à ce que les limites soient exactes.
 
-It is the **active** discipline, not the passive one. Reading `CONTEXT.md` to borrow its vocabulary is a one-line habit any skill can do; this skill is for when you are *changing* the model. That is what makes it interrupt. It writes a resolved term into `CONTEXT.md` at the moment it is resolved, in the middle of the conversation, rather than producing a tidy glossary at the end — because the batched version is a summary of a [session](https://www.aihero.dev/ai-coding-dictionary/session), and the inline version is the session's actual output.
+C'est la discipline **active**, pas passive. Lire `CONTEXT.md` pour emprunter son vocabulaire est une habitude d'une seule ligne que n'importe quelle compétence peut faire ; cette compétence est destinée lorsque vous *changez* de modèle. C'est ce qui le fait interrompre. Il écrit un terme résolu dans `CONTEXT.md` au moment où il est résolu, au milieu de la conversation, plutôt que de produire un glossaire bien rangé à la fin – car la version par lots est un résumé d'une [session](https://www.aihero.dev/ai-coding-dictionary/session), et la version en ligne est la sortie réelle de la session.
 
-## When to reach for it
+## Quand l’utiliser
 
-Type `/domain-modeling`, or the agent reaches for it automatically when a task fits. In practice, automatic invocation is the weakest part of the skill: when `grill-with-docs` or `wayfinder` say to load it, [models](https://www.aihero.dev/ai-coding-dictionary/model) frequently load `grilling` and skip this one. If a [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) session runs and `CONTEXT.md` is untouched at the end, that is what happened — invoke it by name alongside the other skill.
+Tapez `/domain-modeling`, ou l'agent l'atteint automatiquement lorsqu'une tâche convient. En pratique, l'invocation automatique est la partie la plus faible de la compétence : lorsque `grill-with-docs` ou `wayfinder`  disent de la charger, [models](https://www.aihero.dev/ai-coding-dictionary/model) chargent fréquemment `grilling`  et ignorent celle-ci. Si une session [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) s'exécute et que `CONTEXT.md`  n'est pas touchée à la fin, c'est ce qui s'est passé : invoquez-la par son nom aux côtés de l'autre compétence.
 
-Reach for it when the *words* are the problem:
+Atteignez-le lorsque les *mots* sont le problème :
 
-| The situation | The move |
+| La situation | Le déménagement |
 | --- | --- |
-| Two people mean different things by "cancellation" | `domain-modeling` — pick the canonical term, list the other under `_Avoid_` |
-| "Account" is doing three jobs in three files | `domain-modeling` — split it into Customer and User |
-| You just made a hard-to-reverse architectural choice | `domain-modeling` — it offers an ADR, if the choice clears the bar |
-| The module's *shape* is the problem — where the seam goes, how deep the interface is | [codebase-design](https://aihero.dev/skills-codebase-design) |
-| You want the whole plan interrogated before you build | [grill-with-docs](https://aihero.dev/skills-grill-with-docs), which drives this skill underneath |
-| You want a term looked up, not changed | Nothing. Read `CONTEXT.md`. It is a file. |
+| Deux personnes signifient des choses différentes par « annulation » | `domain-modeling` — choisissez le terme canonique, énumérez l'autre sous `_Avoid_` |
+| "Compte" effectue trois tâches dans trois fichiers | `domain-modeling` — le divise en Client et Utilisateur |
+| Vous venez de faire un choix architectural difficile à inverser | `domain-modeling` — il offre un ADR, si le choix franchit la barre |
+| Le problème porte sur la *forme* du module : emplacement de la couture, profondeur de l’interface | [codebase-design](https://aihero.dev/skills-codebase-design) |
+| Vous souhaitez que l'ensemble du plan soit interrogé avant de construire | [grill-with-docs](https://aihero.dev/skills-grill-with-docs), qui pilote cette compétence en dessous |
+| Vous voulez qu'un terme soit recherché, pas modifié | Rien. Lisez `CONTEXT.md`. C'est un fichier. |
 
-## Prerequisites
+## Prérequis
 
-None up front. The skill writes into two places and creates both lazily:
+Aucun à l’avant. La compétence écrit à deux endroits et crée les deux paresseusement :
 
-- **`CONTEXT.md`** at the repo root, created by the first resolved term. In a repo with a `CONTEXT-MAP.md` at the root, terms go into the per-context `CONTEXT.md` the map points at instead.
-- **`docs/adr/`**, created by the first ADR that clears the bar.
+- **`CONTEXT.md`** à la racine du dépôt, créé par le premier terme résolu. Dans un dépôt avec un `CONTEXT-MAP.md` à la racine, les termes vont dans le contexte `CONTEXT.md` que la carte pointe à la place.
+- **`docs/adr/`**, créé par le premier ADR qui efface la barre.
 
-Nothing needs to exist before you start, and nothing is created speculatively.
+Rien n’a besoin d’exister avant de commencer, et rien n’est créé de manière spéculative.
 
-## Two artifacts, two bars
+## Deux artefacts, deux barres
 
-The glossary and the ADR are held to different standards, and conflating them is where most of the trouble in this skill comes from.
+Le glossaire et l'ADR sont soumis à des normes différentes, et leur confusion est la cause de la plupart des problèmes liés à cette compétence.
 
 | | `CONTEXT.md` | `docs/adr/NNNN-slug.md` |
 | --- | --- | --- |
-| Holds | Terms. What a thing **is**, in one or two sentences, with rejected synonyms under `_Avoid_` | One decision, in one to three sentences: context, choice, reason |
-| Bar to write | A vague term became canonical | **All three**: hard to reverse, surprising without context, the result of a real trade-off |
-| Written | Inline, the moment the term is settled | Offered, not assumed |
-| Never holds | Implementation details, a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), a scratch pad, general programming concepts | A diary of every choice made this session |
+| Détient | Termes. Qu'est-ce que **c'est**, en une ou deux phrases, avec des synonymes rejetés sous `_Avoid_` | Une décision, en une à trois phrases : contexte, choix, raison |
+| Barre à écrire | Un terme vague devenu canonique | **Tous les trois** : difficile à inverser, surprenant sans contexte, résultat d'un véritable arbitrage |
+| Écrit | Inline, dès que le terme est réglé | Offert, non assumé |
+| Ne tient jamais | Détails d'implémentation, une [spec](https://www.aihero.dev/ai-coding-dictionary/spec), un bloc-notes, des concepts généraux de programmation | Un agenda de tous les choix réalisé cette séance |
 
-Miss any one of the ADR's three tests and there is no ADR. An easily-reversed decision will just get reversed; an unsurprising one is nobody's question; one with no real alternative records that you did the obvious thing.
+Si vous manquez l'un des trois tests de l'ADR, il n'y aura pas d'ADR. Une décision facilement réversible sera tout simplement annulée ; une question sans surprise n’est une question pour personne ; un sans véritable disque alternatif que vous avez fait la chose évidente.
 
-The `CONTEXT.md` rule is the one to actually hold onto, because it is the one that breaks in the field. **It is a glossary and nothing else.** Left unchecked, models treat "write to `CONTEXT.md`" as permission to persist every answer you give, and the file turns into a running spec — this is the most-reported problem with the skill, across several models.
+La `CONTEXT.md` règle est celle à laquelle il faut effectivement s'accrocher, car c'est celle qui casse sur le terrain. **Il s'agit d'un glossaire et rien d'autre.** Si cette case n'est pas cochée, les modèles traitent "écrire dans `CONTEXT.md`" comme l'autorisation de conserver chaque réponse que vous donnez, et le fichier se transforme en une spécification en cours d'exécution - c'est le problème le plus signalé avec la compétence, sur plusieurs modèles.
 
-## Cross-referencing, and where it stops
+## Références croisées et limites
 
-The move that makes the skill click: when you state how something works, it checks the code and surfaces the contradiction. *"Your code cancels entire Orders, but you just said partial cancellation is possible — which is right?"* The language and the code are made to agree, out loud, before either is changed.
+Lorsque vous expliquez le fonctionnement d’un concept, le skill vérifie le code et fait remonter les contradictions. Par exemple : « Le code annule des commandes entières, mais vous venez de dire qu’une annulation partielle est possible ; quelle règle est correcte ? » Le langage et le code sont ainsi remis en accord avant toute modification.
 
-The limit is worth knowing. It cross-references **code** and the committed `CONTEXT.md`/ADRs, and nothing else. It does not search your issue tracker, so a naming collision that was argued out and deliberately settled in a closed issue months ago gets surfaced as if it were new. There is [an open request](https://github.com/mattpocock/skills/issues/717) to fix this; until then, the workaround is to put the instruction in your own `docs/agents/domain.md`, which the skills already read.
+La limite mérite d’être connue. Il fait des références croisées au **code** et aux `CONTEXT.md`/ADR engagés, et rien d'autre. Il ne recherche pas votre outil de suivi des problèmes, donc une collision de noms qui a été discutée et délibérément réglée dans un problème clos il y a des mois apparaît comme si elle était nouvelle. Il y a [une demande ouverte](https://github.com/mattpocock/skills/issues/717) pour résoudre ce problème ; en attendant, la solution de contournement consiste à mettre l'instruction dans la vôtre `docs/agents/domain.md`, que les compétences ont déjà lues.
 
-## Common questions
+## Questions fréquentes
 
-**My `CONTEXT.md` is 500 lines. 1,000. 3,000. What do I do?**
-The size is a symptom, not the disease — the file has absorbed implementation detail and decisions that were never glossary material. The fix is a direct instruction: `/grill-with-docs make my CONTEXT.md more concise and remove any implementation details from it`. Run it against a bloated file and most of it goes. Only reach for a `CONTEXT-MAP.md` split once the file is genuinely lean and still covers two domains that a reader would not want to hold at once; splitting a bloated file just gives you several bloated files. The skill's guidance here is not yet strong enough to prevent the growth in the first place, and the issue tracking that is still open.
+**Mon `CONTEXT.md`  fait 500 lignes. 1 000. 3 000. Que dois-je faire ?**
 
-**Why is it `CONTEXT.md` and not `GLOSSARY.md`?**
-This is the most-argued naming question in the whole skill set and it has no settled answer. The case against the current name is good: if it is "a glossary and nothing else", `GLOSSARY.md` says so, and — as one reader put it — "with ai agents everything is [context](https://www.aihero.dev/ai-coding-dictionary/context)". The case for it is the map: `CONTEXT-MAP.md` pointing at several `CONTEXT.md` files reads naturally in a way `GLOSSARY-MAP.md` does not, and `context` is the standing DDD word for a bounded area of the model. At least one person maintains a local fork purely to rename the file. You can do the same, but every other skill in the set looks for `CONTEXT.md`, so a rename means patching all of them.
+La taille est un symptôme, pas une maladie : le dossier a absorbé des détails de mise en œuvre et des décisions qui n’ont jamais été rédigés dans un glossaire. Le correctif est une instruction directe : `/grill-with-docs make my CONTEXT.md more concise and remove any implementation details from it`. Exécutez-le sur un fichier volumineux et la majeure partie disparaît. N'atteignez une division `CONTEXT-MAP.md`  qu'une fois que le fichier est véritablement léger et couvre toujours deux domaines qu'un lecteur ne voudrait pas détenir à la fois ; diviser un fichier volumineux vous donne simplement plusieurs fichiers volumineux. Les conseils de la compétence ici ne sont pas encore assez puissants pour empêcher la croissance en premier lieu, et le suivi des problèmes est encore ouvert.
 
-**Where did `/ubiquitous-language` go?**
-It was removed, and it was not deprecated. Its job moved into `domain-modeling`, which maintains the whole model continuously rather than dumping a glossary out of one conversation. Vocabulary enforcement got more load-bearing, not less — it now runs underneath grilling, triage and mapping rather than as a separate pass you remember to do.
+**Pourquoi est-ce `CONTEXT.md` et pas `GLOSSARY.md` ?**
 
-**How do I get a glossary for a codebase that has none?**
-Ask for it explicitly rather than waiting for it to accumulate. `/grill-with-docs help me scaffold my existing repo with a CONTEXT.md` is the documented route; expect a long interrogation — one user reported 50+ questions before the file was in shape. Incidental use builds the glossary far too slowly on a brownfield repo.
+Cette question de nommage est la plus controversée de l’ensemble et n’a pas de réponse définitive. L’argument en faveur de `GLOSSARY.md` est simple : si le fichier ne contient qu’un glossaire, ce nom est plus explicite. À l’inverse, `CONTEXT-MAP.md` désignant plusieurs fichiers `CONTEXT.md` se lit naturellement, et le mot _contexte_ possède déjà un sens précis en conception pilotée par le domaine : une zone délimitée du modèle. Vous pouvez renommer ces fichiers dans une variante locale, mais tous les autres skills recherchent `CONTEXT.md` ; il faudra donc les adapter ensemble.
 
-**Can I keep the domain model and use my own ADR format?**
-Not cleanly today. The glossary half and the ADR half ship in one skill, so a team with an established ADR convention — different template, different location, different naming — gets instructions that conflict with its house style. The current options are to copy the skill locally and edit it, or to override the ADR conventions in your repo's own agent docs. Splitting the two apart is [an open request](https://github.com/mattpocock/skills/issues/557).
+**Où est passé `/ubiquitous-language`  ?**
 
-**Does a glossary actually earn its keep? It is one more artifact to review, and it can go stale.**
-Sometimes it does not, and it is worth being honest about where. DDD gets less useful the closer it gets to the implementation — the payoff is upstream, in naming and concept alignment, not in aggregates and layer ceremony. Synonym control matters at naming boundaries: module names, table names, status enums, issue titles, CLI commands. It matters much less in ordinary prose. There is also a live objection that domain terms compress communication *between humans* who already share them, and that an agent responds the same way to the plain-English description — on that reading, the glossary's value is keeping you and your reviewers aligned with what the agent is doing, not making the agent better. On a one-day build, skip it. And an unreviewed, agent-authored glossary is worse than none: it becomes confident-sounding lore that later sessions treat as truth.
+Il a été supprimé et n’est pas obsolète. Son travail a été transféré vers `domain-modeling`, qui maintient l'ensemble du modèle en continu plutôt que de supprimer un glossaire d'une seule conversation. L'application du vocabulaire est devenue plus lourde, pas moins : elle s'exécute désormais sous le grillage, le triage et la cartographie plutôt que comme une passe distincte que vous n'oubliez pas de faire.
 
-**Can it turn my vague prompts into domain language for me?**
-No, and there is no plan for a skill that does. A domain language you do not understand yourself becomes meaningless drivel once written down. This skill enforces precision once you have the understanding — it does not manufacture vocabulary you do not have. The related trap is using domain words without doing the modelling: right nouns over the wrong conceptual structure produce output that reads correct and is not.
+**Comment puis-je obtenir un glossaire pour une base de code qui n'en a pas ?**
 
-## It's working if
+Demandez-le explicitement au lieu d’attendre qu’il se constitue de lui-même. La commande documentée est `/grill-with-docs aide-moi à structurer mon dépôt existant avec un CONTEXT.md`. Attendez-vous à un entretien approfondi : un utilisateur a reçu plus de 50 questions avant d’obtenir un fichier abouti. Une invocation occasionnelle construirait le glossaire beaucoup trop lentement dans une base de code ancienne et désordonnée.
 
-- It stops you mid-sentence to ask which of two things you meant, instead of picking one and moving on.
-- `CONTEXT.md` changes **during** the conversation, not in a burst at the end.
-- It refuses to write an ADR for something you could undo tomorrow — and says which of the three tests failed.
-- New entries define what a thing *is* in one or two sentences and name the words you are giving up under `_Avoid_`.
-- It quotes your code back at you when your code and your sentence disagree.
-- `CONTEXT.md` gets shorter as often as it gets longer.
+**Puis-je conserver le modèle de domaine et utiliser mon propre format ADR ?**
 
-## Where it fits
+Pas proprement aujourd’hui. La moitié du glossaire et la moitié de l'ADR sont regroupées dans une seule compétence, de sorte qu'une équipe avec une convention ADR établie (modèle différent, emplacement différent, dénomination différente) reçoit des instructions qui entrent en conflit avec son style maison. Les options actuelles consistent à copier la compétence localement et à la modifier, ou à remplacer les conventions ADR dans les propres documents d'agent de votre dépôt. Séparer les deux est [une demande ouverte](https://github.com/mattpocock/skills/issues/557).
 
-`domain-modeling` is a **model-invoked reference** that runs *underneath* other skills more often than it runs on its own. [grill-with-docs](https://aihero.dev/skills-grill-with-docs) drives it through a grilling session, [wayfinder](https://aihero.dev/skills-wayfinder) loads it while charting a map, [triage](https://aihero.dev/skills-triage) uses it to keep [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) in the project's own words, and [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) calls it as decisions crystallise. Its closest sibling is [codebase-design](https://aihero.dev/skills-codebase-design): the two are the vocabulary layer under everything else, this one for the *domain*, that one for the module's *shape*. It is also reachable directly, when you want the discipline without committing to the steps of whatever skill would normally pull it in. When you are unsure which skill fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+**Un glossaire mérite-t-il réellement sa place ? C'est un artefact de plus à examiner, et il peut devenir obsolète.**
+
+Parfois, ce n’est pas le cas, et il vaut la peine d’être honnête quant à l’endroit où cela se produit. DDD devient moins utile à mesure qu'il se rapproche de la mise en œuvre - le gain se situe en amont, dans la dénomination et l'alignement des concepts, et non dans les agrégats et la cérémonie des couches. Le contrôle des synonymes est important au niveau des limites de dénomination : noms de modules, noms de tables, énumérations d'état, titres de problèmes, commandes CLI. Cela importe beaucoup moins dans la prose ordinaire. Il existe également une objection réelle selon laquelle les termes de domaine compressent la communication *entre les humains* qui les partagent déjà, et qu'un agent répond de la même manière à la description en anglais simple - selon cette lecture, la valeur du glossaire est de vous maintenir, vous et vos réviseurs, alignés sur ce que fait l'agent, et non de l'améliorer. Sur une version d'une journée, ignorez-la. Et un glossaire non révisé rédigé par un agent est pire que rien : il devient une tradition apparemment confiante que les sessions ultérieures traitent comme la vérité.
+
+**Peut-il transformer mes vagues invites en langage de domaine pour moi ?**
+
+Non, et il n’existe aucun plan pour une compétence qui le fasse. Un langage de domaine que vous ne comprenez pas vous-même devient une bêtise dénuée de sens une fois écrit. Cette compétence impose la précision une fois que vous avez compris – elle ne fabrique pas de vocabulaire que vous n’avez pas. Le piège associé consiste à utiliser des mots de domaine sans effectuer de modélisation : les bons noms sur la mauvaise structure conceptuelle produisent un résultat qui se lit correctement et qui ne l'est pas.
+
+## Indicateurs de réussite
+
+- Cela vous arrête au milieu d'une phrase pour demander laquelle des deux choses vous vouliez dire, au lieu d'en choisir une et de passer à autre chose.
+- `CONTEXT.md` change **pendant** la conversation, pas en rafale à la fin.
+- Il refuse de rédiger un ADR pour quelque chose que vous pourriez annuler demain – et indique lequel des trois tests a échoué.
+- Les nouvelles entrées définissent ce qu'*est* une chose en une ou deux phrases et nomment les mots que vous abandonnez sous `_Avoid_`.
+- Il vous cite votre code lorsque votre code et votre phrase ne sont pas d'accord.
+- `CONTEXT.md` devient plus court à mesure qu'il s'allonge.
+
+## Où il s’inscrit
+
+`domain-modeling` est une **référence invoquée par le modèle** qui s'exécute *sous* d'autres compétences plus souvent qu'elle ne s'exécute seule. [grill-with-docs](https://aihero.dev/skills-grill-with-docs) le conduit à travers une session de grillades, [wayfinder](https://aihero.dev/skills-wayfinder) le charge tout en traçant une carte, [triage](https://aihero.dev/skills-triage) l'utilise pour conserver [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) selon les propres mots du projet, et [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) l'appelle alors que les décisions se cristallisent. Son frère le plus proche est [codebase-design](https://aihero.dev/skills-codebase-design) : les deux sont la couche de vocabulaire sous tout le reste, celui-ci pour le *domaine*, celui-là pour la *forme* du module. Il est également accessible directement, lorsque vous souhaitez suivre la discipline sans vous engager dans les étapes de la compétence qui l'appliquerait normalement. Lorsque vous ne savez pas quelle compétence vous convient, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.

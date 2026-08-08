@@ -1,0 +1,5 @@
+interface:
+  display_name: "Améliorer l’architecture de la base de code"
+  short_description: "Repérer et éprouver les améliorations architecturales"
+policy:
+  allow_implicit_invocation: false

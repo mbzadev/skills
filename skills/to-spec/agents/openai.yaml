@@ -1,0 +1,5 @@
+interface:
+  display_name: "Vers une spécification"
+  short_description: "Transformer une conversation en spécification"
+policy:
+  allow_implicit_invocation: false

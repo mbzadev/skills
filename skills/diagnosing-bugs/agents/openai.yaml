@@ -1,0 +1,3 @@
+interface:
+  display_name: "Diagnostic des bugs"
+  short_description: "Diagnostiquer les bugs difficiles et les régressions"

@@ -1,25 +1,25 @@
-# Issue tracker integrations are limited to mainstream tools
+# Limiter les intégrations de suivi aux outils grand public
 
-`setup-matt-pocock-skills` only offers first-class support for **mainstream** issue trackers. Requests to add support for niche, new, or single-vendor experimental trackers are out of scope.
+Dans `setup-matt-pocock-skills`, seuls les outils de suivi **grand public** bénéficient d’une prise en charge de premier ordre. L’ajout d’outils de niche, récents ou expérimentaux proposés par un seul éditeur reste hors périmètre.
 
-## Why this is out of scope
+## Pourquoi cela est hors de portée
 
-Every issue-tracker backend hard-codes a CLI shape into the skills (commands, flags, output parsing). Each new backend is permanent maintenance surface — it has to keep working as the tool's CLI evolves, and it has to keep being tested against `/to-spec`, `/to-tickets`, `/triage`, and friends. That cost is only worth paying for trackers a meaningful fraction of users actually have.
+Chaque connecteur de suivi impose aux skills une interface en ligne de commande précise — commandes, options et analyse de la sortie. Tout nouveau connecteur crée une charge de maintenance permanente : il doit suivre l’évolution de l’outil et rester testé avec `/to-spec`, `/to-tickets`, `/triage` et les autres skills. Ce coût ne se justifie que pour les outils utilisés par une part significative des utilisateurs.
 
-"Mainstream" is a judgment call, not a numeric bar:
+« Grand public » est un jugement, pas une barre numérique :
 
-- GitHub, GitLab, and Backlog.md are the kind of tools we'd consider mainstream — broadly known, widely used, well past the experimental phase.
-- A brand-new agent-focused tool with a few hundred GitHub stars is not, no matter how interesting the design.
+- GitHub, GitLab et Backlog.md sont le genre d'outils que nous considérerions comme grand public — largement connus, très utilisés et bien au-delà de la phase expérimentale.
+- Un nouvel outil axé sur les agents avec quelques centaines d'étoiles GitHub ne l'est pas, peu importe l'intérêt de sa conception.
 
-Stars, age, and download counts are useful signals when making the call but none of them is the rule. The rule is: would a typical engineer recognise this tool and have plausibly chosen it for their team?
+Le nombre d'étoiles, l'âge et les comptes de téléchargement sont des signaux utiles pour prendre cette décision, mais aucun n'est une règle. La règle est : un ingénieur typique reconnaîtrait-il cet outil et l'aurait-il plausiblement choisi pour son équipe ?
 
-The escape hatches for non-mainstream trackers already exist:
+Les solutions de contournement pour les outils non grand public existent déjà :
 
-- `local markdown` for lightweight in-repo tracking.
-- `other/custom` for users who want to wire something up themselves.
+- `local markdown`, pour un suivi léger directement dans le dépôt ;
+- `other/custom`, pour les utilisateurs qui souhaitent configurer eux-mêmes la connexion.
 
-Neither requires the core skills to know about the specific tool.
+Aucune de ces options ne nécessite que les skills principales connaissent l'outil spécifique.
 
-## Prior requests
+## Demandes antérieures
 
-- #99 — "Add dex as an issue tracker backend" (dex was ~3 months old and ~300 stars at the time of the request)
+- #99 — « Ajouter dex comme outil de suivi » — dex avait environ trois mois et 300 étoiles au moment de la demande.

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Vers un questionnaire"
+  short_description: "Regrouper les questions dans un document à faire remplir"
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Générer des exercices"
+  short_description: "Générer l’ossature d’exercices de cours prêts pour le lint"

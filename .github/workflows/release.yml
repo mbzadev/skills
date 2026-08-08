@@ -1,4 +1,4 @@
-name: Release
+name: Publication
 
 on:
   push:
@@ -9,24 +9,24 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
-    name: Version
+    name: Versionnement
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
     steps:
-      - name: Checkout
+      - name: Récupérer le dépôt
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Configurer Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install dependencies
+      - name: Installer les dépendances
         run: npm ci
 
-      - name: Create Version Pull Request
+      - name: Créer la pull request de versionnement
         uses: changesets/action@v1
         with:
           version: npm run version

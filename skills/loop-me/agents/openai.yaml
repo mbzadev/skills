@@ -1,0 +1,5 @@
+interface:
+  display_name: "Boucler avec moi"
+  short_description: "Spécifier les flux de travail à construire"
+policy:
+  allow_implicit_invocation: false

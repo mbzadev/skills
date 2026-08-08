@@ -1,0 +1,5 @@
+interface:
+  display_name: "Attendez, quoi ?"
+  short_description: "Reformuler plus simplement avec le contexte qui me manque"
+policy:
+  allow_implicit_invocation: false

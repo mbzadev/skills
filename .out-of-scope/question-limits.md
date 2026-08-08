@@ -1,18 +1,18 @@
-# Hard limits on the number of questions during grilling
+# Limites strictes sur le nombre de questions pendant la session d'interrogation
 
-The `/grill-me` skill (and grilling sessions inside other skills) does not enforce a maximum number of questions. Requests to add a configurable cap or hard ceiling are out of scope.
+Le skill `/grill-me`, comme les séances de questions intégrées aux autres skills, n’impose aucun nombre maximal de questions. Les demandes d’un plafond configurable ou d’une limite stricte sont hors périmètre.
 
-## Why this is out of scope
+## Pourquoi cela est hors de portée
 
-Grilling is intentionally open-ended. The point is to keep digging until each branch of the decision tree is resolved — some plans need three questions, some need fifty. A fixed cap would either cut off useful exploration on hard problems or feel arbitrary on easy ones.
+L'interrogation est intentionnellement ouverte. L'objectif est de continuer à creuser jusqu'à ce que chaque branche de l'arbre de décision soit résolue — certains plans nécessitent trois questions, d'autres en nécessitent cinquante. Un plafond fixe couperait soit l'exploration utile sur les problèmes complexes, soit semblerait arbitraire sur les problèmes simples.
 
-If a session feels too long, the right escape hatches already exist:
+Si une session paraît trop longue, les solutions de sortie existent déjà :
 
-- The user can stop the session at any time and accept the current state of the plan.
-- The user can tell the model to wrap up, summarise, and move on — natural-language steering is the intended control surface, not a numeric limit.
+- L'utilisateur peut interrompre la session à tout moment et accepter l'état actuel du plan.
+- L'utilisateur peut demander au modèle de conclure, de résumer et de passer à autre chose — la direction par langage naturel est la surface de contrôle prévue, et non une limite numérique.
 
-Adding a hard cap would also conflate two different failure modes: a model that asks too many questions because the plan is genuinely under-specified (working as intended) vs. a model that asks redundant or low-value questions (a prompt-quality issue, not a quantity issue). The fix for the latter belongs in the skill prompt, not in a counter.
+Un plafond strict confondrait aussi deux situations différentes : un modèle qui pose beaucoup de questions parce que le plan manque réellement de précisions — comportement attendu — et un modèle qui pose des questions redondantes ou peu utiles — problème de qualité des instructions, pas de quantité. Dans ce second cas, la correction appartient aux instructions du skill, pas à un compteur.
 
-## Prior requests
+## Demandes antérieures
 
-- #44 — "Codex just asked me 200 questions"
+- #44 — « Codex vient de me poser 200 questions »

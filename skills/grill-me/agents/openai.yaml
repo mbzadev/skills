@@ -1,0 +1,5 @@
+interface:
+  display_name: "Questionnez-moi"
+  short_description: "Affiner un plan au moyen d’un entretien"
+policy:
+  allow_implicit_invocation: false

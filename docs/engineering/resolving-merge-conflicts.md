@@ -1,51 +1,51 @@
-## What it does
+## Ce qu’il fait
 
-`resolving-merge-conflicts` works through an in-progress git merge or rebase, hunk by hunk, then runs the project's own checks and finishes the operation with a commit.
+`resolving-merge-conflicts` fonctionne via une fusion ou un rebase git en cours, morceau par morceau, puis exécute les propres vérifications du projet et termine l'opération avec un commit.
 
-It refuses to treat a conflict as a text problem. Before touching a hunk it traces each side back to its **[primary source](https://www.aihero.dev/ai-coding-dictionary/primary-source)** — the commit message, the PR, the original issue — so it is choosing between two intents rather than between two blocks of text, and it preserves both wherever they are compatible. Where they genuinely are not, it picks the side matching the merge's stated goal and names the trade-off. It invents no new behaviour to paper over a clash, and `--abort` is not an option it has: the merge is always carried to a finished commit.
+Il refuse de traiter un conflit comme un problème de texte. Avant de toucher un morceau, il retrace chaque côté jusqu'à sa **[source principale](https://www.aihero.dev/ai-coding-dictionary/primary-source)** — le message de validation, le PR, le problème d'origine — il choisit donc entre deux intentions plutôt qu'entre deux blocs de texte, et il préserve les deux partout où ils sont compatibles. Là où ce n’est vraiment pas le cas, il choisit le camp qui correspond à l’objectif déclaré de la fusion et nomme le compromis. Il n'invente aucun nouveau comportement pour masquer un conflit, et `--abort` n'est pas une option dont il dispose : la fusion est toujours effectuée jusqu'à un commit terminé.
 
-## When to reach for it
+## Quand l’utiliser
 
-Type `/resolving-merge-conflicts`, or the [agent](https://www.aihero.dev/ai-coding-dictionary/agent) reaches for it automatically when a task fits.
+Tapez `/resolving-merge-conflicts`, ou l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) l'atteint automatiquement lorsqu'une tâche convient.
 
-Reach for it when git has already stopped on conflicts it could not resolve itself. It is scoped to the conflict in front of you, not to anything either side of it:
+Atteignez-le lorsque git s'est déjà arrêté sur des conflits qu'il n'a pas pu résoudre lui-même. Cela concerne le conflit en face de vous, et non aucun des deux côtés :
 
-| Your situation | Skill |
+| Votre situation | Compétence |
 | --- | --- |
-| Mid-merge or mid-rebase, conflict markers in the tree | This one |
-| Merge finished, something now misbehaves for reasons you can't see | [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) |
-| Planning how to slice work so branches collide less | Neither — see the parallel-work question below |
+| Mi-fusion ou mi-rebase, marqueurs de conflit dans l'arborescence | Celui-ci |
+| Fusion terminée, quelque chose se comporte mal pour des raisons que vous ne pouvez pas voir | [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) |
+| Planifier comment découper le travail pour que les branches entrent moins en collision | Ni l'un ni l'autre — voir la question du travail parallèle ci-dessous |
 
-## Primary sources over `ours` and `theirs`
+## Sources primaires sur `ours` et `theirs`
 
-The failure mode this exists to kill is resolving by flag: `--ours`, `--theirs`, or hand-deleting whichever block looks less important, so the markers go away and the build compiles. That resolution can be syntactically perfect and still silently drop a change somebody made on purpose.
+Le mode d'échec qui existe pour tuer est résolu par le drapeau : `--ours`, `--theirs`, ou par la suppression manuelle du bloc qui semble le moins important, de sorte que les marqueurs disparaissent et que la construction se compile. Cette résolution peut être syntaxiquement parfaite tout en laissant tomber silencieusement une modification faite exprès par quelqu'un.
 
-You cannot preserve an intent you have not read. So the work starts in the history — commits, PRs, [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) — and only then moves to the diff. Another step in the loop exists for the same reason: the skill finds the repo's own [automated checks](https://www.aihero.dev/ai-coding-dictionary/automated-check) and runs them before committing, because a merge is the easiest place in git to produce code that satisfies both branches and passes neither's tests.
+Vous ne pouvez pas conserver une intention que vous n'avez pas lue. Ainsi, le travail commence dans l'historique — commits, PR, [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) — et passe ensuite seulement au diff. Une autre étape dans la boucle existe pour la même raison : la compétence trouve les propres [vérifications automatisées](https://www.aihero.dev/ai-coding-dictionary/automated-check) du dépôt et les exécute avant de valider, car une fusion est l'endroit le plus simple dans git pour produire du code qui satisfait aux deux branches et ne réussit aucun des tests.
 
-## Common questions
+## Questions fréquentes
 
-**Claude Code already resolves conflicts pretty well on its own. Why does this need a skill?**
+**Codex résout déjà assez bien les conflits tout seul. Pourquoi cela nécessite-t-il une compétence ?**
 
-The added value is the "find the primary sources" and "run feedback loops" steps, which otherwise have to be prompted by hand every time. An unprompted agent will usually produce a plausible resolution from the diff alone and stop there. The skill's value is the two steps it will not let the agent skip — reading why each side exists, and running the checks afterwards. That is a thin margin over a good [model](https://www.aihero.dev/ai-coding-dictionary/model), and it is meant to be: at least one reader has predicted this is a whole skill that becomes a no-op as models improve.
+La valeur ajoutée réside dans les étapes « trouver les sources primaires » et « exécuter des boucles de rétroaction », qui autrement doivent être déclenchées manuellement à chaque fois. Un agent spontané produira généralement une résolution plausible à partir du seul diff et s'arrêtera là. La valeur de la compétence correspond aux deux étapes qu'elle ne permettra pas à l'agent de sauter : lire pourquoi chaque côté existe et exécuter les vérifications par la suite. C'est une mince marge par rapport à un bon [modèle](https://www.aihero.dev/ai-coding-dictionary/model), et c'est censé l'être : au moins un lecteur a prédit qu'il s'agit d'une compétence globale qui devient inutile à mesure que les modèles s'améliorent.
 
-**Should I keep parallel agents off the same files to avoid conflicts in the first place?**
+**Dois-je éloigner les agents parallèles des mêmes fichiers pour éviter les conflits en premier lieu ?**
 
-Mostly no. Zoning files off between parallel tasks costs more than it saves, because agents are good enough at merge conflicts that the tradeoff is not as harsh as it looks. The one piece of discipline worth keeping is to do large refactors first. A large rename landing after ten branches have forked off it is the case that stays expensive.
+Surtout non. Le zonage des fichiers entre des tâches parallèles coûte plus cher qu'il n'en économise, car les agents sont suffisamment doués pour gérer les conflits de fusion pour que le compromis ne soit pas aussi difficile qu'il y paraît. La seule discipline à conserver est de commencer par effectuer de grands refactors. Un grand changement de nom après que dix branches ont été dédoublées, c'est le cas qui reste cher.
 
-One caveat from a user report on parallel worktrees: when sibling [sessions](https://www.aihero.dev/ai-coding-dictionary/session) each build a ticket in their own tree, the merge back is best done by the session that wrote the change, because it is the one that already knows the intent. Batching everybody's conflicts onto one agent at the end throws away exactly the [context](https://www.aihero.dev/ai-coding-dictionary/context) step 2 of this skill has to go and reconstruct.
+Une mise en garde d'un rapport d'utilisateur sur les arbres de travail parallèles : lorsque des frères et sœurs [sessions](https://www.aihero.dev/ai-coding-dictionary/session) créent chacun un ticket dans leur propre arbre, la fusion est mieux effectuée par la session qui a écrit la modification, car c'est celle qui connaît déjà l'intention. Regrouper les conflits de tout le monde sur un seul agent à la fin jette exactement le [contexte](https://www.aihero.dev/ai-coding-dictionary/context) que l'étape 2 de cette compétence doit reconstruire.
 
-**Why never `--abort`?**
+**Pourquoi jamais `--abort` ?**
 
-Aborting throws away the resolution work and returns you to the same conflict, unchanged, the next time you try. The skill is written for the case where the merge is going to happen. If you have decided it should not happen, that is a decision to make before invoking, not a branch inside the loop.
+Abandonner annule le travail de résolution et vous ramène au même conflit, inchangé, la prochaine fois que vous essayez. La compétence est écrite pour le cas où la fusion va avoir lieu. Si vous avez décidé que cela ne devrait pas se produire, c'est une décision à prendre avant d'invoquer, et non une branche à l'intérieur de la boucle.
 
-## It's working if
+## Indicateurs de réussite
 
-- The agent quotes commit messages, PRs or issues at you while resolving, not just diff hunks.
-- Every hunk ends up with both sides' behaviour, or with an explicit note naming what was dropped and why.
-- Nothing appears in the result that was on neither branch.
-- Typecheck, tests and format were located and run green *before* the commit, not after you noticed something broken.
-- You end on a clean tree with the operation completed — including every remaining commit in a multi-commit rebase.
+- L’agent cite des messages de commit, des pull requests ou des tickets pour justifier la résolution, pas seulement les fragments en conflit.
+- Chaque morceau se retrouve avec le comportement des deux côtés, ou avec une note explicite nommant ce qui a été abandonné et pourquoi.
+- Rien n'apparaît dans le résultat qui ne se trouvait sur aucune des deux branches.
+- Typecheck, tests et format ont été localisés et exécutés en vert *avant* la validation, pas après que vous ayez remarqué quelque chose de cassé.
+- Vous terminez sur une arborescence propre avec l'opération terminée, y compris chaque validation restante dans un rebase multi-validation.
 
-## Where it fits
+## Où il s’inscrit
 
-A reach-for-it-anytime standalone with no dependencies on any other skill: it starts when git stalls and ends when the tree is clean and committed. Its only real neighbour is [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs), which takes over at the point where a merge resolved cleanly but the merged code misbehaves — a diagnosis problem, not a conflict one. It sits off the main idea-to-ship flow entirely, so [ask-matt](https://aihero.dev/skills-ask-matt) is the map for what runs before and after it.
+Un outil autonome accessible à tout moment, sans dépendance à aucune autre compétence : il commence lorsque git s'arrête et se termine lorsque l'arborescence est propre et validée. Son seul véritable voisin est [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs), qui prend le relais au moment où une fusion est résolue proprement mais où le code fusionné se comporte mal - un problème de diagnostic, pas de conflit. Il s'éloigne entièrement du flux principal de l'idée à l'expédition, donc [ask-matt](https://aihero.dev/skills-ask-matt) est la carte de ce qui se déroule avant et après.

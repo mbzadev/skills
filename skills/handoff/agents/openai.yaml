@@ -1,0 +1,5 @@
+interface:
+  display_name: "Passation"
+  short_description: "Condenser une conversation en document de passation"
+policy:
+  allow_implicit_invocation: false

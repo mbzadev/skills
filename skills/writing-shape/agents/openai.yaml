@@ -1,0 +1,5 @@
+interface:
+  display_name: "Mise en forme rédactionnelle"
+  short_description: "Transformer la matière brute en article"
+policy:
+  allow_implicit_invocation: false

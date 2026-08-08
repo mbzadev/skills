@@ -1,0 +1,5 @@
+interface:
+  display_name: "Demander à Matt"
+  short_description: "Trouver le bon skill ou flux de travail"
+policy:
+  allow_implicit_invocation: false

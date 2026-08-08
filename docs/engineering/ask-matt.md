@@ -1,90 +1,88 @@
-## What it does
+## Ce qu’il fait
 
-`ask-matt` is the router over the skills in this repo. You describe the situation you are in — an idea you cannot start, a pile of incoming bug reports, a [session](https://www.aihero.dev/ai-coding-dictionary/session) that has run long — and it names the skill or the sequence of skills that fits, plus where the human decisions in that sequence sit.
+`ask-matt` est le routeur sur les compétences de ce dépôt. Vous décrivez la situation dans laquelle vous vous trouvez - une idée que vous ne pouvez pas démarrer, une pile de rapports de bugs entrants, une [session](https://www.aihero.dev/ai-coding-dictionary/session) qui a duré longtemps - et vous nommez la compétence ou la séquence de compétences qui correspond, ainsi que la position des décisions humaines dans cette séquence.
 
-It recommends and stops. It does not grill, write a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), open a file or fire the skill it just named; what you get back is the next thing to type, and you type it. It is also a hand-written map of the skills in this repo rather than a scan of what you have installed, so it will not route you over your own skills or another author's.
+Il recommande et s'arrête. Il ne grille pas, n'écrit pas de [spec](https://www.aihero.dev/ai-coding-dictionary/spec), n'ouvre pas de fichier ou ne déclenche pas la compétence qu'il vient de nommer ; ce que vous obtenez en retour est la prochaine chose à taper, et vous la tapez. Il s'agit également d'une carte manuscrite des compétences de ce dépôt plutôt que d'une analyse de ce que vous avez installé, elle ne vous fera donc pas passer par vos propres compétences ou celles d'un autre auteur.
 
-## When to reach for it
+## Quand l’utiliser
 
-You invoke this by typing `/ask-matt` — the agent won't reach for it on its own.
+Vous l'invoquez en tapant `/ask-matt`  : l'agent ne l'atteindra pas tout seul.
 
-| Your situation | What the router gives back |
+| Votre situation | Ce que le routeur rend |
 | --- | --- |
-| An idea, and no idea where to start | The head of the main flow, and whether the build is small enough to skip the spec |
-| Bugs and requests arriving from other people | The [triage](https://aihero.dev/skills-triage) on-ramp, and why [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) you generated yourself don't belong on it |
-| Two skills that look interchangeable | The line between them, and it is usually one concrete test rather than a matter of taste. [grill-me](https://aihero.dev/skills-grill-me) or [grill-with-docs](https://aihero.dev/skills-grill-with-docs) turns on whether you are in a working directory; [grill-with-docs](https://aihero.dev/skills-grill-with-docs) or [wayfinder](https://aihero.dev/skills-wayfinder) turns on whether the effort fits one session |
-| A long session and a decision about the [context](https://www.aihero.dev/ai-coding-dictionary/context) | The ordered tree over the five options at a phase boundary |
-| A skill you have already picked | Nothing useful. Invoke that skill directly. |
+| Une idée, mais aucune idée par où commencer | La tête du flux principal et si la build est suffisamment petite pour ignorer la spécification |
+| Bugs et demandes provenant d'autres personnes | La rampe d'accès [triage](https://aihero.dev/skills-triage), et pourquoi les [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) que vous avez générés vous-même n'y appartiennent pas |
+| Deux compétences qui semblent interchangeables | La frontière entre eux, et c'est généralement un test concret plutôt qu'une question de goût. [grill-me](https://aihero.dev/skills-grill-me) ou [grill-with-docs](https://aihero.dev/skills-grill-with-docs) s'active si vous êtes dans un répertoire de travail ; [grill-with-docs](https://aihero.dev/skills-grill-with-docs) ou [wayfinder](https://aihero.dev/skills-wayfinder) active si l'effort correspond à une session |
+| Une longue séance et une décision sur le [contexte](https://www.aihero.dev/ai-coding-dictionary/context) | L'arbre ordonné sur les cinq options à une limite de phase |
+| Une compétence que vous avez déjà choisie | Rien d'utile. Invoquez cette compétence directement. |
 
-## Prerequisites
+## Prérequis
 
-The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable, and it only knows the promoted skills in this repo.
+Le routeur nomme les compétences ; il ne les installe pas. Tout ce qu'il pointe doit être installé pour que la recommandation soit exploitable, et il ne connaît que les compétences promues dans ce dépôt.
 
-The tracker-dependent routes — triage, `to-spec`, `to-tickets`, `implement` — assume [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) has already configured an issue tracker in the repo. The router will happily recommend them before that has happened.
+Les itinéraires dépendants du tracker — triage, `to-spec`, `to-tickets`, `implement` — supposent que [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) a déjà configuré un outil de suivi des problèmes dans le dépôt. Le routeur se fera un plaisir de les recommander avant que cela ne se produise.
 
-## Flows, not skills
+## Des flux, pas des compétences
 
-The word the skill gives you to think with is **flow**: a path *through* the skills, not a single one. Naming your situation places you on a flow at a step, which is a different answer from "here is the skill that matches your keywords". Four kinds of route exist, and the skill itself carries them in full:
+Le mot avec lequel la compétence vous permet de réfléchir est **flux** : un chemin *à travers* les compétences, pas un seul. Nommer votre situation vous place sur un flux à une étape, ce qui est une réponse différente de « voici la compétence qui correspond à vos mots-clés ». Il existe quatre types de parcours, et la compétence elle-même les porte intégralement :
 
-- **The main flow**, idea to ship. Grill, spec, tickets, implement, review, with two branches inside it: a prototype detour when a question needs runnable code to settle, and the spec-and-tickets split, which only earns its cost when the build spans more than one session.
-- **On-ramps**, for a situation that generates work and then merges onto the main flow: incoming bug reports, something broken, or an effort too foggy and too large to hold in one session.
-- **Standalones**, off every flow, reached for on their own terms — the prototype, the questionnaire, the merge conflict you are already sitting in.
-- **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
+- **Le flux principal**, idée d'expédition. Grill, spécification, tickets, implémentation, révision, avec deux branches à l'intérieur : un détour de prototype lorsqu'une question nécessite un code exécutable pour être réglé, et la séparation spécifications-tickets, qui ne rapporte son coût que lorsque la construction s'étend sur plus d'une session.
+- **On-ramps**, pour une situation qui génère du travail puis se fond dans le flux principal : rapports de bugs entrants, quelque chose de cassé, ou un effort trop flou et trop important pour tenir en une seule session.
+- **Autonomes**, issus de chaque flux, recherchés selon leurs propres conditions : le prototype, le questionnaire, le conflit de fusion dans lequel vous êtes déjà assis.
+- **Une couche de vocabulaire en dessous**, les deux références que les autres compétences intègrent lorsque les mots plutôt que le processus sont le problème.
 
-## The phase boundary
+## La limite de phase
 
-The other idea it hands you is the **phase boundary**. A phase is a chunk of work inside a session — the [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), the implementation, the QA — and the boundary between two of them is the only place the question "what do I do with this context?" belongs. Mid-phase there is nothing to decide: continue, or split what is left into [subagents](https://www.aihero.dev/ai-coding-dictionary/subagent).
-
-| Option | Take it when |
+L'autre idée qu'il vous propose est la **limite de phase**. Une phase est une partie du travail au sein d'une session - le [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), la mise en œuvre, le contrôle qualité - et la frontière entre deux d'entre elles est le seul endroit où se pose la question « que dois-je faire avec ce contexte ? appartient. À mi-phase, il n'y a rien à décider : continuez ou divisez ce qui reste en [sous-agents](https://www.aihero.dev/ai-coding-dictionary/subagent).| Options | Prenez-le quand |
 | --- | --- |
-| **Continue** | The next phase wants this one verbatim, or you have [smart zone](https://www.aihero.dev/ai-coding-dictionary/smart-zone) left. It is the only move that keeps the session as a [primary source](https://www.aihero.dev/ai-coding-dictionary/primary-source), so rule it out first |
-| **`/clear`** | Everything behind you is disposable. Cheapest move on the board, and one-way if you were wrong |
-| **[handoff](https://aihero.dev/skills-handoff)** | Something has to travel: a new [harness](https://www.aihero.dev/ai-coding-dictionary/harness), a new directory, a colleague, a side task forked mid-phase |
-| **Subagent** | The task is scoped tightly enough to run with you [away from the keyboard](https://www.aihero.dev/ai-coding-dictionary/afk) |
-| **`/compact`** | None of the above. The default, and it lands here often |
+| **Continuer** | La phase suivante veut celle-ci textuellement, ou il vous reste [zone intelligente](https://www.aihero.dev/ai-coding-dictionary/smart-zone). C'est le seul mouvement qui maintient la session comme [source primaire](https://www.aihero.dev/ai-coding-dictionary/primary-source), alors excluez-la d'abord |
+| **`/clear`** | Tout ce qui est derrière vous est jetable. Coup le moins cher du tableau, et aller simple si vous vous trompez |
+| **[transfert](https://aihero.dev/skills-handoff)** | Quelque chose doit voyager : un nouveau [harnais](https://www.aihero.dev/ai-coding-dictionary/harness), un nouvel annuaire, un collègue, une tâche secondaire démarrée à mi-phase |
+| **Sous-agent** | La tâche est suffisamment limitée pour être exécutée avec vous [loin du clavier](https://www.aihero.dev/ai-coding-dictionary/afk) |
+| **`/compact`** | Aucune des réponses ci-dessus. La valeur par défaut, et elle arrive souvent ici |
 
-Two of those are routinely got wrong, which is why the router carries the order rather than the list. `/handoff` reads like the general bridge between windows and is not: portability is the whole of what it buys. `/compact` is the bottom of the tree rather than the first reach, because the four questions above it are each cheaper or more precise.
+Deux d'entre eux se trompent régulièrement, c'est pourquoi le routeur transmet la commande plutôt que la liste. `/handoff` se lit comme le pont général entre les fenêtres et ne l'est pas : la portabilité est la totalité de ce qu'il achète. `/compact` est le bas de l'arbre plutôt que la première portée, car les quatre questions au-dessus sont chacune moins chères ou plus précises.
 
-## Common questions
+## Questions fréquentes
 
-**Isn't there just a list of the skills in the right order?**
+**N'y a-t-il pas simplement une liste des compétences dans le bon ordre ?**
 
-People keep asking for one in the README. This skill is that list — it is what it exists for. A static table would say `wayfinder → to-spec → to-tickets → implement → code-review` and be wrong for most situations, because the interesting parts are the branches — is there a codebase, does the build span sessions, can this question be settled by talking. The honest cost is that the router is hand-maintained and lags the repo. `/grilling` and `/resolving-merge-conflicts` both shipped long before the router named them.
+Les gens continuent d’en demander un dans le README. Cette compétence est cette liste – c’est pour cela qu’elle existe. Une table statique dirait  `wayfinder → to-spec → to-tickets → implement → code-review`  et serait fausse dans la plupart des situations, car les parties intéressantes sont les branches - existe-t-il une base de code, la construction s'étend-elle sur les sessions, cette question peut-elle être réglée en parlant. Le coût honnête est que le routeur est entretenu manuellement et est en retard sur le dépôt. `/grilling` et `/resolving-merge-conflicts` tous deux expédiés bien avant que le routeur ne les nomme.
 
-**It told me half the skills aren't installed.**
+**Il m'a dit que la moitié des compétences ne sont pas installées.**
 
-A known bug, unfixed. Most of the skills the router routes you through set `disable-model-invocation: true`, which means the harness leaves them out of the skill list it injects into the agent's context. The agent reads that list as exhaustive and reports them missing. One reported session had it declare the whole spec-and-tickets flow absent and reroute to bare `/grilling` and `/tdd`. Thirteen of the plugin's twenty-two skills carry the flag, so this is the common case rather than an edge. They are installed. Type the slash command anyway, or check `.claude-plugin/plugin.json`, which is the authority on what is present.
+Les skills orchestrateurs sont volontairement configurés avec `policy.allow_implicit_invocation: false` dans `agents/openai.yaml`. Ils restent installés et accessibles sur demande explicite, même si Codex ne les déclenche pas automatiquement. En cas de doute, appelez le skill par son nom ou vérifiez le répertoire `skills/` référencé par `.codex-plugin/plugin.json`.
 
-**It described a skill's behaviour, and the skill doesn't do that.**
+**Il décrit le comportement d'une compétence, et la compétence ne fait pas cela.**
 
-Also real, also unfixed. The router answers from its own one-line summary of each skill rather than from the skill. One detailed report tracked three instances in a single session, including a recommendation to skip [to-spec](https://aihero.dev/skills-to-spec) on the strength of the gloss "turn the thread into a spec" — `to-spec/SKILL.md` was never opened. In every case it verified only after the user pushed back, and never on its own initiative. Skipping `to-spec` there cost a real seam check, and the tickets that came out undercounted the work. When the router asserts something load-bearing about another skill, ask it to open that `SKILL.md` first. The same applies to questions the map does not cover at all, such as whether to use [plan mode](https://www.aihero.dev/ai-coding-dictionary/agent-mode): that answer is the [model](https://www.aihero.dev/ai-coding-dictionary/model)'s inference, not something written down here.
+Aussi réel, aussi non fixé. Le routeur répond à partir de son propre résumé d'une ligne de chaque compétence plutôt qu'à partir de la compétence elle-même. Un rapport détaillé a suivi trois instances au cours d'une seule session, y compris une recommandation de sauter [à la spécification](https://aihero.dev/skills-to-spec) sur la base de la glose "transformer le fil en spécification" -  `to-spec/SKILL.md`  n'a jamais été ouvert. Dans tous les cas, la vérification n'a eu lieu qu'après que l'utilisateur a repoussé la demande, et jamais de sa propre initiative. Sauter `to-spec` il y a eu un véritable contrôle des coutures, et les tickets qui sont sortis sous-estimaient le travail. Lorsque le routeur affirme quelque chose de porteur à propos d'une autre compétence, demandez-lui d'ouvrir cette `SKILL.md` d'abord. La même chose s'applique aux questions que la carte ne couvre pas du tout, comme par exemple s'il faut utiliser le [mode plan](https://www.aihero.dev/ai-coding-dictionary/agent-mode) : cette réponse est l'inférence du [modèle](https://www.aihero.dev/ai-coding-dictionary/model), pas quelque chose d'écrit ici.
 
-**Why is it prose instead of a numbered checklist?**
+**Pourquoi est-ce de la prose au lieu d'une liste de contrôle numérotée ?**
 
-A fair complaint, filed as an open issue arguing that most of the routing is deterministic and the narrative makes it hard to scan. Nothing stops you asking for the compressed form — "just give me the sequence" gets you the sequence. What the prose is carrying is the conditional half: the branches, where a human decision is expected, and where to clear or compact between steps. A flat checklist drops exactly that.
+Une plainte juste, déposée comme une question ouverte, affirmant que la majeure partie du routage est déterministe et que le récit rend difficile à analyser. Rien ne vous empêche de demander le formulaire compressé : "donnez-moi simplement la séquence" vous obtenez la séquence. Ce que porte la prose, c'est la moitié conditionnelle : les branches, où une décision humaine est attendue, et où dégager ou compacter entre les étapes. Une liste de contrôle plate répond exactement à cela.
 
-**Can it route over my own skills, or another author's?**
+**Peut-il utiliser mes propres compétences ou celles d'un autre auteur ?**
 
-No. Three separate proposals have asked for a router that reads your local `skills/` directory and recommends from whatever is installed. `ask-matt` is not that. It is a map of one set, maintained by hand, and it knows nothing about skills you wrote or installed from elsewhere.
+Non. Trois propositions distinctes ont demandé un routeur qui lit votre répertoire local `skills/`  et recommande tout ce qui est installé. `ask-matt` n'est pas cela. Il s'agit d'une carte d'un ensemble, entretenue à la main, et elle ne sait rien des compétences que vous avez écrites ou installées ailleurs.
 
-**It told me to edit a SKILL.md.**
+**Il m'a dit de modifier un SKILL.md.**
 
-That advice is often correct and rarely durable. Someone asked it how to make [implement](https://aihero.dev/skills-implement) close tickets, got told to add a line to the skill, and immediately spotted the problem: `npx skills update` overwrites the file, and the plugin install is read-only. Put standing behaviour in your own `CLAUDE.md` or `AGENTS.md`, or say it in the invocation. Prompt-level adaptations survive updates — pointing the flow at Linear instead of GitHub, or asking it which open tickets could run in parallel, are both things people do this way.
+Ce conseil est souvent correct et rarement durable. Quelqu'un lui a demandé comment faire en sorte que [implement](https://aihero.dev/skills-implement) ferme les tickets, on lui a dit d'ajouter une ligne à la compétence et a immédiatement repéré le problème : `npx skills update` écrase le fichier et l'installation du plugin est en lecture seule. Mettez le comportement debout dans le vôtre `AGENTS.md`, ou dites-le dans l'invocation. Les adaptations au niveau des invites survivent aux mises à jour : diriger le flux vers Linear au lieu de GitHub, ou lui demander quels tickets ouverts pourraient fonctionner en parallèle, sont deux choses que les gens font de cette façon.
 
-**It named a skill I don't have, or missed one I do.**
+**Il a nommé une compétence que je n'ai pas, ou j'en ai manqué une.**
 
-Check the changelog for a rename before assuming it is gone. `writing-great-skills` became [writing-for-agents](https://aihero.dev/skills-writing-for-agents) with no alias, `to-prd` became [to-spec](https://aihero.dev/skills-to-spec), and `pathfinder` became [wayfinder](https://aihero.dev/skills-wayfinder). Four skills were retired outright into the skills that absorbed them: `ubiquitous-language`, `design-an-interface`, `qa` and `request-refactor-plan`. The reverse case is the router's own lag, above.
+Vérifiez le journal des modifications pour un changement de nom avant de supposer qu'il a disparu. `writing-great-skills` est devenu [writing-for-agents](https://aihero.dev/skills-writing-for-agents) sans alias, `to-prd` est devenu [to-spec](https://aihero.dev/skills-to-spec), et `pathfinder` est devenu [wayfinder](https://aihero.dev/skills-wayfinder). Quatre compétences ont été purement et simplement retirées dans les compétences qui les absorbaient : `ubiquitous-language`, `design-an-interface`, `qa` et `request-refactor-plan`. Le cas inverse est le décalage du routeur, ci-dessus.
 
-## It's working if
+## Indicateurs de réussite
 
-- It ends by naming what to type and stops there, instead of starting the work itself.
-- The route it gives back mentions where to clear or compact context and where you are expected to review, not just a list of skill names.
-- Where two skills are close, it says which one and why the other is wrong for you.
-- Any claim it makes about another skill's behaviour shows up in the trace as it reading that skill's `SKILL.md`.
-- You recognise your own situation in what it hands back, rather than the nearest generic scenario.
+- Il se termine par nommer ce qu'il faut taper et s'arrête là, au lieu de commencer le travail lui-même.
+- L'itinéraire qu'il renvoie mentionne où effacer ou compacter le contexte et où vous êtes censé réviser, pas seulement une liste de noms de compétences.
+- Lorsque deux compétences sont proches, il indique laquelle et pourquoi l'autre ne vous convient pas.
+- Toute affirmation concernant le comportement d'une autre compétence apparaît dans la trace lors de la lecture du `SKILL.md` de cette compétence.
+- Vous reconnaissez votre propre situation dans ce qu'elle vous rend, plutôt que dans le scénario générique le plus proche.
 
-## Where it fits
+## Où il s’inscrit
 
-`ask-matt` is a **standalone router** that sits over the whole set. It is never a step in a chain; it points into every chain, and it is the node the other docs pages link back to so none of them has to redraw the graph. From here you most often land on [grill-with-docs](https://aihero.dev/skills-grill-with-docs), the head of the main flow, or [triage](https://aihero.dev/skills-triage), the on-ramp for work that arrived rather than work you started.
+`ask-matt` est un **routeur autonome** qui s'étend sur l'ensemble de l'ensemble. Ce n’est jamais une étape dans une chaîne ; il pointe vers chaque chaîne, et c'est le nœud auquel les autres pages de documentation renvoient donc aucune d'entre elles n'a besoin de redessiner le graphique. De là, vous atterrissez le plus souvent sur [grill-with-docs](https://aihero.dev/skills-grill-with-docs), la tête du flux principal, ou [triage](https://aihero.dev/skills-triage), la rampe d'accès au travail arrivé plutôt qu'au travail que vous avez commencé.
 
-It is a [secondary source](https://www.aihero.dev/ai-coding-dictionary/secondary-source) over the skills it describes. Where the router and a `SKILL.md` disagree, the `SKILL.md` is right.
+Il s'agit d'une [source secondaire](https://www.aihero.dev/ai-coding-dictionary/secondary-source) sur les compétences qu'elle décrit. Là où le routeur et un `SKILL.md` ne sont pas d'accord, le `SKILL.md` a raison.

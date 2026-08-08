@@ -1,0 +1,3 @@
+interface:
+  display_name: "Résolution des conflits de fusion"
+  short_description: "Résoudre les conflits de fusion et de rebase"

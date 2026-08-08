@@ -1,0 +1,5 @@
+interface:
+  display_name: "Questionner avec la documentation"
+  short_description: "Mettre une conception à l’épreuve et la documenter"
+policy:
+  allow_implicit_invocation: false

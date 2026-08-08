@@ -1,96 +1,96 @@
-# Writing docs pages
+# Rédaction des pages de documentation
 
-Every skill in `engineering/` and `productivity/` has a human-facing **docs page** at `docs/<bucket>/<skill-name>.md` — the docs tree mirrors those two bucket folders under `skills/`. It is published at `https://aihero.dev/skills-<skill-name>`; the URL is always `skills-<skill-name>` regardless of bucket, so the docs path is repo organisation only. The page is not the skill and not a copy of `SKILL.md`. Only these two buckets are promoted; the rest (`misc/`, `in-progress/`, `deprecated/`) ship no docs page.
+Chaque skill classé dans `engineering/` ou `productivity/` sous `catalog/` possède une page de documentation destinée aux utilisateurs dans `docs/<catégorie>/<nom-du-skill>.md`. Les skills eux-mêmes restent stockés à plat sous `skills/`, comme l’exige le format des plugins Codex. La page est publiée à `https://aihero.dev/skills-<nom-du-skill>` quelle que soit sa catégorie. Elle présente le skill sans recopier son `SKILL.md`. Les catégories `misc/`, `in-progress/` et `deprecated/` ne disposent d’aucune page publique.
 
-Most of these skills are **user-invoked**: the agent will never fire them for you, so *you* are the index that has to remember they exist and when to reach for them. That memory is **cognitive load**. The job of a docs page is to relieve it — to orient one reader around one skill so they can hold it in their head, know when to reach for it, and see where it sits in the system. The pages are collectively a distributed router; each is a node.
+La plupart de ces **skills** sont **invocées par l'utilisateur** : l'agent ne les lancera jamais pour vous, de sorte que *vous* êtes l'index qui doit se souvenir de leur existence et de quand il faut les utiliser. Ce souvenir constitue une **charge cognitive**. Le rôle d'une page de documentation est de la soulager — d'orienter un lecteur autour d'un seul skill afin qu'il puisse le garder en tête, savoir quand l'utiliser et voir où il se situe dans le système. Les pages forment collectivement un routeur distribué ; chacune est un nœud.
 
-Act whenever a promoted skill is added, renamed, or has its behaviour changed: create or re-sync its docs page. A rename moves the file too (`docs/<bucket>/<old>.md` → `docs/<bucket>/<new>.md`), because the published URL tracks the name; a skill that moves between `engineering/` and `productivity/` moves its docs file to the matching folder. Skills in `misc/`, `in-progress/`, and `deprecated/` get no page — none of those buckets is promoted. A skill moving *out* of one of them into `engineering/` or `productivity/` gains a page; one moving the other way loses it.
+Agissez dès qu’un skill promu est ajouté, renommé ou modifié : créez ou resynchronisez sa page. Un renommage déplace aussi le fichier (`docs/<catégorie>/<ancien>.md` → `docs/<catégorie>/<nouveau>.md`) puisque l’URL publiée suit le nom. Un changement entre `engineering/` et `productivity/` déplace la page vers le dossier correspondant. Un skill promu depuis une catégorie non publique acquiert une page ; un skill rétrogradé la perd.
 
-Because these pages are published on `aihero.dev`, **every link is absolute** — never a repo-relative path. A link to another skill points at `https://aihero.dev/skills-<name>`; a link into the repo points at its full `https://github.com/mattpocock/skills/...` URL. A relative link that works in the repo breaks once published.
+Comme ces pages sont publiées sur `aihero.dev`, **chaque lien est absolu**. Un lien vers un autre skill pointe vers `https://aihero.dev/skills-<nom>` ; un lien vers le dépôt utilise l’URL complète `https://github.com/mbzadev/skills/...`. Un lien relatif fonctionnant dans le dépôt serait rompu après publication.
 
-There is no H1 — the published page takes its title from the slug.
+Il n'y a pas de H1 — la page publiée prend son titre depuis le slug.
 
-## Page structure
+## Structure de la page
 
-Fill the template below, keeping its order. The **fixed frame** (`## What it does`, `## When to reach for it`, `## Where it fits`) appears on every page. `## Prerequisites` and the free-form substance sections carry only what this particular skill needs; delete the rest.
+Remplissez le modèle ci-dessous dans l’ordre indiqué. Le cadre fixe — `## Ce qu’il fait`, `## Quand l’utiliser` et `## Où il s’inscrit` — apparaît sur chaque page. La section `## Prérequis` et les sections libres ne contiennent que ce dont le skill concerné a réellement besoin.
 
-Four sections make a page worth reading: `What it does`, `When to reach for it`, `Common questions`, `It's working if`. The first two orient the reader; the last two are where the page stops summarising the skill and starts answering the reader's own situation. Each of the last two has a bar to clear, below — but treat a page that clears neither as unfinished, not as finished-and-short.
+Quatre sections donnent sa valeur à la page : `Ce qu’il fait`, `Quand l’utiliser`, `Questions fréquentes` et `Indicateurs de réussite`. Les deux premières orientent le lecteur ; les deux suivantes répondent à ses situations concrètes. Une page qui ne contient ni véritables questions ni critères observables reste inachevée.
 
-**A page carries no install commands.** The ai-hero page template renders the install widget itself — a copy button, the single-skill command, the whole-set command, and the update line — above the body. A page that also writes them out shows the reader the same command twice, and the two copies drift: the hand-written pair on every page went stale against the widget beside it. Install wording is a property of the site, not of the page. If it needs changing, change it in ai-hero; the canonical wording lives in [the install block](./install-block.md).
+**Une page ne contient aucune commande d'installation.** Le modèle de page d’aihero.dev affiche déjà le module d’installation — bouton de copie, commande pour un seul skill, commande pour l’ensemble et commande de mise à jour — au-dessus du contenu. Répéter ces commandes dans la page les afficherait deux fois et créerait deux versions susceptibles de diverger. La formulation des instructions d’installation appartient au site, pas à chaque page. Si elle doit évoluer, modifiez-la dans aihero.dev ; la version canonique se trouve dans [le bloc d'installation](./install-block.md).
 
 <page-template>
 
-## What it does
+## Ce qu’il fait
 
-One or two plain-language paragraphs. Lead with the skill's one-sentence job, then state the **defining constraint** — the single fact that makes this skill behave differently from the obvious default (for `to-spec`: it does not interview the user again, it synthesises what is already known). Write it as a plain declarative sentence — never a labelled aside like "The defining constraint:" or "The key thing:"; the formula reads as filler. This line is the most valuable on the page; never omit it.
+Un ou deux paragraphes en langage courant. Commencez par la mission en une phrase de la skill, puis énoncez la **contrainte définissante** — le fait unique qui fait que cette skill se comporte différemment de la valeur par défaut évidente (pour `to-spec` : elle ne re-questionne pas l'utilisateur, elle synthétise ce qui est déjà connu). Rédigez-la comme une phrase déclarative simple — jamais une aside étiquetée comme « La contrainte définissante : » ou « L'élément clé : » ; la formule se lit comme du remplissage. Cette ligne est la plus précieuse sur la page ; ne l'ompez jamais.
 
-## When to reach for it
+## Quand l’utiliser
 
-How and when you reach for the skill — two beats, both effectively always present:
+Comment et quand vous saisissez la skill — deux points, tous deux effectivement toujours présents :
 
-- **Invocation mode.** State whether you type it or the agent fires it. A user-invoked skill: "You invoke this by typing `/<name>` — the agent won't reach for it on its own." A model-invoked skill: "Type `/<name>`, or the agent reaches for it automatically when a task fits."
-- **Trigger boundary.** The index entry: "reach for this when …". Where the skill is confusable with a sibling, add the other half — "for <X> instead, use [<sibling>](https://aihero.dev/skills-<sibling>)."
+- **Mode d’invocation.** Précisez si l’utilisateur appelle le skill ou si Codex peut le déclencher. Pour un skill réservé à l’utilisateur : « Invoquez-le avec `/<nom>` ; Codex ne le déclenche pas seul. » Pour un skill invocable par le modèle : « Appelez `/<nom>`, ou laissez Codex le sélectionner lorsqu’une tâche correspond. »
+- **Limite de déclenchement.** Écrivez « utilisez ce skill lorsque… ». S’il peut être confondu avec un voisin, ajoutez « pour <X>, utilisez plutôt [<skill voisin>](https://aihero.dev/skills-<skill-voisin>). »
 
-## Prerequisites
+## Prérequis
 
-Optional — include only when the skill needs something in place to be functional; omit the heading entirely otherwise. Covers: a **workspace it writes into** (a stateful skill like `grill-with-docs` writes `CONTEXT.md` and ADRs; `teach` builds a whole directory — say what it writes and where), **prior setup** (`triage`/`to-spec`/`to-tickets` need `setup-matt-pocock-skills` to have configured an issue tracker), or **repo-specific tooling**. A stateless skill that runs anywhere has no prerequisites — drop the section.
+Optionnel — incluez-le uniquement lorsque le skill dépend d’un élément préalable ; sinon, omettez entièrement la section. Cela couvre un **espace de travail dans lequel il écrit** — `grill-with-docs` crée `CONTEXT.md` et des ADR, tandis que `teach` construit un répertoire entier —, une **configuration préalable** — `triage`, `to-spec` et `to-tickets` nécessitent un outil de suivi configuré par `setup-matt-pocock-skills` — ou des **outils propres au dépôt**. Un skill sans état qui fonctionne partout n’a pas de prérequis.
 
-## <free-form middle>
+## <section libre>
 
-One to three short sections, in the skill's *own vocabulary*, that make it click — choose whatever headings fit the skill: the loop it runs, the artifact it produces, the fork it makes, the one anti-pattern it kills. There is no prescribed heading; the skills are too heterogeneous for one.
+Une à trois sections courtes, dans le *vocabulaire propre* du skill, qui le rendent intuitif — choisissez les intitulés adaptés : la boucle qu’il exécute, l’artefact qu’il produit, l’embranchement qu’il crée ou l’anti-modèle qu’il élimine. Aucun intitulé précis n’est imposé ; les skills sont trop différents pour partager une structure centrale unique.
 
-The single non-negotiable: **surface the skill's leading word / defining idea** — `tight` feedback loop, `deep module`, throwaway-code-answers-a-question, red-green. It pays off twice: the reader learns what the skill *is*, and learns the word they'll later think with to *reach for* it.
+L’exigence non négociable consiste à **mettre en avant le terme principal ou l’idée définissante du skill** : boucle de rétroaction courte, module profond, code jetable qui répond à une question, rouge-vert. Le lecteur comprend ainsi ce qu’est le skill et retient le terme qui lui permettra de le retrouver.
 
-## Common questions
+## Questions fréquentes
 
-The questions readers really ask about this skill, each in bold with the answer in the lines beneath it — no sub-headings.
+Les questions que les lecteurs posent vraiment à propos de cette skill, chacune en gras avec la réponse dans les lignes qui suivent — sans sous-titres.
 
-An observed question always beats an invented one, so go and find them before you write any:
+Une question observée bat toujours une question inventée, alors allez les chercher avant d'écrire quoi que ce soit :
 
-- **The wiki.** If `~/repos/matt/personal-wiki` exists on this machine, it is the richest source there is. Its `wiki/audience/` area is organised around what the audience wants, discusses, and **is confused by** — read `wiki/index.md` first for the registry of pages, then the pages bearing on this skill. Every page carries `sources:` linkbacks to the original X, Discord, GitHub, and email threads; the wiki is a secondary source, so quote the asker's own question rather than the wiki's summary of it. Skip this bullet where the directory does not exist.
-- **This repo's issues.** `gh issue list --repo mattpocock/skills --search "<skill-name>" --state all`. A question filed twice is a question the page owes an answer to.
-- **`CHANGELOG.md`.** Anything renamed, moved, or behaviourally changed generates a "where did it go?" that the page has to answer.
+- **Le wiki.** Si `~/repos/matt/personal-wiki` il existe sur cette machine, c'est la source la plus riche qui soit. Sa `wiki/audience/` zone est organisée autour de ce que le public veut, discute et **est confus par** — lisez `wiki/index.md` d'abord pour le registre des pages, puis les pages relatives à cette skill. Chaque page contient `sources:` des liens vers les fils d'origine X, Discord, GitHub et email ; le wiki est une source secondaire, alors citez la question propre de l'interrogé plutôt que le résumé du wiki. Omettez ce point si le répertoire n'existe pas.
+- **Les tickets du dépôt.** `gh issue list --repo mbzadev/skills --search "<nom-du-skill>" --state all`. Une question posée deux fois mérite une réponse dans la page.
+- **`CHANGELOG.md`.** Tout ce qui a été renommé, déplacé ou dont le comportement a changé génère un « où est-ce que c'est parti ? » que la page doit répondre.
 
-Where the hunt comes up thin, the section may also carry a question a reader would plainly ask — but **the count stays honest to the evidence**. A well-discussed skill earns six; an obscure one earns one or two, or none at all. Padding a thin skill out to match a rich one is how the section fills with questions nobody has, and an invented question teaches the reader nothing.
+Là où la recherche reste maigre, la section peut aussi porter une question qu'un lecteur poserait clairement — mais **le nombre reste honnête par rapport aux preuves**. Une skill bien discutée en vaut six ; une obscure en vaut une ou deux, ou rien du tout. Remplir une skill maigre pour qu'elle corresponde à une riche est la façon dont la section se remplit de questions que personne n'a, et une question inventée n'apprend rien au lecteur.
 
-Order them by how often each comes up, sharpest first, and say the unflattering thing where it is true — a very long grilling session usually means the scope was too big; a model asked to write its own skill produces something verbose. Omit the heading where there is nothing worth answering.
+Classez-les de la plus fréquente à la moins fréquente et dites aussi ce qui dérange lorsque c’est vrai : une très longue session de questions signifie généralement que le périmètre était trop vaste ; un modèle chargé d’écrire son propre skill produit souvent un résultat verbeux. Omettez la section s’il n’existe aucune question qui mérite une réponse.
 
-## It's working if
+## Indicateurs de réussite
 
-A few bullets naming what the reader sees when the skill is doing its job. The bar on each is that the reader can check it without opening `SKILL.md` — a signal in their own work, or in the trace in front of them. "The document gets shorter as it gets better" passes; "the library section is byte-identical to `template.sh`" is a compliance check on the skill's internals wearing this section's name. Include it wherever the tells are crisp; omit the heading where they stay vague.
+Quelques points clés décrivant ce que le lecteur observe lorsque le skill accomplit sa tâche. Chaque indicateur doit pouvoir être vérifié sans ouvrir `SKILL.md`, dans le travail produit ou dans la trace affichée. « Le document se raccourcit à mesure qu’il s’améliore » convient ; « la section de bibliothèque est identique à `template.sh` octet pour octet » vérifie seulement un détail interne du skill. Ajoutez cette section lorsque les indicateurs sont nets ; omettez-la lorsqu’ils restent flous.
 
-## Where it fits
+## Où elle s'inscrit
 
-Always present. Situate the skill in the system in a sentence or two:
+Toujours présente. Situez la skill dans le système en une ou deux phrases :
 
-- **Role.** Name it: a **chain step** (`grill-with-docs → to-spec → to-tickets → implement → code-review`), a **run-once setup** (`setup-matt-pocock-skills`), **periodic maintenance** (`improve-codebase-architecture`, "every few days"), or a **reach-for-it-anytime standalone** (`diagnosing-bugs`, `prototype`, `handoff`). A standalone's map is one honest sentence — far better than omitting the section.
-- **Neighbours.** The one or two siblings that matter, each with a because-clause, linked absolutely.
-- **The map.** Point to [ask-matt](https://aihero.dev/skills-ask-matt), the router over the whole set, so this page stays a node and never has to redraw the graph.
+- **Rôle.** Nommez-le : étape d’une chaîne (`grill-with-docs → to-spec → to-tickets → implement → code-review`), configuration unique (`setup-matt-pocock-skills`), maintenance périodique (`improve-codebase-architecture`) ou outil autonome disponible à tout moment (`diagnosing-bugs`, `prototype`, `handoff`).
+- **Voisins.** Les un ou deux frères qui comptent, chacun avec une clause de cause, liés absolument.
+- **La carte.** Pointez vers [ask-matt](https://aihero.dev/skills-ask-matt), le routeur couvrant l'ensemble, afin que cette page reste un nœud et n'ait jamais besoin de redessiner le graphe.
 
 </page-template>
 
 ## Conventions
 
-- Explain the **why**, not the process. The page orients and situates the skill; it never reproduces the `SKILL.md` steps or template dumps — a human choosing a tool does not need the runbook.
-- **Never name the author.** The page is a technical document, not a record of who said what. "Matt says", "Matt's own answer", "his position is", a quoted reply — all of it goes. A finding from the question hunt is worth keeping; its attribution is not. State the substance as a plain claim about the skill ("the fix is a direct instruction: …", "the split comes down to session count") and drop the frame. The reader is deciding whether to use a tool; an opinion carries the same weight either way, and an attributed one dates as soon as the position moves. Quoting a *user* stays fine — "one user reported …" is evidence about the skill in the wild, and stays anonymous.
-- Use the skill's **leading words** (_seam_, _deep module_, _tracer bullet_) so the page and the skill speak one language.
-- **Use the [AI Coding Dictionary](https://www.aihero.dev/ai-coding-dictionary)'s term where one exists, and link its first use on the page.** The dictionary is the house vocabulary for AI coding — _context window_, _subagent_, _harness_, _primary source_, _agent mode_. Prefer its word over a synonym you invent. Link the first occurrence of each term to `https://www.aihero.dev/ai-coding-dictionary/<slug>` (the slug is the term lowercased with non-alphanumerics as hyphens: _context window_ → `context-window`), and leave every later occurrence unlinked. Link only where the word carries the dictionary's sense — a domain *model*, background *context* or an auth *token* is a different word that happens to match. Never link inside a heading, a code span, or an existing link, and never link a word that names a skill in this repo rather than the concept. For the full term list, read `~/repos/ai/ai-coding-dictionary/dictionary/` if it exists on this machine — one file per term, the filename *is* the term — and otherwise [mattpocock/dictionary-of-ai-coding](https://github.com/mattpocock/dictionary-of-ai-coding), which is the source of truth either way.
-- **Branches go in a table or a list, never in a paragraph.** Where the page presents a choice — two artifacts the skill can produce, four situations that trigger it, five options at a boundary — the reader is scanning for the one row that matches their situation. A paragraph makes them read all of it to find out. A short markdown table (condition in the left column, what to do in the right) or a bulleted list gives it back in one glance. This applies wherever the branch appears, most often in `## When to reach for it` and the free-form middle.
-- Keep the page itself low-load. It is documentation *about* low-cognitive-load skills; furniture (spare headings, restated links) is the thing it is arguing against.
+- Expliquez le **pourquoi**, pas le processus. La page oriente et situe le skill ; elle ne reproduit jamais les étapes du `SKILL.md` ni les modèles complets. Une personne qui choisit un outil n’a pas besoin de son mode opératoire détaillé.
+- **Ne nommez jamais l’auteur.** La page est un document technique, pas le compte rendu de qui a dit quoi. « Matt dit », « sa réponse », « sa position » ou une réponse citée disparaissent. Conservez la découverte, mais exprimez-la comme une affirmation simple sur le skill : « la correction est une instruction directe » ou « la séparation dépend du nombre de sessions ». Citer un _utilisateur_ reste acceptable lorsqu’il s’agit d’une preuve d’usage réelle et anonyme.
+- Utilisez les **termes principaux** du skill — couture, module profond, balle traçante — afin que la page et le skill parlent le même langage.
+- **Utilisez le terme du dictionnaire de codage par IA [AI Coding Dictionary](https://www.aihero.dev/ai-coding-dictionary) lorsqu'il existe, et liez sa première occurrence sur la page.** Le dictionnaire constitue le vocabulaire de référence pour le codage par IA : _context window_, _subagent_, _harness_, _primary source_, _agent mode_. Préférez son terme à un synonyme que vous inventeriez. Liez la première occurrence de chaque terme à `https://www.aihero.dev/ai-coding-dictionary/<slug>` (le slug est le terme en minuscules avec les non-alphanumériques remplacés par des tirets : _context window_ → `context-window`), et laissez toutes les occurrences ultérieures sans lien. Liez uniquement lorsque le mot porte le sens du dictionnaire : un modèle de domaine *model*, un contexte de fond *context* ou un jeton d'authentification *token* sont des mots différents qui coïncident simplement. Ne liez jamais à l'intérieur d'un titre, d'une balise de code ou d'un lien existant, et ne liez jamais un mot qui désigne une skill dans ce dépôt plutôt que le concept. Pour la liste complète des termes, lisez `~/repos/ai/ai-coding-dictionary/dictionary/` s'il existe sur cette machine — un fichier par terme, le nom du fichier *est* le terme — et sinon [mattpocock/dictionary-of-ai-coding](https://github.com/mattpocock/dictionary-of-ai-coding), qui est la source de vérité dans tous les cas.
+- **Les embranchements figurent dans un tableau ou une liste, jamais dans un paragraphe.** Lorsque la page présente plusieurs artefacts, déclencheurs ou options, le lecteur doit pouvoir repérer directement la ligne correspondant à sa situation. Cette règle s’applique surtout dans `## Quand l’utiliser` et les sections libres.
+- Gardez la page elle-même à faible charge. Il s'agit de documentation *sur* des skills à faible charge cognitive ; le mobilier (titres superflus, liens réitérés) est ce contre quoi elle s'élève.
 
-## Done when
+## Terminé lorsque
 
-- The page exists at `docs/<bucket>/<name>.md`, and no stale page survives a rename or bucket move.
-- The page carries no source link and writes no install command of its own.
-- `## What it does` states the defining constraint, as plain prose rather than a labelled aside.
-- The page names no author and quotes no author — every claim stands on its own.
-- `## When to reach for it` states invocation mode and the trigger boundary.
-- `## Where it fits` names the role and links to `ask-matt`.
-- A prerequisite (workspace, prior setup, tooling) is stated where one exists, and the section is absent where none does.
-- The middle surfaces the leading word.
-- Every AI Coding Dictionary term the page uses is spelt the dictionary's way, and its first use — and only its first use — links to the dictionary entry.
-- Every multi-way branch is a table or a list, not a paragraph the reader has to read in full.
-- The hunt for real questions ran — the wiki, the issues, the changelog — and `## Common questions` is sized to what it found, not padded to match a richer skill's page.
-- Every `## It's working if` bullet is checkable without opening `SKILL.md`.
-- The sections appear in the template's order.
-- Every link is absolute, and every one resolves.
+- La page existe à `docs/<catégorie>/<nom>.md`, et aucune page obsolète ne survit à un renommage ou à un changement de catégorie.
+- La page ne porte aucun lien source et n'écrit aucune commande d'installation de sa propre initiative.
+- `## Ce qu’il fait` énonce la contrainte définissante en prose simple.
+- La page ne nomme aucun auteur et ne cite aucun auteur — chaque affirmation se tient sur ses propres pieds.
+- `## Quand l’utiliser` précise le mode d’invocation et la limite de déclenchement.
+- `## Où il s’inscrit` nomme le rôle et renvoie vers `ask-matt`.
+- Une condition préalable (espace de travail, configuration préalable, outillage) est énoncée lorsqu'elle existe, et la section est absente lorsqu'aucune n'existe.
+- La partie centrale met en avant le mot principal.
+- Chaque terme du Dictionnaire de l'IA Coding utilisé par la page est orthographié selon la manière du dictionnaire, et son premier usage — et uniquement son premier usage — lie vers l'entrée du dictionnaire.
+- Chaque embranchement multi-voies est un tableau ou une liste, et non un paragraphe que le lecteur doit lire en entier.
+- La recherche de vraies questions a eu lieu — wiki, tickets et journal des modifications — et `## Questions fréquentes` reste proportionné aux preuves trouvées.
+- Chaque point de `## Indicateurs de réussite` est vérifiable sans ouvrir `SKILL.md`.
+- Les sections apparaissent dans l'ordre du modèle.
+- Chaque lien est absolu, et chacun se résout.

@@ -1,70 +1,79 @@
-## What it does
+## Ce qu’il fait
 
-`writing-for-agents` is the reference you write agent-facing documents against — a skill, an `AGENTS.md` / `CLAUDE.md`, a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), a runtime prompt, a README, any doc an [agent](https://www.aihero.dev/ai-coding-dictionary/agent) reads. The packaging differs; the writing does not: the same levers make each one predictable, so the agent takes the same *process* every run rather than producing the same output.
+`writing-for-agents` est la référence sur laquelle vous écrivez des documents destinés aux agents - une compétence, un `AGENTS.md`, un [spec](https://www.aihero.dev/ai-coding-dictionary/spec), une invite d'exécution, un README, n'importe quel document et [agent](https://www.aihero.dev/ai-coding-dictionary/agent) lit. L'emballage diffère ; ce n'est pas le cas de l'écriture : les mêmes leviers rendent chacun d'eux prévisible, de sorte que l'agent suit le même *processus* à chaque exécution plutôt que de produire le même résultat.
 
-Its default move is deletion, not explanation. Ask an agent to write instructions for another agent and it spends most of its words explaining what the [model](https://www.aihero.dev/ai-coding-dictionary/model) already knows — every one of those lines is a **no-op**, paying [context](https://www.aihero.dev/ai-coding-dictionary/context) and changing no behaviour. This reference is the lens that finds them, which is why it earns its keep at least as often on a document you already have as on a blank file.
+Son mouvement par défaut est la suppression, pas l'explication. Demandez à un agent d'écrire des instructions pour un autre agent et il passe la plupart de ses mots à expliquer ce que le [model](https://www.aihero.dev/ai-coding-dictionary/model) sait déjà — chacune de ces lignes est un **no-op**, payant [context](https://www.aihero.dev/ai-coding-dictionary/context) et ne changeant aucun comportement. Cette référence est l'objectif qui les trouve, c'est pourquoi elle gagne sa place au moins aussi souvent sur un document que vous possédez déjà que sur un fichier vierge.
 
-It was called `writing-great-skills` until v1.1. The rename tracks what it always was underneath: almost none of it is skill-specific. The skill-only mechanics — frontmatter, the model- versus user-invoked choice, router skills — are disclosed to a linked `SKILL-MECHANICS.md` you read only when the document in front of you is a skill.
+Il s'appelait  `writing-great-skills` jusqu'à la v1.1. Le changement de nom suit ce qu'il a toujours été en dessous : presque rien n'est spécifique à une compétence. Les mécanismes réservés aux compétences (frontmatter, choix du modèle par rapport à l'utilisateur, compétences du routeur) sont divulgués à un `SKILL-MECHANICS.md`  lié que vous lisez uniquement lorsque le document devant vous est une compétence.
 
-## When to reach for it
+## Quand l’utiliser
 
-Type `/writing-for-agents`, or the agent reaches for it on its own when you're creating or editing a skill, or modifying `AGENTS.md` or `CLAUDE.md`.
+Tapez `/writing-for-agents`, ou l'agent l'atteint tout seul lorsque vous créez ou modifiez une compétence, ou que vous modifiez `AGENTS.md`.
 
-Reach for it by hand for everything else an agent reads: your docs, specs and [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket), system and [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) prompts. The test is one question — does an agent read this? — and it does not matter how the document gets in front of it, whether a pointer names it, a human pastes it, or it simply sits in the repo. For working out what a codebase actually contains in the first place, use [grill-with-docs](https://aihero.dev/skills-grill-with-docs) — this reference governs how a document reads, not what it knows.
+Accédez-y manuellement pour tout ce qu'un agent lit : vos documents, vos spécifications et vos [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket), votre système et vos invites [AFK](https://www.aihero.dev/ai-coding-dictionary/afk). Le test est une question : un agent lit-il ceci ? - et peu importe la façon dont le document arrive devant lui, qu'un pointeur le nomme, qu'un humain le colle ou qu'il se trouve simplement dans le dépôt. Pour déterminer ce qu'une base de code contient réellement en premier lieu, utilisez [grill-with-docs](https://aihero.dev/skills-grill-with-docs) — cette référence régit la façon dont un document est lu, pas ce qu'il sait.
 
-## The two loads
+## Les deux charges
 
-The idea the whole reference turns on is a pair of budgets every document and pointer spends:
+L’idée sur laquelle repose toute la référence est une paire de budgets dépensés par chaque document et pointeur :
 
-- **Context load** — the cost of always-loaded material on the agent's window: an `AGENTS.md` line, a skill description, anything sitting in context every [turn](https://www.aihero.dev/ai-coding-dictionary/turn) whether or not it fires.
-- **Cognitive load** — the cost on you: which documents exist, and when to reach for each. You are the index. Not a cost to minimise — it is the price of human agency.
+- **Chargement de contexte** — le coût du matériel toujours chargé sur la fenêtre de l'agent : une ligne `AGENTS.md` , une description de compétence, tout ce qui est en contexte à chaque [tour](https://www.aihero.dev/ai-coding-dictionary/turn), qu'il se déclenche ou non.
+- **Charge cognitive** — le coût à votre charge : quels documents existent et quand les obtenir. Vous êtes l'indice. Ce n’est pas un coût à minimiser : c’est le prix de l’action humaine.
 
-Once you think in these two loads, most authoring decisions — split or don't, inline or disclose, point or push — become the same trade made in different places.
+Une fois que vous réfléchissez à ces deux charges, la plupart des décisions de rédaction – diviser ou non, intégrer ou divulguer, pointer ou pousser – deviennent le même échange effectué à différents endroits.
 
-## The levers
+## Les leviers
 
-- **[Context pointers](https://www.aihero.dev/ai-coding-dictionary/context-pointer)** — the reference held in context that names out-of-context material and encodes when to reach it. A skill description and an `AGENTS.md` line naming a doc are the same object; the pointer's *wording*, not its target, decides how reliably the agent reaches through it.
-- **Information hierarchy** — the ladder from in-file step, to in-file reference, to disclosed reference behind a pointer. **[Progressive disclosure](https://www.aihero.dev/ai-coding-dictionary/progressive-disclosure)** is the move down that ladder so the top stays legible.
-- **Completion criteria** — the clarity and demand of each step's done-condition, and the **legwork** that demand drives; the defence against **premature completion**.
-- **Leading words** — a compact concept already in the model's pretraining (*tight*, *red*, *tracer bullet*) that the agent thinks with while running the document. It anchors twice: execution in the body, invocation in the pointer.
-- **Pruning** — single source of truth, relevance, and the no-op test applied sentence by sentence, against **duplication**, **sediment** and **sprawl**.
+- **[Pointeurs de contexte](https://www.aihero.dev/ai-coding-dictionary/context-pointer)** — la référence conservée dans le contexte qui nomme le matériel hors contexte et code quand l'atteindre. Une description de compétence et une `AGENTS.md` ligne nommant un document sont le même objet ; c'est la *formulation* du pointeur, et non sa cible, qui décide de la fiabilité avec laquelle l'agent l'atteint.
+- **Hiérarchie des informations** — l'échelle depuis l'étape dans le fichier, jusqu'à la référence dans le fichier, jusqu'à la référence divulguée derrière un pointeur. **[Divulgation progressive](https://www.aihero.dev/ai-coding-dictionary/progressive-disclosure)** est le mouvement vers le bas de cette échelle pour que le haut reste lisible.
+- **Critères d'achèvement** — la clarté et l'exigence de l'état effectué de chaque étape, et les **démarches** que la demande entraîne ; la défense contre **l'achèvement prématuré**.
+- **Mots principaux** — un concept compact déjà dans le pré-entraînement du modèle (*tight*, *red*, *tracer bullet*) avec lequel l'agent réfléchit lors de l'exécution du document. Il s'ancre deux fois : exécution dans le corps, invocation dans le pointeur.
+- **Élagage** — source unique de vérité, de pertinence et test de non-opération appliqué phrase par phrase, contre la **duplication**, les **sédiments** et l'**étalement**.
 
-## Common questions
+## Questions fréquentes
 
-**Where did `/writing-great-skills` go?**
-It is this skill, renamed in v1.1. Practitioners were already pointing it at `AGENTS.md`, docs, specs, tickets and runtime prompts long before the name caught up; structure, leading words and pruning turn out to be the craft of any text an agent reads. There is no alias — reinstall under the new name.
+**Où est passé `/writing-great-skills`  ?**
 
-**"Writing for agents" — so the agent does the writing?**
-The other way round. You are the author; the agent is the reader. That is the whole difficulty of the genre: you are writing for a reader who has already read everything, so explanation is waste and precision is the entire job.
+Il s'agit de cette compétence, renommée en v1.1. Les praticiens le pointaient déjà vers `AGENTS.md`, les documents, les spécifications, les tickets et les invites d'exécution bien avant que le nom ne rattrape son retard ; la structure, les mots principaux et l'élagage s'avèrent être l'art de tout texte lu par un agent. Il n'y a pas d'alias — réinstallez sous le nouveau nom.
 
-**Can't I just ask the agent to write it for me?**
-You can, and it will produce something verbose. Left alone the model explains what it already knows, and it will not apply the no-op test or reach for a leading word on its own. Use the reference on the draft — a review pass is where most of its value lands.
+**« Écrire pour les agents » – c'est donc l'agent qui écrit ?**
 
-**I asked an agent to trim a document and it cut the functionality.**
-Agents told to "streamline" optimise for length, because length is the thing they can see. The no-op test is behavioural, not aesthetic: delete the line and ask whether the agent's behaviour changed. When a sentence fails, delete the whole sentence rather than trim words from it — and settle a disagreement about it by running the document, not by arguing.
+L'inverse. Vous êtes l'auteur ; l'agent est le lecteur. C'est toute la difficulté du genre : on écrit pour un lecteur qui a déjà tout lu, donc l'explication est du gaspillage et la précision est tout le travail.
 
-**How do I know when it's done?**
-When it works, and you can no longer find duplication, sediment or no-ops. There is no automated eval here; the check is a manual run plus the failure-mode vocabulary as a diagnostic. When a document misbehaves, that vocabulary is also the repair kit — name the failure mode first, then fix that.
+**Je ne peux pas simplement demander à l'agent de l'écrire pour moi ?**
 
-**Should this live in `CLAUDE.md` or somewhere else?**
-Ask which load you want to pay. `CLAUDE.md` loads into every [session](https://www.aihero.dev/ai-coding-dictionary/session) unconditionally; material behind a pointer costs only the pointer's own line until it fires. Anything that applies in one context out of ten is paying context load the nine other times.
+Vous pouvez, et cela produira quelque chose de verbeux. Laissé seul, le modèle explique ce qu'il sait déjà, et il n'appliquera pas le test de non-opération ni ne cherchera pas seul un mot principal. Utilisez la référence sur le projet – une passe de révision est l’endroit où atterrit la majeure partie de sa valeur.
 
-**Do I need to rewrite my documents for each new model?**
-Mostly no, and over-fitting to one model is its own trap. Updating for a new model is usually another no-op pass rather than a rewrite.
+**J'ai demandé à un agent de découper un document et cela a supprimé la fonctionnalité.**
 
-**My skill only works on the exact task I built it from.**
-The common route — do the work once, then have the agent write it up as a skill — over-indexes on that one run, and the exemplars come out too specific. Keep the run as evidence, then abstract deliberately: strip what belonged to that repo and those files, and write for the class of task.
+Les agents doivent « rationaliser » et optimiser la longueur, car la longueur est ce qu'ils peuvent voir. Le test de non-opération est comportemental et non esthétique : supprimez la ligne et demandez si le comportement de l'agent a changé. Lorsqu'une phrase échoue, supprimez la phrase entière plutôt que d'en couper des mots - et réglez un désaccord à ce sujet en exécutant le document, et non en argumentant.
 
-**English isn't my first language. Do I lose the leading-word advantage?**
-No — finding the word that packs the most behaviour into the fewest [tokens](https://www.aihero.dev/ai-coding-dictionary/token) is work the reference does for you. It is one of the things it is for.
+**Comment puis-je savoir quand c'est terminé ?**
 
-## It's working if
+Quand cela fonctionne, et que vous ne trouvez plus de doublons, de sédiments ou de non-opérations. Il n'y a pas d'évaluation automatisée ici ; la vérification est une exécution manuelle plus le vocabulaire du mode de défaillance comme diagnostic. Lorsqu'un document se comporte mal, ce vocabulaire constitue également le kit de réparation : nommez d'abord le mode de défaillance, puis corrigez-le.
 
-- The document gets shorter as it gets better, and you are surprised how little is left.
-- You can point at a leading word and watch it doing work in more than one place.
-- Nothing is stated twice, in any form. Duplication is the most reliable sign a document was never tested.
-- Reference that only one branch needs sits behind a pointer rather than in the main file.
+**Est-ce que cela devrait vivre à `AGENTS.md` ou ailleurs ?**
 
-## Where it fits
+Demandez quelle charge vous souhaitez payer. `AGENTS.md` se charge dans chaque [session](https://www.aihero.dev/ai-coding-dictionary/session) sans condition ; le matériel derrière un pointeur ne coûte que la ligne du pointeur jusqu'à ce qu'il se déclenche. Tout ce qui s'applique dans un contexte sur dix est payant les neuf autres fois.
 
-This is a reach-for-it-anytime standalone reference. It has no neighbour in the chain because it sits underneath the whole set rather than beside any one skill: every skill here was written against it, and the documents the other skills leave behind — a `CONTEXT.md` and its ADRs, a spec, a ticket — are exactly the text it governs once an agent has to read them. When you're unsure which skill or flow fits a task, [ask-matt](https://aihero.dev/skills-ask-matt) routes you over the whole set.
+**Dois-je réécrire mes documents pour chaque nouveau modèle ?**
+
+Généralement non, et le sur-ajustement à un modèle est son propre piège. La mise à jour pour un nouveau modèle est généralement une autre passe sans opération plutôt qu'une réécriture.
+
+**Ma compétence ne fonctionne que sur la tâche exacte à partir de laquelle je l'ai construite.**
+
+La voie courante - effectuer le travail une fois, puis demander à l'agent de l'écrire comme une compétence - sur-indexe sur cette seule exécution, et les exemples apparaissent trop spécifiques. Conservez l'exécution comme preuve, puis faites une abstraction délibérément : supprimez ce qui appartenait à ce dépôt et à ces fichiers, et écrivez pour la classe de tâche.
+
+** L'anglais n'est pas ma langue maternelle. Est-ce que je perds l’avantage du premier mot ?**
+
+Non, trouver le mot qui regroupe le plus de comportements dans le moins de [jetons](https://www.aihero.dev/ai-coding-dictionary/token) est un travail que la référence fait pour vous. C'est l'une des raisons pour lesquelles il est prévu.
+
+## Indicateurs de réussite
+
+- Le document devient plus court à mesure qu'il s'améliore, et vous êtes surpris du peu qu'il en reste.
+- Vous pouvez pointer un mot principal et le regarder fonctionner à plusieurs endroits.
+- Rien n'est indiqué deux fois, sous quelque forme que ce soit. La duplication est le signe le plus fiable qu’un document n’a jamais été testé.
+- La référence dont une seule branche a besoin se trouve derrière un pointeur plutôt que dans le fichier principal.
+
+## Où il s’inscrit
+
+Il s’agit d’une référence autonome accessible à tout moment. Il n'a pas de voisin dans la chaîne car il se situe sous l'ensemble plutôt qu'à côté d'une seule compétence : chaque compétence ici a été écrite contre elle, et les documents que les autres compétences laissent derrière eux - un `CONTEXT.md`  et ses ADR, une spécification, un ticket - sont exactement le texte qu'il régit une fois qu'un agent doit les lire. Lorsque vous ne savez pas quelle compétence ou quel flux correspond à une tâche, [ask-matt](https://aihero.dev/skills-ask-matt) vous guide sur l'ensemble de l'ensemble.

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Implémenter"
+  short_description: "Réaliser le travail à partir d’une spécification ou de tickets"
+policy:
+  allow_implicit_invocation: false

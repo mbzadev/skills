@@ -1,0 +1,5 @@
+interface:
+  display_name: "Rédaction des fragments"
+  short_description: "Extraire des fragments de rédaction bruts"
+policy:
+  allow_implicit_invocation: false

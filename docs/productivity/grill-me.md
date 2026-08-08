@@ -1,76 +1,82 @@
-## What it does
+## Ce qu’il fait
 
-`grill-me` takes a **loose idea** and interviews you until you can commit to it. You do not need a worked-out plan to start — producing one is what the [session](https://www.aihero.dev/ai-coding-dictionary/session) is for. It asks in **rounds**: each round is the whole **frontier** — every question whose prerequisites you have already settled — so you are never asked something that hinges on an answer it hasn't heard yet.
+`grill-me`  prend une **idée libre** et vous interviewe jusqu'à ce que vous puissiez vous y engager. Vous n'avez pas besoin d'un plan élaboré pour commencer - en produire un est à cela que sert la [session](https://www.aihero.dev/ai-coding-dictionary/session). Il pose des questions en **tours** : chaque tour représente toute la **frontière** — chaque question dont vous avez déjà réglé les conditions préalables — donc on ne vous demande jamais quelque chose qui dépend d'une réponse qu'il n'a pas encore entendue.
 
-It is **[stateless](https://www.aihero.dev/ai-coding-dictionary/stateless)**. It writes no files and leaves no workspace behind. The only thing it leaves is a sharper version of the idea, in your own head.
+Il est **[apatride](https://www.aihero.dev/ai-coding-dictionary/stateless)**. Il n’écrit aucun fichier et ne laisse aucun espace de travail derrière lui. La seule chose qu’il laisse est une version plus précise de l’idée, dans votre propre tête.
 
-## When to reach for it
+## Quand l’utiliser
 
-You invoke this by typing `/grill-me` — the [agent](https://www.aihero.dev/ai-coding-dictionary/agent) won't reach for it on its own. Start it in a **fresh conversation**, not on top of a plan you already had an agent write.
+Vous l'invoquez en tapant `/grill-me` — l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul. Commencez-le dans une **nouvelle conversation**, et non au-dessus d'un plan que vous avez déjà demandé à un agent d'écrire.
 
-Reach for it as soon as you have an idea worth taking seriously — a feature, a product direction, a business call, a piece of writing — and long before you have worked out what it involves. Vagueness is not a reason to wait; it is the thing the session eats. If you can already specify the thing precisely, you don't need to grill it.
+Atteignez-le dès que vous avez une idée qui mérite d'être prise au sérieux (une fonctionnalité, une direction de produit, un appel professionnel, un écrit) et bien avant d'avoir compris ce que cela implique. Le flou n’est pas une raison pour attendre ; c'est la chose que la séance mange. Si vous pouvez déjà préciser la chose avec précision, vous n'avez pas besoin de la griller.
 
-Which of the three grilling skills you want depends on what is in front of you:
+Laquelle des trois compétences de grillade que vous souhaitez dépend de ce qui se trouve devant vous :
 
-- **Anything, anywhere** — `grill-me`. It needs no repo and writes no files, and the subject doesn't have to be code.
-- **A codebase to align against** — [grill-with-docs](https://aihero.dev/skills-grill-with-docs). The same interview, but [stateful](https://www.aihero.dev/ai-coding-dictionary/stateful): it reads your code and keeps what it learns in `CONTEXT.md` and ADRs.
-- **Too big for one session** — [wayfinder](https://aihero.dev/skills-wayfinder). It charts the effort as a map and runs grilling sessions inside it.
+- **N'importe quoi, n'importe où** — `grill-me`. Il n'a besoin d'aucun dépôt et n'écrit aucun fichier, et le sujet n'a pas besoin d'être du code.
+- **Une base de code sur laquelle s'aligner** — [grill-with-docs](https://aihero.dev/skills-grill-with-docs). La même interview, mais [stateful](https://www.aihero.dev/ai-coding-dictionary/stateful) : il lit votre code et garde ce qu'il apprend dans `CONTEXT.md`  et les ADR.
+- **Trop gros pour une session** — [wayfinder](https://aihero.dev/skills-wayfinder). Il trace l'effort sous forme de carte et exécute des sessions de grillades à l'intérieur.
 
-Leave [plan mode](https://www.aihero.dev/ai-coding-dictionary/agent-mode) off. Plan mode primes the agent to rush toward producing a plan, which is the opposite of staying in inquiry.
+Laissez le [mode plan](https://www.aihero.dev/ai-coding-dictionary/agent-mode) désactivé. Le mode Plan amène l’agent à se précipiter vers la production d’un plan, ce qui est le contraire de rester en enquête.
 
-## It's a conversation, not an interview
+## C'est une conversation, pas une interview
 
-The skill asks the questions, but **you** own the scope. That is the part people miss, and it separates a session that turns an idea into decisions from one that produces confident nonsense.
+La compétence pose les questions, mais **vous** possédez la portée. C’est la partie qui manque aux gens, et elle sépare une session qui transforme une idée en décisions de celle qui produit des absurdités confiantes.
 
-The failure mode is **passivity** — answering "agreed, agreed, agreed" for forty questions and coming out with a plan the agent wrote and you nodded at. It feels productive because it was long. Nothing was actually decided, and the result carries a certainty it hasn't earned.
+Le mode d'échec est la **passivité** : répondre « d'accord, d'accord, d'accord » à quarante questions et proposer un plan que l'agent a écrit et auquel vous avez hoché la tête. Cela semble productif parce que c’était long. Rien n’a été décidé, et le résultat comporte une certitude qu’il n’a pas mérité.
 
-Being active means steering. Push back on a question pitched beneath the fidelity you need. Say when the scope is drifting. Answer "I don't know" and mean it. This skill is built to aid an engineer, not to replace one: what comes out tracks the quality of your answers, not the number of questions asked.
+Être actif, c’est diriger. Repoussez une question posée en dessous de la fidélité dont vous avez besoin. Dites quand la portée dérive. Répondez « Je ne sais pas » et pensez-le. Cette compétence est conçue pour aider un ingénieur, pas pour le remplacer : ce qui en sort suit la qualité de vos réponses, pas le nombre de questions posées.
 
-The opposite error is real but rarer — staying in the interview so long you never reach code.
+L’erreur inverse est réelle mais plus rare : rester dans l’entretien si longtemps que vous n’atteignez jamais le code.
 
-## Grillable and ungrillable
+## Grillable et nongrilable
 
-Some questions can be answered by talking. Others can't, and no amount of grilling will get you there.
+Certaines questions peuvent être répondues en parlant. D’autres ne le peuvent pas, et aucune quantité de grillades ne vous y mènera.
 
-"One long form or three pages?" and "how should this interaction feel?" are **ungrillable** — they need something to react to. When you hit one, stop grilling. Build the throwaway version with [prototype](https://aihero.dev/skills-prototype), look at it, then come back and answer in one line.
+"Un long formulaire ou trois pages ?" et "Comment devrait se sentir cette interaction?" sont **illisibles** – ils ont besoin de quelque chose à quoi réagir. Lorsque vous en frappez un, arrêtez de griller. Construisez la version jetable avec [prototype](https://aihero.dev/skills-prototype), regardez-la, puis revenez et répondez en une seule ligne.
 
-Talking your way through an ungrillable question is where sessions balloon. The agent keeps rephrasing, you keep guessing, and the scope grows to fill the uncertainty.
+C'est en discutant d'une question insoluble que les séances explosent. L'agent ne cesse de reformuler, vous continuez à deviner, et la portée s'agrandit pour combler l'incertitude.
 
-## It's working if
+## Questions fréquentes
 
-- You disagree with something. A session with no pushback from you is a session you didn't need.
-- Questions arrive in a few rounds rather than one long drip, and later rounds clearly build on what you said earlier.
-- You end up somewhere you didn't expect, because a question surfaced a decision you had been making implicitly.
-- At the end you could defend each choice to someone who wasn't there.
+**À combien de questions dois-je m'attendre et comment savoir quand cela se terminera ?**
 
-## Common questions
+Comptez les tours, pas les questions. Quarante-six questions réparties en quatre tours constituent une session ordinaire. Cela se termine lorsque la frontière est vide – chaque branche visitée, rien n’est laissé en silence.
 
-**How many questions should I expect, and how do I know when it ends?**
-Count rounds, not questions. Forty-six questions across four rounds is an ordinary session. It ends when the frontier is empty — every branch visited, nothing left silently assumed.
+**Il m'a posé deux cents questions. Qu'est-ce qui n'a pas fonctionné ?**
 
-**It asked me two hundred questions. What went wrong?**
-Usually the scope was too large. Ask the agent to break the work into smaller pieces first, then grill each one. Very long sessions also drift into the **[dumb zone](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**, where the [context window](https://www.aihero.dev/ai-coding-dictionary/context-window) is full enough that the questions get worse.
+Généralement, le champ d’application était trop vaste. Demandez à l'agent de diviser d'abord le travail en morceaux plus petits, puis de griller chacun d'entre eux. Les sessions très longues dérivent également dans la **[zone muette](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**, où la [fenêtre contextuelle](https://www.aihero.dev/ai-coding-dictionary/context-window) est suffisamment pleine pour que les questions empirent.
 
-**Can I go back to one question at a time?**
-Yes. Add this to your global `CLAUDE.md`:
+**Puis-je revenir sur une question à la fois ?**
+
+Oui. Ajoutez ceci à votre global `AGENTS.md` :
 
 ```
-When grilling, ask one question at a time.
+Pendant l’entretien, pose une seule question à la fois.
 ```
 
-**What if I genuinely don't know the answer?**
-Say so. "I don't know" is a real answer, and a question you can't answer is usually a sign to prototype rather than to guess.
+**Et si je ne connais vraiment pas la réponse ?**
 
-**Do I start a fresh session before writing the spec?**
-No. The value of the session is the [context](https://www.aihero.dev/ai-coding-dictionary/context) you just built. Hand the same conversation straight to [to-spec](https://aihero.dev/skills-to-spec).
+Dis-le. "Je ne sais pas" est une vraie réponse, et une question à laquelle vous ne pouvez pas répondre est généralement un signe de prototype plutôt que de deviner.
 
-**Does the model matter?**
-More than for most skills. Grilling leans on the [model](https://www.aihero.dev/ai-coding-dictionary/model)'s own sense of how systems break, so give it your best one. Implementation mostly follows context and tolerates a cheaper model.
+**Dois-je démarrer une nouvelle session avant d'écrire la spécification ?**
 
-## Where it fits
+Non. La valeur de la session est le [context](https://www.aihero.dev/ai-coding-dictionary/context) que vous venez de créer. Remettez la même conversation directement à [to-spec](https://aihero.dev/skills-to-spec).
 
-`grill-me` is a **standalone you can run anywhere, on anything**. Being stateless is what makes it portable: no repo, no workspace, no setup, and no assumption that the idea is even about software. People point it at business decisions, at writing, at what to do next — anything that won't sit still in their head.
+**Le modèle est-il important ?**
 
-That portability is the whole difference from [grill-with-docs](https://aihero.dev/skills-grill-with-docs), which runs the same interview but reads a codebase to align against and records what it learns as `CONTEXT.md` and ADRs. Both sit on the [grilling](https://aihero.dev/skills-grilling) primitive; `grill-me` is the user-invoked front door that carries nothing with it.
+Plus que pour la plupart des compétences. Griller s'appuie sur la propre perception du [modèle](https://www.aihero.dev/ai-coding-dictionary/model) de la façon dont les systèmes se cassent, alors donnez-lui le meilleur de vous-même. La mise en œuvre suit principalement le contexte et tolère un modèle moins cher.
 
-If what you grilled does turn out to be software, you can hand the same conversation to [to-spec](https://aihero.dev/skills-to-spec) and carry on into the build flow — an option, not the point of the skill. When you're unsure which flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+## Indicateurs de réussite
+
+- Vous n’êtes pas d’accord avec au moins une proposition : une séance qui ne provoque aucune réaction était probablement inutile.
+- Les questions arrivent en quelques tours, et chaque tour s’appuie clairement sur vos réponses précédentes.
+- Une question fait apparaître une décision que vous aviez prise implicitement.
+- À la fin, vous pouvez défendre chaque choix auprès d’une personne qui n’a pas participé à la conversation.
+
+## Où il s’inscrit
+
+`grill-me` est un **autonome que vous pouvez exécuter n'importe où, sur n'importe quoi**. Le fait d'être apatride est ce qui le rend portable : pas de dépôt, pas d'espace de travail, pas de configuration et aucune hypothèse selon laquelle l'idée concerne même le logiciel. Les gens le signalent aux décisions commerciales, à l'écriture, à ce qu'il faut faire ensuite – tout ce qui ne reste pas immobile dans leur tête.
+
+Cette portabilité est toute la différence avec [grill-with-docs](https://aihero.dev/skills-grill-with-docs), qui exécute la même interview mais lit une base de code pour s'aligner et enregistre ce qu'il apprend sous le nom de `CONTEXT.md`  et d'ADR. Les deux reposent sur la primitive [grilling](https://aihero.dev/skills-grilling) ;  `grill-me`  est la porte d'entrée invoquée par l'utilisateur qui ne transporte rien avec elle.
+
+Si ce que vous avez grillé s'avère être un logiciel, vous pouvez confier la même conversation à [to-spec](https://aihero.dev/skills-to-spec) et poursuivre le flux de construction - une option, pas le but de la compétence. Lorsque vous ne savez pas quel flux vous convient, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.

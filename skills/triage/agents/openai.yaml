@@ -1,0 +1,5 @@
+interface:
+  display_name: "Triage"
+  short_description: "Faire progresser les tickets entre les rôles de triage"
+policy:
+  allow_implicit_invocation: false

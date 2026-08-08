@@ -1,73 +1,73 @@
-## What it does
+## Ce qu’il fait
 
-`research` answers a question by reading the sources that own the answer, then leaves a cited Markdown file in the repo. It works only from **[primary sources](https://www.aihero.dev/ai-coding-dictionary/primary-source)** — official docs, source code, specs, first-party APIs — and follows every claim back to the source that owns it, so it will not repeat a blog post's account of an API when the API's own docs are reachable.
+`research`  répond à une question en lisant les sources qui possèdent la réponse, puis laisse un fichier Markdown cité dans le dépôt. Il fonctionne uniquement à partir de **[sources primaires](https://www.aihero.dev/ai-coding-dictionary/primary-source)** — documents officiels, code source, spécifications, API propriétaires — et suit chaque réclamation jusqu'à la source qui en est propriétaire, de sorte qu'il ne répétera pas le récit d'un article de blog sur une API lorsque les propres documents de l'API sont accessibles.
 
-It does not answer you in the conversation. The output is a file, written where the repo already keeps such notes, with a link on each claim. That is the point: a document you can react to, hand to another agent, or throw away, rather than an answer that vanishes when the [session](https://www.aihero.dev/ai-coding-dictionary/session) ends.
+Il ne vous répond pas dans la conversation. Le résultat est un fichier, écrit là où le dépôt conserve déjà ces notes, avec un lien sur chaque réclamation. C'est là l'essentiel : un document auquel vous pouvez réagir, remettre à un autre agent ou jeter, plutôt qu'une réponse qui disparaît à la fin de la [session](https://www.aihero.dev/ai-coding-dictionary/session).
 
-## When to reach for it
+## Quand l’utiliser
 
-Type `/research`, or the [agent](https://www.aihero.dev/ai-coding-dictionary/agent) reaches for it automatically when a task turns into reading legwork.
+Tapez `/research`, ou l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) l'atteint automatiquement lorsqu'une tâche se transforme en travail de lecture.
 
-Reach for it when the next step is *finding something out* from outside the working directory — how a third-party API behaves, what a spec actually says, whether a version claim holds — and you'd rather not stall your own thread doing the reading. What you need decides which skill:
+Atteignez-le lorsque la prochaine étape consiste à *trouver quelque chose* en dehors du répertoire de travail - comment se comporte une API tierce, ce que dit réellement une spécification, si une revendication de version est valable - et vous préférez ne pas bloquer votre propre fil de discussion en faisant la lecture. Ce dont vous avez besoin détermine quelle compétence :
 
-| What you need | Reach for |
+| Ce dont vous avez besoin | Atteindre |
 | --- | --- |
-| An external fact a decision is waiting on | `research` |
-| A decision made *with* you, by interview | [grilling](https://aihero.dev/skills-grilling) |
-| A durable architecture decision, written into `CONTEXT.md` and ADRs | [grill-with-docs](https://aihero.dev/skills-grill-with-docs) |
-| To find out whether an approach works in your codebase | [prototype](https://aihero.dev/skills-prototype) |
-| A plan too big to hold in one session | [wayfinder](https://aihero.dev/skills-wayfinder) |
+| Un fait extérieur qu'une décision attend | `research` |
+| Une décision prise *avec* vous, par entretien | [griller](https://aihero.dev/skills-grilling) |
+| Une décision d'architecture durable, inscrite dans les `CONTEXT.md` et les ADR | [grill-with-docs](https://aihero.dev/skills-grill-with-docs) |
+| Pour savoir si une approche fonctionne dans votre base de code | [prototype](https://aihero.dev/skills-prototype) |
+| Un plan trop ambitieux pour une seule session | [wayfinder](https://aihero.dev/skills-wayfinder) |
 
-The line between `research` and `grill-with-docs` is the **shelf life of what comes back**. Research produces short-lived assets — what this library's auth mechanism does as of this week. An ADR records a decision you keep. If what you are producing is a decision rather than a fact, you are [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), not researching.
+La frontière entre `research` et `grill-with-docs` est la **durée de conservation du résultat**. La recherche produit des informations à courte durée de vie, par exemple le fonctionnement actuel du mécanisme d’authentification d’une bibliothèque. Un ADR enregistre au contraire une décision durable. Si le résultat attendu est une décision plutôt qu’un fait, vous avez besoin d’une séance de [questions approfondies](https://www.aihero.dev/ai-coding-dictionary/grilling), pas d’une recherche.
 
-## Delegated legwork
+## Démarches déléguées
 
-The defining move is that the reading runs as a **background agent**. You keep working; it goes off, follows each claim to its primary source, writes one Markdown file, and reports back. Research is legwork you delegate, not thinking you outsource — you get a document to grill, plan, or design against, and you still make the call.
+Le facteur déterminant est que la lecture s'exécute en tant qu'**agent d'arrière-plan**. Vous continuez à travailler ; il se déclenche, suit chaque revendication jusqu'à sa source principale, écrit un fichier Markdown et rend compte. La recherche est un travail préparatoire que vous déléguez, sans penser que vous sous-traitez : vous obtenez un document à analyser, à planifier ou à concevoir, et vous passez toujours l'appel.
 
-The delegation is unguarded, and the background agent can spawn a further background agent of its own. This is the skill's best-documented rough edge.
+La délégation n'est pas surveillée et l'agent d'arrière-plan peut engendrer son propre agent d'arrière-plan. Il s’agit de l’aspect brut le mieux documenté de la compétence.
 
-Where the file lands is decided by the repo, not by the skill: it matches whatever convention already exists for notes, and if there is none it picks somewhere sensible and tells you where. It writes one file per run.
+L'endroit où le fichier atterrit est décidé par le dépôt, pas par la compétence : il correspond à toute convention existant déjà pour les notes, et s'il n'y en a pas, il choisit un endroit raisonnable et vous indique où. Il écrit un fichier par exécution.
 
-## Common questions
+## Questions fréquentes
 
-**It spawned a second research agent — is that meant to happen?**
+**Cela a donné naissance à un deuxième agent de recherche : est-ce censé arriver ?**
 
-No. This is an open bug, [issue #530](https://github.com/mattpocock/skills/issues/530). The skill tells its caller to spin up a background agent but does not restrict the agent type, so the agent it spawns is a `general-purpose` one that holds the `Agent` tool and the same instructions — and fires them again. One reporter measured a single research task costing roughly 450k [tokens](https://www.aihero.dev/ai-coding-dictionary/token) across three overlapping runs, with the duplicate finishing half an hour later entirely out of view. It reproduces outside Claude Code too; the same nesting was confirmed in Codex with GPT-5.6-sol. There is no shipped fix. Users have patched their own installed copy with a line telling an agent that is already a [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) to do the work itself, which helps but is instruction-level, not structural. Watch your background task list after invoking, and stop the duplicate.
+Non. Il s’agit du [ticket ouvert nº 530](https://github.com/mattpocock/skills/issues/530). Le skill demande à son appelant de lancer un agent en arrière-plan sans en restreindre le type. L’agent créé peut donc être de type `general-purpose`, disposer lui-même de l’outil `Agent` et relancer les mêmes instructions. Un utilisateur a ainsi observé qu’une seule recherche consommait environ 450 000 [jetons](https://www.aihero.dev/ai-coding-dictionary/token) dans trois analyses superposées, dont une copie s’est terminée une demi-heure plus tard sans être visible. Le même emboîtement a été confirmé dans Codex avec GPT-5.6-sol. Aucun correctif structurel n’est livré. Certains utilisateurs ajoutent une consigne demandant à tout [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) déjà lancé d’effectuer lui-même le travail au lieu de le déléguer à nouveau. Après l’invocation, surveillez donc les tâches en arrière-plan et arrêtez toute duplication.
 
-The opposite failure exists as well: if your own global instructions forbid an agent from re-delegating work, the background agent will politely decline the task and the skill quietly does nothing.
+L’échec inverse existe également : si vos propres instructions globales interdisent à un agent de redéléguer du travail, l’agent en arrière-plan refusera poliment la tâche et la compétence ne fera rien en silence.
 
-**Where should the file live — and should I commit it?**
+**Où le fichier doit-il se trouver – et dois-je le valider ?**
 
-The skill puts the file where the repo already keeps notes and does not have an opinion beyond that. The community one is fairly settled: ADRs are kept, research files are not. The sharpest version of it, from a Discord thread on exactly this question: "ADRs yes. Everything else archive or delete after done. It otherwise becomes cruft of work and can poison future repo reads if you've drifted away from the spec/research." A research file records what was true on the day it was written, so a stale one is worse than none. On balance these artifacts don't really belong in git, and there is no canonical home for them — people use Obsidian, a separate knowledge repo, or the issue tracker instead.
+La compétence place le fichier là où le dépôt conserve déjà des notes et n'a pas d'opinion au-delà. Celui de la communauté est assez réglé : les ADR sont conservés, les dossiers de recherche ne le sont pas. La version la plus pointue, tirée d'un fil de discussion Discord sur exactement cette question : "ADR oui. Tout le reste est archivé ou supprimé une fois terminé. Autrement, cela devient une corvée de travail et peut empoisonner les futures lectures du dépôt si vous vous éloignez de la spécification/recherche." Un dossier de recherche enregistre ce qui était vrai le jour où il a été rédigé, donc un dossier périmé est pire que rien. Dans l’ensemble, ces artefacts n’appartiennent pas vraiment à git, et il n’y a pas de foyer canonique pour eux – les gens utilisent plutôt Obsidian, un dépôt de connaissances distinct ou le système de suivi des problèmes.
 
-**What counts as a "high-trust" primary source, and who decides?**
+**Qu'est-ce qui constitue une source primaire de « haute confiance », et qui décide ?**
 
-The [model](https://www.aihero.dev/ai-coding-dictionary/model) does. The skill names the *kinds* of source that qualify — official docs, source code, specs, first-party APIs — and there is no allowlist, no domain gate, and no verification pass. This was the loudest objection when the skill was first proposed and it has never been answered publicly: "Five research subagents pointed at junk just gives you five confident wrong answers faster. How are you gating what counts as high-trust sources?" The mitigation you actually have is the citation on each claim. Follow two or three of them. If they land on a summary of the thing rather than the thing, the run failed at its one job.
+Le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) le fait. La compétence nomme les *types* de sources éligibles (documents officiels, code source, spécifications, API propriétaires) et il n'y a pas de liste verte, pas de porte de domaine et pas de passe de vérification. Il s'agissait de l'objection la plus forte lorsque la compétence a été proposée pour la première fois et elle n'a jamais reçu de réponse publique : « Cinq sous-agents de recherche pointés vers des éléments indésirables ne vous donnent que cinq mauvaises réponses sûres plus rapidement. Comment contrôlez-vous ce qui compte comme sources de haute confiance ? L'atténuation dont vous disposez réellement est la citation sur chaque réclamation. Suivez-en deux ou trois. S'ils atterrissent sur un résumé de la chose plutôt que sur la chose, l'exécution échoue dans son unique tâche.
 
-**Does a later session reuse what an earlier run found?**
+**Une session ultérieure réutilise-t-elle ce qu'une exécution précédente a trouvé ?**
 
-No. Nothing auto-loads a past research file; it is a document sitting in the repo until a human or a skill points at it. This was raised early as the strongest challenge to the design — "the value's the markdown becoming context the agent re-reads later, not the fetch itself. A write-once dead file is just a fancy search" — and the shipped skill does not solve it. In practice the file earns its keep by being fed into the next step deliberately: attach it to a spec, quote it into a grilling session, point a [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket) at it.
+Non. Aucun mécanisme ne recharge automatiquement une recherche antérieure ; le document reste dans le dépôt jusqu’à ce qu’un humain ou un skill le désigne. La valeur vient du fichier Markdown que l’agent relira comme contexte, pas de la collecte elle-même. Un fichier produit une seule fois puis oublié n’est qu’une recherche plus élaborée. Pour qu’il reste utile, introduisez-le explicitement dans l’étape suivante : joignez-le à une spécification, citez-le pendant une séance de questions ou liez-le depuis un [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket).
 
-**Why not just ask the agent to go read the docs?**
+**Pourquoi ne pas simplement demander à l'agent d'aller lire la documentation ?**
 
-You can, and a two-line prompt saying exactly that was the practice this skill replaced. Two things the skill buys over the prompt: it runs in the background so your session keeps its [context](https://www.aihero.dev/ai-coding-dictionary/context) clean, and the primary-source constraint and the cited-file output come out the same way every time rather than however you happened to phrase it. Against a [harness](https://www.aihero.dev/ai-coding-dictionary/harness)'s own deep-research mode, the difference is the artifact and the source discipline, not the search. If a two-line prompt gets you what you need on a small question, use the two-line prompt.
+Vous pouvez, et une invite de deux lignes indiquant exactement que c'était la pratique remplacée par cette compétence. Deux choses que la compétence achète par rapport à l'invite : elle s'exécute en arrière-plan afin que votre session garde son [context](https://www.aihero.dev/ai-coding-dictionary/context) propre, et la contrainte de source principale et la sortie du fichier cité ressortent de la même manière à chaque fois plutôt que de la manière dont vous l'avez formulé. Par rapport au mode de recherche approfondie d'un [harnais](https://www.aihero.dev/ai-coding-dictionary/harness), la différence réside dans l'artefact et la discipline source, pas dans la recherche. Si une invite de deux lignes vous donne ce dont vous avez besoin sur une petite question, utilisez l'invite de deux lignes.
 
-**When does it stop reading?**
+**Quand arrête-t-il la lecture ?**
 
-There is no stopping criterion in the skill, and this shows up as two complaints that look opposite but are the same gap: agents that go far too deep, and agents that cover a topic broadly while missing the one specific detail that mattered. One practitioner put it as "deep-research skills are a bit too deep sometimes. And telling an agent to research usually results in missing crucial details." Scoping is on you. A narrow, answerable question — one API, one behaviour, one version claim — comes back far better than "research X".
+Il n'y a pas de critère d'arrêt dans la compétence, et cela se manifeste par deux plaintes qui semblent opposées mais qui constituent le même écart : des agents qui vont beaucoup trop en profondeur et des agents qui couvrent un sujet de manière large tout en manquant le détail spécifique qui comptait. Un praticien l'a expliqué comme suit : « Les compétences en recherche approfondie sont parfois un peu trop approfondies. Et demander à un agent de faire des recherches aboutit généralement à manquer des détails cruciaux ». La portée est à vous. Une question précise et à laquelle il est possible de répondre – une API, un comportement, une revendication de version – revient bien mieux que « recherche X ».
 
-**`/wayfinder` created research tickets — do I resolve those myself?**
+**`/wayfinder` tickets de recherche créés – dois-je les résoudre moi-même ?**
 
-No, it now fires them for you. In the unreleased changes since v1.1, a charting session spawns a `/research` subagent per research ticket and burns them down in parallel, capturing findings on a throwaway `research/<name>` branch with a [context pointer](https://www.aihero.dev/ai-coding-dictionary/context-pointer) from the ticket. Research tickets are the one exception to wayfinder's one-ticket-per-session rule, because they are [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) — nothing waits on you. Two known snags with those branches: the subagent has been seen opening a draft PR from a branch that is never meant to merge ([issue #576](https://github.com/mattpocock/skills/issues/576)), and deleting the branch later breaks the context pointers the tickets hold.
+Non, il les déclenche maintenant pour vous. Dans les modifications inédites depuis la version 1.1, une session de cartographie génère un sous-agent  `/research`  par ticket de recherche et les brûle en parallèle, capturant les résultats sur une branche  `research/<name>`  jetable avec un [pointeur de contexte](https://www.aihero.dev/ai-coding-dictionary/context-pointer) du ticket. Les tickets de recherche sont la seule exception à la règle d'un ticket par session de Wayfinder, car ils sont [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) — rien ne vous attend. Deux problèmes connus avec ces branches : le sous-agent a été vu ouvrir un brouillon de PR à partir d'une branche qui n'est jamais censée fusionner ([numéro 576](https://github.com/mattpocock/skills/issues/576)), et la suppression ultérieure de la branche brise les pointeurs de contexte que contiennent les tickets.
 
-## It's working if
+## Indicateurs de réussite
 
-- Your own session keeps going. If you are sitting watching it read, the delegation didn't happen.
-- Exactly one new background task appears. A second one with a near-identical name is the nesting bug.
-- One new Markdown file shows up, in the folder the repo already uses for notes, and the agent tells you the path.
-- Every claim in it carries a link, and following two at random lands you on an official doc, a spec, or the actual source file — not on someone's write-up of it.
-- You can make the decision you were stuck on from the file alone, without going back to the sources yourself.
+- Votre propre session continue. Si vous êtes assis à le regarder lire, la délégation n'a pas eu lieu.
+- Exactement une nouvelle tâche en arrière-plan apparaît. Un deuxième avec un nom presque identique est le bug de nidification.
+- Un nouveau fichier Markdown apparaît, dans le dossier que le dépôt utilise déjà pour les notes, et l'agent vous indique le chemin.
+- Chaque revendication contient un lien, et en suivre deux au hasard vous amène sur un document officiel, une spécification ou le fichier source réel - pas sur la rédaction de quelqu'un à ce sujet.
+- Vous pouvez prendre la décision sur laquelle vous étiez coincé seul à partir du dossier, sans revenir vous-même aux sources.
 
-## Where it fits
+## Où il s’inscrit
 
-A reach-for-it-anytime standalone that feeds the thinking skills rather than sitting in the build chain. Its file is something to take *into* the flow: [grilling](https://aihero.dev/skills-grilling) and [grill-with-docs](https://aihero.dev/skills-grill-with-docs) ask sharper questions when the facts are already on the table, and [to-spec](https://aihero.dev/skills-to-spec) can synthesise against it. [wayfinder](https://aihero.dev/skills-wayfinder) is the one skill that invokes it directly, resolving each research ticket on its map with a `/research` subagent. For the whole map, see [ask-matt](https://aihero.dev/skills-ask-matt).
+Un outil autonome accessible à tout moment qui nourrit les capacités de réflexion plutôt que de rester dans la chaîne de construction. Son fichier est quelque chose à intégrer *dans* le flux : [grilling](https://aihero.dev/skills-grilling) et [grill-with-docs](https://aihero.dev/skills-grill-with-docs) posent des questions plus précises lorsque les faits sont déjà sur la table, et [to-spec](https://aihero.dev/skills-to-spec) peut synthétiser contre lui. [wayfinder](https://aihero.dev/skills-wayfinder) est la seule compétence qui l'invoque directement, résolvant chaque ticket de recherche sur sa carte avec un sous-agent  `/research` . Pour la carte complète, voir [ask-matt](https://aihero.dev/skills-ask-matt).
