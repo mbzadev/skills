@@ -27,7 +27,7 @@ Générez ensuite un sous-agent pour parcourir la base de code. Ne suivez pas de
 
 - Où la compréhension d'un concept nécessite-t-elle de rebondir entre de nombreux petits modules ?
 - Où sont les modules **superficiels** — une interface presque aussi complexe que l'implémentation ?
-- Où les fonctions pures ont-elles été extraites juste à des fins de testabilité, mais les vrais bugs se cachent dans la façon dont elles sont appelées (pas de **localité**) ?
+- Où les fonctions pures ont-elles été extraites juste à des fins de testabilité, mais les vrais bogues se cachent dans la façon dont elles sont appelées (pas de **localité**) ?
 - Où les modules étroitement couplés fuient-ils à travers leurs coutures ?
 - Quelles parties de la base de code ne sont pas testées ou sont difficiles à tester via leur interface actuelle ?
 

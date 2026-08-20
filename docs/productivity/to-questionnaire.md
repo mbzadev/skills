@@ -1,23 +1,23 @@
 ## Ce qu’il fait
 
-`to-questionnaire` transforme une décision que vous ne pouvez pas prendre par vous-même en un **questionnaire** — un document Markdown que vous remettez à la seule personne qui détient ce qui vous manque, pour qu'elle le remplisse de manière asynchrone ou que vous puissiez y travailler tous les deux lors d'une réunion.
+`to-questionnaire` transforme une décision que vous ne pouvez pas prendre seul en un **questionnaire** : un document Markdown remis à la personne qui détient l’information manquante, afin qu’elle puisse le remplir à son rythme ou avec vous pendant une réunion.
 
-Il vous interroge sur l'**envoi**, jamais sur le sujet. Vous interviewer sur le sujet est inutile ici : ne pas connaître le sujet est la raison pour laquelle vous écrivez à quelqu'un d'autre. Il pose donc les deux questions auxquelles vous pouvez toujours répondre : à qui cela s'adresse et ce dont vous avez besoin en retour - et vise chaque question du document sur le **écart** entre les deux.
+Il vous interroge sur l’**envoi**, jamais sur le sujet. Vous questionner sur le fond serait inutile : si vous connaissiez déjà le sujet, vous n’auriez pas besoin d’écrire à quelqu’un d’autre. Il pose donc les deux questions auxquelles vous pouvez toujours répondre : à qui le document est destiné et ce dont vous avez besoin en retour. Chaque question vise ensuite l’**écart** entre ces deux éléments.
 
 ## Quand l’utiliser
 
 Vous l'invoquez en tapant `/to-questionnaire` — l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul.
 
-Atteignez-le lorsqu'une décision est bloquée sur des connaissances qui vivent dans la tête d'une autre personne : un client, un expert du domaine, un cadre qui possède les règles métier, un collègue d'une équipe avec laquelle vous ne travaillez pas. La compétence que vous recherchez dépend de l'endroit où se trouvent réellement les réponses :
+Utilisez ce skill lorsqu'une décision est bloquée sur des connaissances qui vivent dans la tête d'une autre personne : un client, un expert du domaine, un cadre qui possède les règles métier, un collègue d'une équipe avec laquelle vous ne travaillez pas. La compétence que vous recherchez dépend de l'endroit où se trouvent réellement les réponses :
 
-| Les réponses sont dans… | Atteindre |
+| Les réponses sont dans… | Utilisez |
 | --- | --- |
-| Votre propre tête, non aiguisée | [grille-moi](https://aihero.dev/skills-grill-me) |
+| Votre propre réflexion, encore imprécise | [grill-me](https://aihero.dev/skills-grill-me) |
 | La base de code | [grill-with-docs](https://aihero.dev/skills-grill-with-docs) |
 | La tête de quelqu'un d'autre | `to-questionnaire` |
 | Personne n'a encore la tête — la question nécessite une réaction | [prototype](https://aihero.dev/skills-prototype) |
 
-Le cas le plus courant est celui d'une session [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) qui se bloque : une partie de ce qui a fait surface ne vous appartient pas. Exécutez `/to-questionnaire` dans cette même conversation pour mettre ces questions hors ligne, puis ramenez les réponses et continuez.
+Le cas le plus courant est une session de [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) bloquée parce qu’une partie des réponses appartient à quelqu’un d’autre. Exécutez `/to-questionnaire` dans la même conversation pour externaliser ces questions, puis rapportez les réponses et reprenez le travail.
 
 ## L'envoi, pas le sujet
 
@@ -30,7 +30,7 @@ Tout ce qui suit n'est que rédaction. Le fichier atterrit à `to-questionnaire-
 
 ## Le document
 
-Il est conçu comme un **questionnaire de découverte** — il vous manque le contexte, le destinataire le détient — et ce cadrage détermine sa forme :
+Le document est conçu comme un **questionnaire de découverte** : il vous manque le contexte et le destinataire le détient. Cette situation détermine sa forme :
 
 - Une ligne d'objectif nommant la décision qui en découle, et une courte section contextuelle pour un destinataire qui n'a jamais été dans votre tête.
 - Questions classées **les plus importantes en premier** et regroupées sous des titres thématiques, car asynchrone signifie que vous ne pouvez obtenir qu'un seul passage.
@@ -38,7 +38,7 @@ Il est conçu comme un **questionnaire de découverte** — il vous manque le co
 - Autorisation explicite de répondre « Je ne sais pas » — une incertitude signalée est utile ; une supposition sûre qui se lit comme un fait ne l’est pas.
 - Un fourre-tout final : quelque chose que nous n'avons pas demandé et que nous devrions savoir ?
 
-Deux choses que ce n’est délibérément pas le cas. Il ne s'agit pas de **branchements** : les questions sont une liste plate et groupée, pas un arbre qui saute la section D si vous avez répondu A. Et ce n'est pas **multi-destinataires** : une exécution produit un document pour une personne.
+Deux propriétés sont volontairement absentes. Il ne s’agit pas d’un questionnaire à **embranchements** : les questions forment une liste structurée, et non un arbre qui saute la section D après une réponse A. Il ne s’agit pas non plus d’un document **multi-destinataires** : chaque exécution produit un questionnaire pour une seule personne.
 
 ## Questions fréquentes
 
@@ -48,11 +48,11 @@ Pas comme une étape en soi. La compétence n'a pas de phase d'ingestion : elle 
 
 **Les réponses manquantes ne vivent pas toutes avec la même personne. Peut-il les diviser par destinataire ?**
 
-Non. La première étape demande *le* destinataire, au singulier, et le ton et le contexte de l'ensemble du document leur sont présentés. Si trois personnes détiennent trois parties de la réponse, exécutez-la trois fois, une fois par personne. L'acheminement des questions par discipline ou par rôle dans un seul document est une demande formulée par les utilisateurs ; ce n'est pas ce qui a été expédié.
+Non. La première étape demande un destinataire unique, et tout le ton ainsi que le contexte du document sont adaptés à cette personne. Si trois personnes détiennent chacune une partie de la réponse, exécutez le skill trois fois. Le routage des questions par discipline ou par rôle dans un seul document a été demandé, mais n’est pas pris en charge.
 
 **Les questions sont-elles dépendantes ? Est-ce que des sections sont sautées en fonction des réponses précédentes ?**
 
-Non. La conception des questions dépendantes a été explorée et n’a pas été expédiée. Le résultat est un document statique : des groupes thématiques, le plus important en premier, chaque question en direct. L'objection contre cela est juste : un [modèle](https://www.aihero.dev/ai-coding-dictionary/model) planifiant plus de deux ou trois questions avant une vraie réponse planifie mal, et un document de branchement doit toutes les planifier avant chaque réponse.
+Non. Les questions conditionnelles ont été étudiées, mais ne font pas partie du skill. Le résultat est un document statique : des groupes thématiques, les questions les plus importantes en premier, puis une question par ligne. L’objection est valable : un [modèle](https://www.aihero.dev/ai-coding-dictionary/model) qui planifie plus de deux ou trois questions avant d’obtenir une réponse planifie mal, tandis qu’un document à embranchements doit tout prévoir à l’avance.
 
 **Et si le destinataire ne le sait pas non plus ?**
 
@@ -64,7 +64,7 @@ Non, il écrit un fichier Markdown dans le répertoire courant et vous indique l
 
 **N'est-ce pas juste `/grill-me` en mode batch ?**
 
-Non, et la distinction vaut la peine d'être retenue. `grill-me` demande déjà en **tours** — toute la frontière à la fois, puis recalculée à partir de vos réponses — donc le besoin « donnez-moi toutes les questions à la fois » y est satisfait. `to-questionnaire`  concerne un axe différent : non pas la façon dont les questions sont posées, mais dans quelle tête se trouvent les réponses. est `grill-me` ; les sortir de quelqu'un d'autre, c'est ça.
+Non. `grill-me` pose déjà ses questions par **tours** : il présente toute la frontière actuelle, puis la recalcule après chacune de vos réponses. Le besoin « donnez-moi toutes les questions à la fois » est donc couvert. `to-questionnaire` traite un autre axe : il ne change pas la manière de poser les questions, mais la personne qui détient les réponses. Pour vous interroger, utilisez `grill-me` ; pour interroger quelqu’un d’autre, utilisez `to-questionnaire`.
 
 **Ne pourrais-je pas simplement demander cela à l'agent sans compétence ?**
 
@@ -80,6 +80,6 @@ Oui, et beaucoup de gens l'ont fait avant qu'il n'existe — `OPEN_QUESTIONS.md`
 
 ## Où il s’inscrit
 
-`to-questionnaire` est un outil autonome accessible à tout moment. Cela se situe à la limite de vos propres connaissances, là où le prochain mouvement est celui d'une autre personne plutôt que d'une autre compétence - le plus souvent à mi-parcours, lorsque la planification est bloquée sur quelque chose dont vous n'avez pas à décider.
+`to-questionnaire` est un **skill autonome, utilisable à tout moment**. Utilisez-le à la limite de vos connaissances, lorsque la prochaine étape dépend d’une autre personne plutôt que d’un autre skill — le plus souvent au milieu d’une planification bloquée par une décision que vous ne pouvez pas prendre seul.
 
-Son voisin est [grill-me](https://aihero.dev/skills-grill-me), et les deux se divisent sur l'endroit où se trouvent les réponses : une grillade vous mine, un questionnaire mine quelqu'un d'autre. Ce qui revient, c'est de la matière première – introduisez-la dans un autre cycle de grillades, ou dans [grill-with-docs](https://aihero.dev/skills-grill-with-docs) ou [to-spec](https://aihero.dev/skills-to-spec) si le travail se dirige vers une construction. Lorsque vous ne savez pas quelle compétence vous convient le mieux, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.
+Son voisin est [grill-me](https://aihero.dev/skills-grill-me) : les deux clarifient des questions, mais `grill-me` vous interroge tandis que le questionnaire s’adresse à quelqu’un d’autre. Les réponses obtenues deviennent ensuite la matière première d’une nouvelle séance de questions, de [grill-with-docs](https://aihero.dev/skills-grill-with-docs) ou de [to-spec](https://aihero.dev/skills-to-spec). En cas de doute, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous oriente.

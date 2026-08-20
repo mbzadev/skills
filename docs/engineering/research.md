@@ -6,11 +6,11 @@ Il ne vous répond pas dans la conversation. Le résultat est un fichier, écrit
 
 ## Quand l’utiliser
 
-Tapez `/research`, ou l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) l'atteint automatiquement lorsqu'une tâche se transforme en travail de lecture.
+Tapez `/research`, ou laissez l’agent le sélectionner automatiquement lorsqu’une tâche devient principalement un travail de lecture.
 
-Atteignez-le lorsque la prochaine étape consiste à *trouver quelque chose* en dehors du répertoire de travail - comment se comporte une API tierce, ce que dit réellement une spécification, si une revendication de version est valable - et vous préférez ne pas bloquer votre propre fil de discussion en faisant la lecture. Ce dont vous avez besoin détermine quelle compétence :
+Utilisez ce skill lorsque la prochaine étape consiste à *trouver quelque chose* en dehors du répertoire de travail - comment se comporte une API tierce, ce que dit réellement une spécification, si une revendication de version est valable - et vous préférez ne pas bloquer votre propre fil de discussion en faisant la lecture. Ce dont vous avez besoin détermine quelle compétence :
 
-| Ce dont vous avez besoin | Atteindre |
+| Ce dont vous avez besoin | Utilisez |
 | --- | --- |
 | Un fait extérieur qu'une décision attend | `research` |
 | Une décision prise *avec* vous, par entretien | [griller](https://aihero.dev/skills-grilling) |
@@ -32,7 +32,7 @@ L'endroit où le fichier atterrit est décidé par le dépôt, pas par la compé
 
 **Cela a donné naissance à un deuxième agent de recherche : est-ce censé arriver ?**
 
-Non. Il s’agit du [ticket ouvert nº 530](https://github.com/mattpocock/skills/issues/530). Le skill demande à son appelant de lancer un agent en arrière-plan sans en restreindre le type. L’agent créé peut donc être de type `general-purpose`, disposer lui-même de l’outil `Agent` et relancer les mêmes instructions. Un utilisateur a ainsi observé qu’une seule recherche consommait environ 450 000 [jetons](https://www.aihero.dev/ai-coding-dictionary/token) dans trois analyses superposées, dont une copie s’est terminée une demi-heure plus tard sans être visible. Le même emboîtement a été confirmé dans Codex avec GPT-5.6-sol. Aucun correctif structurel n’est livré. Certains utilisateurs ajoutent une consigne demandant à tout [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) déjà lancé d’effectuer lui-même le travail au lieu de le déléguer à nouveau. Après l’invocation, surveillez donc les tâches en arrière-plan et arrêtez toute duplication.
+Non. Il s’agit du [ticket ouvert nº 530](https://github.com/mbzadev/skills/issues/530). Le skill demande à son appelant de lancer un agent en arrière-plan sans en restreindre le type. L’agent créé peut donc être de type `general-purpose`, disposer lui-même de l’outil `Agent` et relancer les mêmes instructions. Un utilisateur a ainsi observé qu’une seule recherche consommait environ 450 000 [jetons](https://www.aihero.dev/ai-coding-dictionary/token) dans trois analyses superposées, dont une copie s’est terminée une demi-heure plus tard sans être visible. Le même emboîtement a été confirmé dans Codex avec GPT-5.6-sol. Aucun correctif structurel n’est livré. Certains utilisateurs ajoutent une consigne demandant à tout [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) déjà lancé d’effectuer lui-même le travail au lieu de le déléguer à nouveau. Après l’invocation, surveillez donc les tâches en arrière-plan et arrêtez toute duplication.
 
 L’échec inverse existe également : si vos propres instructions globales interdisent à un agent de redéléguer du travail, l’agent en arrière-plan refusera poliment la tâche et la compétence ne fera rien en silence.
 
@@ -58,16 +58,16 @@ Il n'y a pas de critère d'arrêt dans la compétence, et cela se manifeste par 
 
 **`/wayfinder` tickets de recherche créés – dois-je les résoudre moi-même ?**
 
-Non, il les déclenche maintenant pour vous. Dans les modifications inédites depuis la version 1.1, une session de cartographie génère un sous-agent  `/research`  par ticket de recherche et les brûle en parallèle, capturant les résultats sur une branche  `research/<name>`  jetable avec un [pointeur de contexte](https://www.aihero.dev/ai-coding-dictionary/context-pointer) du ticket. Les tickets de recherche sont la seule exception à la règle d'un ticket par session de Wayfinder, car ils sont [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) — rien ne vous attend. Deux problèmes connus avec ces branches : le sous-agent a été vu ouvrir un brouillon de PR à partir d'une branche qui n'est jamais censée fusionner ([numéro 576](https://github.com/mattpocock/skills/issues/576)), et la suppression ultérieure de la branche brise les pointeurs de contexte que contiennent les tickets.
+Non, il les déclenche maintenant pour vous. Dans les modifications inédites depuis la version 1.1, une session de cartographie génère un sous-agent  `/research`  par ticket de recherche et les brûle en parallèle, capturant les résultats sur une branche  `research/<name>`  jetable avec un [pointeur de contexte](https://www.aihero.dev/ai-coding-dictionary/context-pointer) du ticket. Les tickets de recherche sont la seule exception à la règle d'un ticket par session de Wayfinder, car ils sont [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) — rien ne vous attend. Deux problèmes connus avec ces branches : le sous-agent a été vu ouvrir un brouillon de PR à partir d'une branche qui n'est jamais censée fusionner ([numéro 576](https://github.com/mbzadev/skills/issues/576)), et la suppression ultérieure de la branche brise les pointeurs de contexte que contiennent les tickets.
 
 ## Indicateurs de réussite
 
 - Votre propre session continue. Si vous êtes assis à le regarder lire, la délégation n'a pas eu lieu.
-- Exactement une nouvelle tâche en arrière-plan apparaît. Un deuxième avec un nom presque identique est le bug de nidification.
+- Exactement une nouvelle tâche en arrière-plan apparaît. Un deuxième avec un nom presque identique est le bogue de nidification.
 - Un nouveau fichier Markdown apparaît, dans le dossier que le dépôt utilise déjà pour les notes, et l'agent vous indique le chemin.
 - Chaque revendication contient un lien, et en suivre deux au hasard vous amène sur un document officiel, une spécification ou le fichier source réel - pas sur la rédaction de quelqu'un à ce sujet.
 - Vous pouvez prendre la décision sur laquelle vous étiez coincé seul à partir du dossier, sans revenir vous-même aux sources.
 
 ## Où il s’inscrit
 
-Un outil autonome accessible à tout moment qui nourrit les capacités de réflexion plutôt que de rester dans la chaîne de construction. Son fichier est quelque chose à intégrer *dans* le flux : [grilling](https://aihero.dev/skills-grilling) et [grill-with-docs](https://aihero.dev/skills-grill-with-docs) posent des questions plus précises lorsque les faits sont déjà sur la table, et [to-spec](https://aihero.dev/skills-to-spec) peut synthétiser contre lui. [wayfinder](https://aihero.dev/skills-wayfinder) est la seule compétence qui l'invoque directement, résolvant chaque ticket de recherche sur sa carte avec un sous-agent  `/research` . Pour la carte complète, voir [ask-matt](https://aihero.dev/skills-ask-matt).
+`research` est un skill autonome, utilisable à tout moment, qui alimente la réflexion sans rester dans la chaîne de construction. Son fichier est destiné à être réutilisé *dans* le flux : [grilling](https://aihero.dev/skills-grilling) et [grill-with-docs](https://aihero.dev/skills-grill-with-docs) posent des questions plus précises lorsque les faits sont établis, et [to-spec](https://aihero.dev/skills-to-spec) peut synthétiser ses résultats. [wayfinder](https://aihero.dev/skills-wayfinder) est le seul skill qui l’invoque directement, en confiant chaque ticket de recherche de sa carte à un sous-agent `/research`. Pour voir la carte complète, consultez [ask-mabza](https://aihero.dev/skills-ask-mabza).

@@ -1,18 +1,18 @@
 ## Ce qu’il fait
 
-`wait-what` s’utilise lorsqu’un message n’est pas clair. L’[agent](https://www.aihero.dev/ai-coding-dictionary/agent) reformule alors son propos, ajoute le contexte manquant, écrit en français clair et reprend le vocabulaire du `CONTEXT.md` du projet.
+`wait-what` s’utilise lorsqu’un message n’est pas clair. L’[agent](https://www.aihero.dev/ai-coding-dictionary/agent) reformule alors le passage concerné, ajoute le contexte manquant, écrit en français clair et reprend le vocabulaire du `CONTEXT.md` du projet.
 
-La compétence fait trois lignes. Il s'agit d'une conception, et non d'une ébauche inachevée. Les compétences qui combattent la verbosité échouent en grandissant : une compétence de concision de quatre cents lignes laisse toujours le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) verbeux, car le modèle lit le volume, pas le plaidoyer. Celui-ci porte un seul mot principal précis et rien d'autre.
+La compétence tient en trois lignes. C’est un choix de conception, pas une ébauche incomplète. Les skills conçus pour réduire la verbosité échouent souvent en grossissant : un skill de quatre cents lignes laisse le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) verbeux, car le modèle tient compte du volume plutôt que des explications. Celui-ci repose sur un seul mot déclencheur précis, sans ajout superflu.
 
 ## Quand l’utiliser
 
-Vous l'invoquez en tapant `/wait-what`. L'agent ne l'atteindra pas tout seul, et il ne devrait pas l'atteindre. Vous seul savez quand vous avez arrêté de suivre.
+Vous l’invoquez en tapant `/wait-what`. L’agent ne le déclenchera pas seul, et c’est volontaire : vous seul savez à quel moment vous avez perdu le fil.
 
-Utilisez-le dès que vous remarquez que vous parcourez. L'agent a dérivé dans le jargon qu'il a inventé, empilé cinq acronymes ou expliqué une décision dont vous n'avez jamais vu les prémisses. Il corrige la conversation dans laquelle vous êtes déjà. Pour empêcher l'arrivée du jargon, utilisez [grill-with-docs](https://aihero.dev/skills-grill-with-docs), qui crée le langage partagé à l'avance.
+Utilisez-le dès que vous constatez que vous ne suivez plus. L’agent a peut-être dérivé vers un jargon qu’il a inventé, empilé des acronymes ou expliqué une décision dont les prémisses vous échappent. Le skill corrige alors la conversation en cours. Pour éviter ce problème, utilisez [grill-with-docs](https://aihero.dev/skills-grill-with-docs), qui établit le langage partagé dès le départ.
 
 ## Le nom est le mécanisme
 
-Le mot principal est **attendez**. « Soyez concis » est une instruction concernant le résultat de l'agent, et le modèle y obéit en coupant les mots et en vous perdant davantage. **Attendez** concerne *votre* état. Il est dit que la compréhension a échoué ici. Un agent qui entend « soyez bref » écrit des télégrammes. Un agent qui entend « attendez, vous m'avez perdu » recule et explique.
+Le mot déclencheur est **attendez**. « Soyez concis » décrit le résultat attendu et pousse le modèle à supprimer des mots, parfois au détriment de la compréhension. **Attendez** décrit *votre* état : il indique que la compréhension a échoué. Un agent qui entend « soyez bref » écrit des télégrammes ; un agent qui entend « attendez, vous m’avez perdu » revient en arrière et explique.
 
 Cette différence est toute la compétence. Chaque correctif populaire pour la verbosité nomme la *sortie* : `/tldr`, `/no-fluff`, `/talk-normal`. Le modèle est surcorrigé vers un registre de « homme des cavernes », plus court mais pas plus clair. Nommer l'*auditeur* demande les deux moitiés simultanément : moins de mots **et** le contexte qui vous manquait.
 
@@ -20,7 +20,7 @@ La compétence dit de relancer **ce**, pas « ce dernier message ». Ce qui vous
 
 ## Il se branche sur la langue que vous possédez déjà
 
-Le corps réutilise les mots principaux déjà présents dans votre `AGENTS.md`  global et dans celui de votre projet `CONTEXT.md`. L'anglais technique simplifié ASD-STE100 définit le registre. La langue omniprésente fournit les noms. La compétence  `AGENTS.md`  et  `CONTEXT.md`  atteignent les mêmes [jetons](https://www.aihero.dev/ai-coding-dictionary/token), donc l'invoquer n'est pas une nouvelle instruction. C'est un rappel de celui que l'agent a déjà accepté.
+Le corps réutilise les mots principaux déjà présents dans votre `AGENTS.md` global et dans le `CONTEXT.md` de votre projet. L’anglais technique simplifié ASD-STE100 en fixe le registre et le vocabulaire partagé fournit les noms. La compétence s’appuie sur les mêmes [jetons](https://www.aihero.dev/ai-coding-dictionary/token) que `AGENTS.md` et `CONTEXT.md` ; elle ne crée donc pas une nouvelle instruction, mais rappelle à l’agent un langage qu’il a déjà adopté.
 
 Si vous n'avez pas de `CONTEXT.md`, la compétence fonctionne toujours. Vous ne perdez que la moitié du vocabulaire du domaine.
 
@@ -39,4 +39,4 @@ Oui. Chaque invocation reformule le passage qui vient de vous perdre. Si la seco
 
 ## Où il s’inscrit
 
-Vous pouvez utiliser `wait-what` à tout moment, dans n'importe quelle conversation, dans n'importe quelle autre compétence. Il corrige un message après coup. La véritable solution est un langage partagé convenu dès le départ, et c'est [grill-with-docs](https://aihero.dev/skills-grill-with-docs) : une session [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) qui exécute [domain-modeling](https://aihero.dev/skills-domain-modeling) afin que les mots que vous utilisez tous les deux atterrissent dans votre `CONTEXT.md`. Si vous ne savez pas quelle compétence vous convient le mieux, [ask-matt](https://aihero.dev/skills-ask-matt) vous guide.
+`wait-what` s’utilise à tout moment, dans n’importe quelle conversation ou dans n’importe quel autre skill. Il corrige un message après coup. La solution durable consiste à établir un langage partagé dès le départ avec [grill-with-docs](https://aihero.dev/skills-grill-with-docs) : une session de [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) qui utilise [domain-modeling](https://aihero.dev/skills-domain-modeling) pour inscrire les termes communs dans votre `CONTEXT.md`. En cas de doute, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous guide.

@@ -1,9 +1,9 @@
 ---
-name: setup-matt-pocock-skills
+name: setup-mabza-skills
 description: "Configurez ce référentiel pour les compétences d'ingénierie : configurez son suivi des problèmes, son vocabulaire d'étiquettes de tri et la présentation de la documentation de domaine. Exécutez une fois avant la première utilisation des autres compétences d’ingénierie."
 ---
 
-# Configurer les skills de Matt Pocock
+# Configurer les skills de Mabza
 
 Créez la configuration propre au dépôt dont dépendent les skills d’ingénierie :
 
@@ -53,7 +53,7 @@ S'il est installé, posez exactement une question :
 
 > Voulez-vous conserver les étiquettes de tri par défaut ? (recommandé : **oui**)
 
-Les valeurs par défaut sont les cinq rôles canoniques, chaque chaîne d'étiquette étant égale à son nom : `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. Sur **oui**, écrivez-les tels quels. Seulement si l'utilisateur dit non – généralement parce que son tracker utilise déjà d'autres noms (par exemple `bug:triage` pour `needs-triage`) – collectez les remplacements afin que `triage` applique les étiquettes existantes au lieu de créer des doublons.
+Les valeurs par défaut sont les cinq rôles canoniques, chaque chaîne d'étiquette étant égale à son nom : `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. Sur **oui**, écrivez-les tels quels. Seulement si l'utilisateur dit non – généralement parce que son outil de suivi utilise déjà d'autres noms (par exemple `bogue:triage` pour `needs-triage`) – collectez les remplacements afin que `triage` applique les étiquettes existantes au lieu de créer des doublons.
 
 **Section C — Documentation du domaine.** Utilisez par défaut un **contexte unique** : un fichier `CONTEXT.md` et un répertoire `docs/adr/` à la racine du dépôt. Cette organisation convient à presque tous les dépôts ; adoptez-la sans poser de question.
 

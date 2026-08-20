@@ -7,10 +7,10 @@ description: "Configurez des hooks de pré-commit Husky avec Prettier via lint-s
 
 ## Ce que cela configure
 
-- **Husky** crochet de pré-validation
-- **lint-staged** exécutant Prettier sur tous les fichiers préparés
-- **Configuration plus jolie** (si manquante)
-- **typecheck** et **test** scripts dans le hook de pré-commit
+- Le hook de pré-commit **Husky**
+- **lint-staged**, qui exécute Prettier sur les fichiers indexés
+- Une configuration **Prettier** si elle manque
+- Les scripts **typecheck** et **test** dans le hook de pré-commit
 
 ## Étapes
 
@@ -20,7 +20,7 @@ Recherchez `package-lock.json` — npm —, `pnpm-lock.yaml` — pnpm —, `yarn
 
 ### 2. Installer les dépendances
 
-Installer en tant que dépendances de développement :
+Installez ces outils comme dépendances de développement :
 
 ```
 husky lint-staged prettier
@@ -32,7 +32,7 @@ husky lint-staged prettier
 npx husky init
 ```
 
-Cela crée un `.husky/` répertoire et ajoute `prepare: "husky"` au package.json.
+Cette commande crée le répertoire `.husky/` et ajoute `prepare: "husky"` à `package.json`.
 
 ### 4. Créer `.husky/pre-commit`
 
@@ -44,9 +44,9 @@ npm run typecheck
 npm run test
 ```
 
-**Adapter**
+**À adapter**
 
- : Remplacez `npm` par le gestionnaire de packages détecté. Si le dépôt n'a pas de script `typecheck` ou `test`  dans package.json, omettez ces lignes et informez-en l'utilisateur.
+Remplacez `npm` par le gestionnaire de packages détecté. Si le dépôt ne possède pas de script `typecheck` ou `test` dans `package.json`, supprimez les lignes correspondantes et informez-en l’utilisateur.
 
 ### 5. Créer `.lintstagedrc`
 
@@ -54,7 +54,9 @@ npm run test
 {
   "*": "prettier --ignore-unknown --write"
 }
-```### 6. Créer `.prettierrc` (si manquant)
+```
+
+### 6. Créer `.prettierrc` (si manquant)
 
 Créez uniquement si aucune configuration Prettier n’existe. Utilisez ces valeurs par défaut :
 
@@ -74,8 +76,8 @@ Créez uniquement si aucune configuration Prettier n’existe. Utilisez ces vale
 
 - [ ] `.husky/pre-commit` existe et est exécutable
 - [ ] `.lintstagedrc` existe
-- [ ] `prepare` le script dans package.json est `"husky"`
-- [ ] `prettier` la configuration existe
+- [ ] Le script `prepare` de `package.json` vaut `"husky"`
+- [ ] La configuration `prettier` existe
 - [ ] Exécutez `npx lint-staged` pour vérifier que cela fonctionne
 
 ### 8. Créer le commit

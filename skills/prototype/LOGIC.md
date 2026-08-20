@@ -51,7 +51,7 @@ Gardez-le beau mais sobre : typographie épurée, espacement généreux, une cou
 
 ### 4. Remettez-le
 
-Envoyez-leur le fichier ou ouvrez-le pour eux. Ils cliqueront sur les procédures pas à pas et joueront gratuitement dès qu'ils y parviendront ; les moments intéressants sont quand ils disent "attendez, ça ne devrait pas être possible" ou "hein, j'ai supposé que X serait différent" - ce sont les bugs de l'_idée_, c'est là tout l'intérêt. S'ils souhaitent de nouvelles actions ou un nouveau scénario, ajoutez-les. Les prototypes évoluent.
+Envoyez-leur le fichier ou ouvrez-le pour eux. Ils cliqueront sur les procédures pas à pas et joueront gratuitement dès qu'ils y parviendront ; les moments intéressants sont quand ils disent "attendez, ça ne devrait pas être possible" ou "hein, j'ai supposé que X serait différent" - ce sont les bogues de l'_idée_, c'est là tout l'intérêt. S'ils souhaitent de nouvelles actions ou un nouveau scénario, ajoutez-les. Les prototypes évoluent.
 
 ### 5. Capturez la réponse et le prototype
 

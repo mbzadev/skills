@@ -10,7 +10,7 @@ Pour copier des skills modifiables dans un projet avec `skills.sh` :
 npx skills@latest add mbzadev/skills
 ```
 
-Choisissez Codex comme cible, puis sélectionnez les skills voulus. Incluez `setup-matt-pocock-skills` si vous utilisez les flux d’ingénierie qui dépendent de la configuration du dépôt.
+Choisissez Codex comme cible, puis sélectionnez les skills voulus. Incluez `setup-mabza-skills` si vous utilisez les flux d’ingénierie qui dépendent de la configuration du dépôt.
 
 Pour n’installer qu’un skill :
 

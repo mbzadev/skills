@@ -3,7 +3,7 @@ name: grilling
 description: "Grillez sans relâche l’utilisateur à propos d’un plan, d’une décision ou d’une idée. À utiliser lorsque l'utilisateur souhaite tester sa réflexion ou utilise des phrases déclencheurs « grill »."
 ---
 
-Interviewez l’utilisateur sans relâche jusqu’à ce que vous parveniez à une compréhension commune. Cartographiez cela comme un **arbre de conception** : chaque décision se ramifie sur les décisions qui en dépendent.
+Interrogez l’utilisateur sans relâche jusqu’à ce que vous parveniez à une compréhension commune. Cartographiez cela comme un **arbre de conception** : chaque décision se ramifie sur les décisions qui en dépendent.
 
 Travaillez l'arbre en **tours**. La **frontière** correspond à toute décision dont les conditions préalables sont déjà réglées — les questions que vous pouvez poser _maintenant_ sans deviner les réponses que vous n'avez pas encore entendues. Posez toute la frontière en un seul tour : numérotez chaque question et donnez la réponse recommandée. Attendez ensuite les réponses de l'utilisateur avant le prochain tour.
 

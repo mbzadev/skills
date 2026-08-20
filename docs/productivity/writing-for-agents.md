@@ -2,13 +2,13 @@
 
 `writing-for-agents` est la référence sur laquelle vous écrivez des documents destinés aux agents - une compétence, un `AGENTS.md`, un [spec](https://www.aihero.dev/ai-coding-dictionary/spec), une invite d'exécution, un README, n'importe quel document et [agent](https://www.aihero.dev/ai-coding-dictionary/agent) lit. L'emballage diffère ; ce n'est pas le cas de l'écriture : les mêmes leviers rendent chacun d'eux prévisible, de sorte que l'agent suit le même *processus* à chaque exécution plutôt que de produire le même résultat.
 
-Son mouvement par défaut est la suppression, pas l'explication. Demandez à un agent d'écrire des instructions pour un autre agent et il passe la plupart de ses mots à expliquer ce que le [model](https://www.aihero.dev/ai-coding-dictionary/model) sait déjà — chacune de ces lignes est un **no-op**, payant [context](https://www.aihero.dev/ai-coding-dictionary/context) et ne changeant aucun comportement. Cette référence est l'objectif qui les trouve, c'est pourquoi elle gagne sa place au moins aussi souvent sur un document que vous possédez déjà que sur un fichier vierge.
+Son mouvement par défaut est la suppression, pas l'explication. Demandez à un agent d'écrire des instructions pour un autre agent et il passe la plupart de ses mots à expliquer ce que le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) sait déjà — chacune de ces lignes est un **no-op**, payant [context](https://www.aihero.dev/ai-coding-dictionary/context) et ne changeant aucun comportement. Cette référence est l'objectif qui les trouve, c'est pourquoi elle gagne sa place au moins aussi souvent sur un document que vous possédez déjà que sur un fichier vierge.
 
 Il s'appelait  `writing-great-skills` jusqu'à la v1.1. Le changement de nom suit ce qu'il a toujours été en dessous : presque rien n'est spécifique à une compétence. Les mécanismes réservés aux compétences (frontmatter, choix du modèle par rapport à l'utilisateur, compétences du routeur) sont divulgués à un `SKILL-MECHANICS.md`  lié que vous lisez uniquement lorsque le document devant vous est une compétence.
 
 ## Quand l’utiliser
 
-Tapez `/writing-for-agents`, ou l'agent l'atteint tout seul lorsque vous créez ou modifiez une compétence, ou que vous modifiez `AGENTS.md`.
+Tapez `/writing-for-agents`, ou laissez l’agent le sélectionner automatiquement lorsque vous créez ou modifiez un skill, ou lorsque vous modifiez `AGENTS.md`.
 
 Accédez-y manuellement pour tout ce qu'un agent lit : vos documents, vos spécifications et vos [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket), votre système et vos invites [AFK](https://www.aihero.dev/ai-coding-dictionary/afk). Le test est une question : un agent lit-il ceci ? - et peu importe la façon dont le document arrive devant lui, qu'un pointeur le nomme, qu'un humain le colle ou qu'il se trouve simplement dans le dépôt. Pour déterminer ce qu'une base de code contient réellement en premier lieu, utilisez [grill-with-docs](https://aihero.dev/skills-grill-with-docs) — cette référence régit la façon dont un document est lu, pas ce qu'il sait.
 
@@ -23,7 +23,7 @@ Une fois que vous réfléchissez à ces deux charges, la plupart des décisions 
 
 ## Les leviers
 
-- **[Pointeurs de contexte](https://www.aihero.dev/ai-coding-dictionary/context-pointer)** — la référence conservée dans le contexte qui nomme le matériel hors contexte et code quand l'atteindre. Une description de compétence et une `AGENTS.md` ligne nommant un document sont le même objet ; c'est la *formulation* du pointeur, et non sa cible, qui décide de la fiabilité avec laquelle l'agent l'atteint.
+- **[Pointeurs de contexte](https://www.aihero.dev/ai-coding-dictionary/context-pointer)** — une référence conservée dans le contexte qui nomme du matériel externe et précise quand le charger. Une description de skill et une ligne d’`AGENTS.md` qui nomme un document sont le même type d’objet ; c’est la *formulation* du pointeur, et non sa cible, qui détermine la fiabilité du chargement.
 - **Hiérarchie des informations** — l'échelle depuis l'étape dans le fichier, jusqu'à la référence dans le fichier, jusqu'à la référence divulguée derrière un pointeur. **[Divulgation progressive](https://www.aihero.dev/ai-coding-dictionary/progressive-disclosure)** est le mouvement vers le bas de cette échelle pour que le haut reste lisible.
 - **Critères d'achèvement** — la clarté et l'exigence de l'état effectué de chaque étape, et les **démarches** que la demande entraîne ; la défense contre **l'achèvement prématuré**.
 - **Mots principaux** — un concept compact déjà dans le pré-entraînement du modèle (*tight*, *red*, *tracer bullet*) avec lequel l'agent réfléchit lors de l'exécution du document. Il s'ancre deux fois : exécution dans le corps, invocation dans le pointeur.
@@ -76,4 +76,4 @@ Non, trouver le mot qui regroupe le plus de comportements dans le moins de [jeto
 
 ## Où il s’inscrit
 
-Il s’agit d’une référence autonome accessible à tout moment. Il n'a pas de voisin dans la chaîne car il se situe sous l'ensemble plutôt qu'à côté d'une seule compétence : chaque compétence ici a été écrite contre elle, et les documents que les autres compétences laissent derrière eux - un `CONTEXT.md`  et ses ADR, une spécification, un ticket - sont exactement le texte qu'il régit une fois qu'un agent doit les lire. Lorsque vous ne savez pas quelle compétence ou quel flux correspond à une tâche, [ask-matt](https://aihero.dev/skills-ask-matt) vous guide sur l'ensemble de l'ensemble.
+Il s’agit d’une référence skill autonome, utilisable à tout moment. Il n'a pas de voisin dans la chaîne car il se situe sous l'ensemble plutôt qu'à côté d'une seule compétence : chaque compétence ici a été écrite contre elle, et les documents que les autres compétences laissent derrière eux - un `CONTEXT.md`  et ses ADR, une spécification, un ticket - sont exactement le texte qu'il régit une fois qu'un agent doit les lire. Lorsque vous ne savez pas quelle compétence ou quel flux correspond à une tâche, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous guide sur toute la collection.

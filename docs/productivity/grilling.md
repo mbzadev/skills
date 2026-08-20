@@ -1,22 +1,22 @@
 ## Ce qu’il fait
 
-`grilling` est la boucle d'entretien qui teste un plan, une décision ou une idée avant que quiconque n'y agisse. Il cartographie le sujet comme un **arbre de conception** - chaque décision se ramifie dans les décisions qui en découlent - et vous interroge branche par branche jusqu'à ce que rien ne soit laissé en silence.
+`grilling` est une boucle de questions qui met à l’épreuve un plan, une décision ou une idée avant toute mise en œuvre. Elle représente le sujet comme un **arbre de conception** : chaque décision ouvre les décisions qui en dépendent, puis le skill vous interroge branche par branche jusqu’à ce qu’aucune question importante ne reste en suspens.
 
-Il ne pose pas une question à la fois, ni tout en même temps. Chaque **tour** interroge toute la **frontière** : chaque décision dont les conditions préalables sont déjà réglées, et rien d'autre. Deux questions ne partagent jamais un tour si l’une dépend de l’autre – une question qui dépend d’une réponse encore ouverte appartient à un tour ultérieur. Vos réponses déterminent les décisions, la frontière se déplace vers l'extérieur et le tour suivant demande ce que cela a débloqué. Treize questions sont généralement posées en trois tours environ au lieu de treize.
+Elle ne pose ni une seule question à la fois, ni toutes les questions d’un coup. Chaque **tour** couvre toute la **frontière** : les décisions dont les prérequis sont déjà réglés, et rien de plus. Deux questions ne figurent jamais dans le même tour si l’une dépend de l’autre. Vos réponses fixent les décisions, déplacent la frontière et déterminent les questions du tour suivant. Treize questions sont ainsi généralement traitées en trois tours plutôt qu’en treize échanges séparés.
 
 ## Quand l’utiliser
 
-Tapez `/grilling`, ou l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) l'atteint tout seul lorsqu'une tâche lui convient. C'est la seule [compétence](https://www.aihero.dev/ai-coding-dictionary/skill) de la famille des grillades qui est invoquée par le modèle, c'est pourquoi vous la saisissez rarement : généralement, une compétence que vous avez *fait* saisie l'exécute pour vous.
+Tapez `/grilling`, ou laissez l’[agent](https://www.aihero.dev/ai-coding-dictionary/agent) le sélectionner lorsqu’une tâche s’y prête. C’est le seul [skill](https://www.aihero.dev/ai-coding-dictionary/skill) de la famille des questions qui soit invocable par le modèle ; vous le déclencherez donc rarement directement, car un autre skill peut l’utiliser pour vous.
 
 En tapant `/grilling` , vous obtenez directement l'entretien simple et rien d'autre. Où vous voulez quelque chose de plus que ça :
 
-| Ce que vous avez | Atteindre |
+| Situation | Utilisez |
 | --- | --- |
-| Vous ne travaillez pas dans un répertoire de travail | [grill-me](https://aihero.dev/skills-grill-me) — la même [session](https://www.aihero.dev/ai-coding-dictionary/session), sous un nom l'agent ne se déclenchera jamais tout seul |
+| Vous ne travaillez pas dans un dépôt | [grill-me](https://aihero.dev/skills-grill-me) — la même [session](https://www.aihero.dev/ai-coding-dictionary/session), sans déclenchement automatique |
 | Vous êtes dans un répertoire de travail | [grill-with-docs](https://aihero.dev/skills-grill-with-docs) — la même session, et il écrit `CONTEXT.md` et les ADR au fur et à mesure |
 | Un effort trop grand pour être réalisé en une seule séance | [wayfinder](https://aihero.dev/skills-wayfinder) — il trace une carte et exécute des grillades à l'intérieur des tickets de décision |
 | Une question que la discussion ne peut pas résoudre : à quoi devrait ressembler ou ressentir quelque chose | [prototype](https://aihero.dev/skills-prototype) — construisez la version jetable, puis revenez |
-| Une compétence qui vous est propre et qui nécessite un entretien | Invoquez `/grilling` de là, plutôt que d'écrire une autre interview |
+| Une compétence qui vous est propre et qui nécessite un entretien | Invoquez `/grilling` de là, plutôt que d'écrire un autre entretien |
 
 ## Le tour, la frontière et la décision
 
@@ -26,13 +26,13 @@ L'**arbre de conception** est le modèle du sujet : des décisions auxquelles s
 
 Au cours d'un tour, chaque question arrive sous une forme fixe : numérotée et intitulée derrière une ligne `❓`, puis le corps, puis la réponse recommandée par l'agent seule sur une ligne `➡️` . C'est ce qui fait qu'un tour doit répondre par numéro - "1 oui, 2 la deuxième option, 3 non, voici pourquoi" - au lieu de citer des questions. Le format présente une aspérité connue : la recommandation argumente parfois *contre* la question telle qu'elle a été formulée, donc être d'accord avec la recommandation signifie répondre « non » à la question. Lorsque cela se produit, répondez à la recommandation et dites-le.
 
-L’autre moitié de la conception est la séparation entre les faits et les décisions. Les faits sont le propre travail de la compétence : lorsqu'une question de frontière nécessite quelque chose que l'[environnement](https://www.aihero.dev/ai-coding-dictionary/environment) peut régler, elle envoie un [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) pour aller le découvrir plutôt que de vous le demander. Cela ne bloque pas cela - seules les questions en aval d'une exploration en cours attendent. Les décisions vous appartiennent et vous devez les attendre. Un agent exécutant `grilling` qui répond à ses propres décisions a brisé la compétence, sans l'interpréter libéralement. La session se termine lorsque la frontière est vide et elle n’agira pas sur ce que vous avez convenu tant que vous n’aurez pas confirmé que vous êtes parvenu à un accord commun.
+L’autre moitié de la conception sépare les faits des décisions. Les faits relèvent du skill : lorsqu’une question de la frontière exige une information que l’[environnement](https://www.aihero.dev/ai-coding-dictionary/environment) peut fournir, il délègue la recherche à un [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) au lieu de vous la demander. Seules les questions qui dépendent de cette recherche attendent. Les décisions restent les vôtres et le skill doit les attendre. Un agent qui répond à ses propres questions dans `grilling` détourne le fonctionnement prévu. La session se termine lorsque la frontière est vide, mais aucune mise en œuvre ne commence avant votre confirmation explicite.
 
 La limite honnête : la frontière est le jugement de l'agent, pas un graphique calculé. Il peut poser deux questions en une seule fois et découvrir ensuite seulement qu'une réponse aurait dû changer l'autre. Il n’y a aucune protection contre cela au-delà du fait de le dire, ce qui rouvrira la branche concernée au prochain tour.
 
 ## Ce qui relève du mécanisme et de ses flux
 
-Cette page décrit le mécanisme. Les adaptations les plus courantes sont documentées dans les workflows qui l’utilisent.
+Cette page décrit le mécanisme. Les adaptations les plus courantes sont documentées dans les flux de travail qui l’utilisent.
 
 | Question | Où on répond |
 | --- | --- |
@@ -66,7 +66,7 @@ Une porte de confirmation existe précisément pour cela : le skill n’est pas
 
 **Il a répondu à ses propres questions au lieu de me les poser.**
 
-Il s'agit d'un bug dans l'exécution, et non du comportement prévu, et c'est la raison pour laquelle les faits et les décisions ont été séparés dans le texte de la compétence. Cela apparaît le plus souvent lorsqu'une autre compétence s'exécute `grilling`  dans un cadre de résolution de ce ticket, où la tâche environnante se lit comme une autorisation pour continuer à avancer. La même contrainte explique pourquoi il n'y a pas de mode asynchrone : des personnes ont demandé une variante qui lit un problème GitHub et publie un mémo de décision consolidé, et c'est une compétence différente, car une session de grillage à laquelle personne ne répond a produit l'opinion de l'agent plutôt que la vôtre.
+Il s'agit d'un bogue dans l'exécution, et non du comportement prévu, et c'est la raison pour laquelle les faits et les décisions ont été séparés dans le texte de la compétence. Cela apparaît le plus souvent lorsqu'une autre compétence s'exécute `grilling`  dans un cadre de résolution de ce ticket, où la tâche environnante se lit comme une autorisation pour continuer à avancer. La même contrainte explique pourquoi il n'y a pas de mode asynchrone : des personnes ont demandé une variante qui lit un problème GitHub et publie un mémo de décision consolidé, et c'est une compétence différente, car une session de grillage à laquelle personne ne répond a produit l'opinion de l'agent plutôt que la vôtre.
 
 **Puis-je limiter le nombre de questions ?**
 
@@ -78,7 +78,7 @@ Non, et un plafond est délibérément hors de portée. Certains plans nécessit
 
 **`grill-with-docs` s’est exécuté sans charger `grilling`.**
 
-Une aspérité réelle et non corrigée, signalée dans les [harnais](https://www.aihero.dev/ai-coding-dictionary/harness) et les modèles : une compétence qui nomme une autre compétence ne provoque pas de manière fiable le chargement de cette compétence, et `grill-with-docs`  en nomme deux. Le tell est une session qui demande tout en même temps sans aucune recommandation – c'est le modèle qui improvise un entretien plutôt que de diriger celui-ci. Demander directement à l'agent s'il a chargé `grilling` et `domain-modeling` le récupère généralement.
+Un problème réel et non corrigé est signalé dans les [harnais](https://www.aihero.dev/ai-coding-dictionary/harness) et les modèles : le fait qu’un skill en nomme un autre ne garantit pas son chargement, et `grill-with-docs` en nomme deux. Le symptôme est une session qui pose tout en même temps sans recommandation : le modèle improvise alors l’entretien au lieu de le diriger. Demandez directement à l’agent s’il a chargé `grilling` et `domain-modeling` pour le vérifier.
 
 ## Indicateurs de réussite
 
@@ -92,4 +92,4 @@ Une aspérité réelle et non corrigée, signalée dans les [harnais](https://ww
 
 ## Où il s’inscrit
 
-`grilling` est une **primitive**, pas une étape que vous planifiez : la source unique de vérité pour la technique d'entretien, conservée au même endroit afin que chaque compétence qui nécessite un entretien l'atteigne au lieu d'en inventer une. [grill-me](https://aihero.dev/skills-grill-me) et [grill-with-docs](https://aihero.dev/skills-grill-with-docs) sont ses deux portes d'entrée invoquées par l'utilisateur, et  `grill-with-docs` est l'endroit où commence la chaîne de construction principale, avant [to-spec](https://aihero.dev/skills-to-spec). [wayfinder](https://aihero.dev/skills-wayfinder) l'exécute pour résoudre les tickets de décision, [triage](https://aihero.dev/skills-triage) pour transformer un rapport vague en un rapport exploitable, et [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) pour parcourir l'arbre une fois vous avez choisi un candidat à approfondir. Lorsque vous ne savez pas quel point d'entrée vous convient, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.
+`grilling` est une **primitive**, pas une étape que vous planifiez : elle constitue la source unique de vérité pour la technique d’entretien. Les autres skills l’utilisent au lieu de réinventer cette mécanique. [grill-me](https://aihero.dev/skills-grill-me) et [grill-with-docs](https://aihero.dev/skills-grill-with-docs) sont ses deux points d’entrée invoqués par l’utilisateur ; `grill-with-docs` ouvre généralement la chaîne principale, avant [to-spec](https://aihero.dev/skills-to-spec). [wayfinder](https://aihero.dev/skills-wayfinder) l’utilise pour résoudre des tickets de décision, [triage](https://aihero.dev/skills-triage) pour préciser une demande vague et [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) pour examiner la base de code. En cas de doute, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous oriente.

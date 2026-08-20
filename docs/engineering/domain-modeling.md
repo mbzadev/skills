@@ -6,9 +6,9 @@ C'est la discipline **active**, pas passive. Lire `CONTEXT.md` pour emprunter so
 
 ## Quand l’utiliser
 
-Tapez `/domain-modeling`, ou l'agent l'atteint automatiquement lorsqu'une tâche convient. En pratique, l'invocation automatique est la partie la plus faible de la compétence : lorsque `grill-with-docs` ou `wayfinder`  disent de la charger, [models](https://www.aihero.dev/ai-coding-dictionary/model) chargent fréquemment `grilling`  et ignorent celle-ci. Si une session [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) s'exécute et que `CONTEXT.md`  n'est pas touchée à la fin, c'est ce qui s'est passé : invoquez-la par son nom aux côtés de l'autre compétence.
+Tapez `/domain-modeling`, ou laissez l’agent le sélectionner lorsqu’une tâche s’y prête. En pratique, l’invocation automatique est la partie la moins fiable du skill : lorsque `grill-with-docs` ou `wayfinder` demandent de le charger, les modèles sélectionnent souvent `grilling` et l’oublient. Si une session de [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) se termine sans modifier `CONTEXT.md`, c’est probablement ce qui s’est produit : invoquez alors explicitement `domain-modeling` en plus de l’autre skill.
 
-Atteignez-le lorsque les *mots* sont le problème :
+Utilisez ce skill lorsque les *mots* sont le problème :
 
 | La situation | Le déménagement |
 | --- | --- |
@@ -47,13 +47,13 @@ La `CONTEXT.md` règle est celle à laquelle il faut effectivement s'accrocher, 
 
 Lorsque vous expliquez le fonctionnement d’un concept, le skill vérifie le code et fait remonter les contradictions. Par exemple : « Le code annule des commandes entières, mais vous venez de dire qu’une annulation partielle est possible ; quelle règle est correcte ? » Le langage et le code sont ainsi remis en accord avant toute modification.
 
-La limite mérite d’être connue. Il fait des références croisées au **code** et aux `CONTEXT.md`/ADR engagés, et rien d'autre. Il ne recherche pas votre outil de suivi des problèmes, donc une collision de noms qui a été discutée et délibérément réglée dans un problème clos il y a des mois apparaît comme si elle était nouvelle. Il y a [une demande ouverte](https://github.com/mattpocock/skills/issues/717) pour résoudre ce problème ; en attendant, la solution de contournement consiste à mettre l'instruction dans la vôtre `docs/agents/domain.md`, que les compétences ont déjà lues.
+La limite mérite d’être connue. Il fait des références croisées au **code** et aux `CONTEXT.md`/ADR versionnés, et rien d’autre. Il ne recherche pas votre outil de suivi des problèmes : une collision de noms discutée et réglée dans un ticket fermé il y a plusieurs mois lui semblera donc nouvelle. Une [demande ouverte](https://github.com/mbzadev/skills/issues/717) propose de corriger ce point ; en attendant, ajoutez l’instruction à votre fichier `docs/agents/domain.md`, que les skills lisent déjà.
 
 ## Questions fréquentes
 
 **Mon `CONTEXT.md`  fait 500 lignes. 1 000. 3 000. Que dois-je faire ?**
 
-La taille est un symptôme, pas une maladie : le dossier a absorbé des détails de mise en œuvre et des décisions qui n’ont jamais été rédigés dans un glossaire. Le correctif est une instruction directe : `/grill-with-docs make my CONTEXT.md more concise and remove any implementation details from it`. Exécutez-le sur un fichier volumineux et la majeure partie disparaît. N'atteignez une division `CONTEXT-MAP.md`  qu'une fois que le fichier est véritablement léger et couvre toujours deux domaines qu'un lecteur ne voudrait pas détenir à la fois ; diviser un fichier volumineux vous donne simplement plusieurs fichiers volumineux. Les conseils de la compétence ici ne sont pas encore assez puissants pour empêcher la croissance en premier lieu, et le suivi des problèmes est encore ouvert.
+La taille est un symptôme, pas la maladie : le fichier a absorbé des détails d’implémentation et des décisions qui n’ont jamais été reformulés dans le glossaire. Le correctif peut être direct : `/grill-with-docs make my CONTEXT.md more concise and remove any implementation details from it`. Exécutez cette demande sur un fichier volumineux et une grande partie du contenu superflu disparaîtra. Ne passez à `CONTEXT-MAP.md` que lorsque le fichier est réellement concis mais couvre encore deux domaines qu’un lecteur ne voudrait pas garder ensemble ; diviser un fichier simplement volumineux ne ferait que produire plusieurs fichiers volumineux.
 
 **Pourquoi est-ce `CONTEXT.md` et pas `GLOSSARY.md` ?**
 
@@ -69,7 +69,7 @@ Demandez-le explicitement au lieu d’attendre qu’il se constitue de lui-même
 
 **Puis-je conserver le modèle de domaine et utiliser mon propre format ADR ?**
 
-Pas proprement aujourd’hui. La moitié du glossaire et la moitié de l'ADR sont regroupées dans une seule compétence, de sorte qu'une équipe avec une convention ADR établie (modèle différent, emplacement différent, dénomination différente) reçoit des instructions qui entrent en conflit avec son style maison. Les options actuelles consistent à copier la compétence localement et à la modifier, ou à remplacer les conventions ADR dans les propres documents d'agent de votre dépôt. Séparer les deux est [une demande ouverte](https://github.com/mattpocock/skills/issues/557).
+Pas proprement aujourd’hui. La moitié du glossaire et la moitié de l'ADR sont regroupées dans une seule compétence, de sorte qu'une équipe avec une convention ADR établie (modèle différent, emplacement différent, dénomination différente) reçoit des instructions qui entrent en conflit avec son style maison. Les options actuelles consistent à copier la compétence localement et à la modifier, ou à remplacer les conventions ADR dans les propres documents d'agent de votre dépôt. Séparer les deux est [une demande ouverte](https://github.com/mbzadev/skills/issues/557).
 
 **Un glossaire mérite-t-il réellement sa place ? C'est un artefact de plus à examiner, et il peut devenir obsolète.**
 
@@ -90,4 +90,4 @@ Non, et il n’existe aucun plan pour une compétence qui le fasse. Un langage d
 
 ## Où il s’inscrit
 
-`domain-modeling` est une **référence invoquée par le modèle** qui s'exécute *sous* d'autres compétences plus souvent qu'elle ne s'exécute seule. [grill-with-docs](https://aihero.dev/skills-grill-with-docs) le conduit à travers une session de grillades, [wayfinder](https://aihero.dev/skills-wayfinder) le charge tout en traçant une carte, [triage](https://aihero.dev/skills-triage) l'utilise pour conserver [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) selon les propres mots du projet, et [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) l'appelle alors que les décisions se cristallisent. Son frère le plus proche est [codebase-design](https://aihero.dev/skills-codebase-design) : les deux sont la couche de vocabulaire sous tout le reste, celui-ci pour le *domaine*, celui-là pour la *forme* du module. Il est également accessible directement, lorsque vous souhaitez suivre la discipline sans vous engager dans les étapes de la compétence qui l'appliquerait normalement. Lorsque vous ne savez pas quelle compétence vous convient, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.
+`domain-modeling` est une **référence invoquée par le modèle** qui s'exécute *sous* d'autres compétences plus souvent qu'elle ne s'exécute seule. [grill-with-docs](https://aihero.dev/skills-grill-with-docs) le conduit à travers une session de grillades, [wayfinder](https://aihero.dev/skills-wayfinder) le charge tout en traçant une carte, [triage](https://aihero.dev/skills-triage) l'utilise pour conserver [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) selon les mots propres du projet, et [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) l'appelle alors que les décisions se cristallisent. Son frère le plus proche est [codebase-design](https://aihero.dev/skills-codebase-design) : les deux sont la couche de vocabulaire sous tout le reste, celui-ci pour le *domaine*, celui-là pour la *forme* du module. Il est également accessible directement, lorsque vous souhaitez suivre la discipline sans vous engager dans les étapes de la compétence qui l'appliquerait normalement. Lorsque vous ne savez pas quelle compétence vous convient, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous dirige.

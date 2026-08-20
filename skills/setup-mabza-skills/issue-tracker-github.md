@@ -1,6 +1,6 @@
 # Suivi des tickets : GitHub
 
-Les tickets et les spécifications de ce dépôt sont enregistrés comme issues GitHub. Utilisez la CLI `gh` pour toutes les opérations.
+Les tickets et les spécifications de ce dépôt sont enregistrés comme tickets GitHub. Utilisez la CLI `gh` pour toutes les opérations.
 
 ## Conventions
 

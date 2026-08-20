@@ -2,15 +2,15 @@
 
 `to-spec` transforme la conversation que vous venez d'avoir en **[spec](https://www.aihero.dev/ai-coding-dictionary/spec)** et la publie dans votre outil de suivi des problèmes en tant que numéro unique.
 
-Il ne vous interviewe pas. Au moment où vous l'atteignez, la décision est déjà prise, il synthétise donc ce qui est connu - à partir du fil de discussion, de la base de code, de votre `CONTEXT.md`  et de vos ADR - plutôt que d'ouvrir une nouvelle série de questions. La spécification est un enregistrement des décisions déjà prises, et non un lieu où de nouvelles sont prises.
+Il ne vous interroge pas. Lorsque vous l’invoquez, les décisions sont déjà prises ; il synthétise donc ce qui est connu — à partir du fil de discussion, de la base de code, de votre `CONTEXT.md` et de vos ADR — au lieu d’ouvrir une nouvelle série de questions. La spécification consigne les décisions existantes ; elle ne sert pas à en prendre de nouvelles.
 
 ## Quand l’utiliser
 
 Vous l'invoquez en tapant `/to-spec` — l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul.
 
-Atteignez-le lorsque la version est trop grande pour un seul agent [session](https://www.aihero.dev/ai-coding-dictionary/session) et doit survivre en étant divisée en plusieurs. C'est tout le déclencheur :
+Utilisez ce skill lorsque la version est trop grande pour un seul agent [session](https://www.aihero.dev/ai-coding-dictionary/session) et doit survivre en étant divisée en plusieurs. C'est tout le déclencheur :
 
-| Où êtes-vous | Que courir |
+| Où êtes-vous | Utilisez |
 | --- | --- |
 | Vous n'avez encore rien décidé | [grill-with-docs](https://aihero.dev/skills-grill-with-docs) premier |
 | Décidé, et le travail s'adapte à une [fenêtre contextuelle](https://www.aihero.dev/ai-coding-dictionary/context-window) | [implement](https://aihero.dev/skills-implement) — ignorer la spécification |
@@ -19,7 +19,7 @@ Atteignez-le lorsque la version est trop grande pour un seul agent [session](htt
 
 ## Prérequis
 
-`to-spec`  publie la spécification en tant que problème, donc [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) doit d'abord avoir configuré un tracker et le vocabulaire des étiquettes de tri pour ce dépôt. Les deux types fonctionnent : un vrai tracker comme GitHub, ou des fichiers Markdown locaux sous `.scratch/`, qui sont pris en charge dès le départ.
+`to-spec`  publie la spécification en tant que problème, donc [setup-mabza-skills](https://aihero.dev/skills-setup-mabza-skills) doit d'abord avoir configuré un outil de suivi et le vocabulaire des étiquettes de tri pour ce dépôt. Les deux types fonctionnent : un vrai outil de suivi comme GitHub, ou des fichiers Markdown locaux sous `.scratch/`, qui sont pris en charge dès le départ.
 
 ## La spécification est un enregistrement de décision
 
@@ -37,7 +37,7 @@ Ces coutures convenues accompagnent ensuite la spécification. [tdd](https://aih
 
 **Où est passé `/to-prd`  ?**
 
-Il s’agit de ce même skill, renommé dans la version 1.1. « Spécification » est désormais le terme unique dans tout le workflow et l’ancien nom `to-prd` n’existe plus : réinstallez le skill sous son nouveau nom. Le vocabulaire repose maintenant sur deux notions : la spécification décrit la destination et les décisions qui la fixent ; les [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) décrivent les étapes d’exécution qui y conduisent. Si la direction change, supprimez les tickets inachevés et conservez la spécification.
+Il s’agit de ce même skill, renommé dans la version 1.1. « Spécification » est désormais le terme unique dans tout le flux de travail et l’ancien nom `to-prd` n’existe plus : réinstallez le skill sous son nouveau nom. Le vocabulaire repose maintenant sur deux notions : la spécification décrit la destination et les décisions qui la fixent ; les [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) décrivent les étapes d’exécution qui y conduisent. Si la direction change, supprimez les tickets inachevés et conservez la spécification.
 
 **Pourquoi la spécification reçoit-elle le label `ready-for-agent`  ? Je ne veux pas qu'un agent l'implémente.**
 
@@ -45,7 +45,7 @@ L'étiquette signifie « aucun autre tri n'est nécessaire » : le document e
 
 **Pourquoi ne pas passer directement du grill au `/to-tickets` et ignorer les spécifications ?**
 
-Souvent, vous devriez le faire : la spécification ne fait son effet que sur le travail multisession. Ce qui est payant, c'est que les tickets sont jetables et que la spécification ne l'est pas : chaque ticket est dimensionné pour une nouvelle fenêtre de contexte et est supprimé ou fermé, tandis que la spécification reste le seul endroit où se trouve le raisonnement qui les sous-tend. Sur un changement en une seule session qui ne vous rapporte rien, et vous avez payé une étape de synthèse supplémentaire où le [model](https://www.aihero.dev/ai-coding-dictionary/model) peut dériver. Allez griller → `/implement`.
+Souvent, vous devriez le faire : la spécification ne fait son effet que sur le travail multisession. Ce qui est payant, c'est que les tickets sont jetables et que la spécification ne l'est pas : chaque ticket est dimensionné pour une nouvelle fenêtre de contexte et est supprimé ou fermé, tandis que la spécification reste le seul endroit où se trouve le raisonnement qui les sous-tend. Sur un changement en une seule session qui ne vous rapporte rien, et vous avez payé une étape de synthèse supplémentaire où le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) peut dériver. Allez griller → `/implement`.
 
 **Je viens de terminer une carte Wayfinder. Avec quoi dois-je le nourrir ?**
 
@@ -59,17 +59,17 @@ Principalement pour l'agent, et cela se lit de cette façon : complet, dense, r
 
 Rien ne le maintient synchronisé, donc en pratique, c'est un instantané de ce que vous saviez à ce moment-là, et il devient obsolète la première fois que la mise en œuvre vous apprend quelque chose. Traitez-le comme un produit jetable une fois l'œuvre expédiée. Les artefacts destinés à y survivre sont votre `CONTEXT.md` et vos ADR — si quelque chose appris lors de la mise en œuvre mérite de durer, il a sa place là-bas, pas dans une spécification modifiée.
 
-**Mon travail est un refactor ou une limite de module, pas une fonctionnalité. Le modèle convient-il ?**
+**Mon travail est une refactorisation ou une limite de module, pas une fonctionnalité. Le modèle convient-il ?**
 
 Moins bien, et c’est une limitation connue. Le modèle s'appuie fortement sur les user stories, ce qui n'est pas la bonne forme pour le travail architectural : vous finissez par écrire des histoires que personne n'a demandées autour de décisions qui concernent réellement les interfaces et les invariants. Appuyez-vous plutôt sur les sections de décisions de mise en œuvre et de décisions de test, et laissez les appels architecturaux durables atterrir en tant qu'ADR via [grill-with-docs](https://aihero.dev/skills-grill-with-docs) plutôt que d'essayer de faire en sorte que la spécification les porte.
 
-**Est-ce qu'il vérifiera le tracker pour le travail associé, ou citera les ADR qu'il respecte ?**
+**Est-ce qu'il vérifiera l’outil de suivi pour le travail associé, ou citera les ADR qu'il respecte ?**
 
-Non aux deux. Il lit et respecte les ADR couvrant la zone qu'il touche, mais il ne les relie pas et il ne recherche pas dans le tracker les problèmes qui se chevauchent avant de les rédiger - de sorte qu'une spécification peut tranquillement dupliquer le travail déjà déposé par quelqu'un. Recherchez d'abord le tracker vous-même si la zone est occupée.
+Non aux deux. Il lit et respecte les ADR couvrant la zone qu'il touche, mais il ne les relie pas et il ne recherche pas dans l’outil de suivi les problèmes qui se chevauchent avant de les rédiger - de sorte qu'une spécification peut tranquillement dupliquer le travail déjà déposé par quelqu'un. Recherchez d'abord l’outil de suivi vous-même si la zone est occupée.
 
 **`/to-tickets` Je n'ai pas pu lire mes spécifications - elles n'arrêtaient pas de tronquer.**
 
-Des spécifications très volumineuses peuvent dépasser ce qu'un problème de tracker va servir proprement, et il n'y a pas de copie locale sur laquelle s'appuyer. Le correctif est l'hygiène du contexte : ne pas [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) ou [compact](https://www.aihero.dev/ai-coding-dictionary/compaction) entre `/to-spec` et `/to-tickets`. Exécutez-les dans la même fenêtre et la spécification n'aura jamais besoin d'être récupérée du tout.
+Des spécifications très volumineuses peuvent dépasser ce qu'un problème d’outil de suivi va servir proprement, et il n'y a pas de copie locale sur laquelle s'appuyer. Le correctif est l'hygiène du contexte : ne pas [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) ou [compact](https://www.aihero.dev/ai-coding-dictionary/compaction) entre `/to-spec` et `/to-tickets`. Exécutez-les dans la même fenêtre et la spécification n'aura jamais besoin d'être récupérée du tout.
 
 ## Indicateurs de réussite
 
@@ -85,4 +85,4 @@ Des spécifications très volumineuses peuvent dépasser ce qu'un problème de t
 
 ```txt
 grill-with-docs → to-spec → to-tickets → implement → code-review
-```Ses voisins en amont sont [grill-with-docs](https://aihero.dev/skills-grill-with-docs), qui décide que cette compétence n'enregistre que, et [wayfinder](https://aihero.dev/skills-wayfinder), dont la carte terminée se fusionne avec la chaîne ici. En aval, [to-tickets](https://aihero.dev/skills-to-tickets) découpe la spécification en tickets traceurs pour que [implement](https://aihero.dev/skills-implement) puisse les construire. Lorsque vous ne savez pas quelle compétence ou quel flux vous convient, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.
+Ses voisins en amont sont [grill-with-docs](https://aihero.dev/skills-grill-with-docs), qui établit les décisions à conserver, et [wayfinder](https://aihero.dev/skills-wayfinder), dont la carte terminée rejoint cette chaîne. En aval, [to-tickets](https://aihero.dev/skills-to-tickets) découpe la spécification en tickets autonomes pour que [implement](https://aihero.dev/skills-implement) puisse les réaliser. Lorsque vous ne savez pas quelle compétence ou quel flux utiliser, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous oriente.

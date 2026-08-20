@@ -26,6 +26,6 @@
 
 - **Une mission par espace de travail.** Si l'utilisateur souhaite apprendre deux choses sans rapport, cela fait deux espaces de travail.
 - **Béton sur abstrait.** "Courir un semi-marathon d'ici octobre" bat "être en meilleure forme". "Envoyer une CLI Rust à mon équipe" bat "apprendre Rust".
-- **Repoussez le flou.** Si l'utilisateur ne parvient pas à expliquer pourquoi, interviewez-le avant d'écrire quoi que ce soit. Une mauvaise mission est pire que pas de mission.
+- **Repoussez le flou.** Si l'utilisateur ne parvient pas à expliquer pourquoi, interrogez-le avant d'écrire quoi que ce soit. Une mauvaise mission est pire que pas de mission.
 - **Révisez lorsque la réalité change.** Les missions changent. Lorsque l'objectif de l'utilisateur évolue, mettez à jour ce fichier — ne laissez pas une mission obsolète en dirigeant les sessions futures.
 - **Soyez bref.** Si `MISSION.md` passe devant un écran, il a cessé d'être une boussole et a commencé à être un plan.

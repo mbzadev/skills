@@ -1,9 +1,9 @@
 ---
-name: ask-matt
+name: ask-mabza
 description: "Demandez quelle compétence ou quel flux correspond à votre situation. Un routeur sur les compétences de ce dépôt."
 ---
 
-# Demander à Matt
+# Demander à Mabza
 
 Vous n’avez pas besoin de mémoriser tous les skills : décrivez simplement votre situation.
 
@@ -34,11 +34,11 @@ La limite est la **[smart zone](https://www.aihero.dev/ai-coding-dictionary/smar
 
 Une situation de départ qui génère du travail, puis se fond dans le flux principal.
 
-- **Les bugs et les demandes s’accumulent** → **`/triage`**. Il fait progresser les tickets entrants selon des rôles de tri et produit des tickets prêts pour l’agent, que **`/implement`** pourra traiter ensuite.
+- **Les bogues et les demandes s’accumulent** → **`/triage`**. Il fait progresser les tickets entrants selon des rôles de tri et produit des tickets prêts pour l’agent, que **`/implement`** pourra traiter ensuite.
 
 Le tri concerne uniquement les problèmes **que vous n'avez pas créés** : rapports de bogues, demandes de fonctionnalités entrantes, tout ce qui arrive brut. Les tickets produits par `/to-tickets`  sont déjà prêts pour l'agent, alors **ne les triez pas**.
 
-- **Quelque chose est cassé** → **`/diagnosing-bugs`**. Utilisez-le pour les cas difficiles : bug qui résiste à une première inspection, panne intermittente ou régression apparue entre deux états connus. Le skill ne formule pas d’hypothèse avant d’avoir une **boucle de rétroaction courte** — une commande qui échoue déjà sur *ce* bug —, puis termine par un test de régression. S’il révèle l’absence d’une bonne couture pour tester le comportement, confiez l’amélioration structurelle à **`/improve-codebase-architecture`**.
+- **Quelque chose est cassé** → **`/diagnosing-bugs`**. Utilisez-le pour les cas difficiles : bogue qui résiste à une première inspection, panne intermittente ou régression apparue entre deux états connus. Le skill ne formule pas d’hypothèse avant d’avoir une **boucle de rétroaction courte** — une commande qui échoue déjà sur *ce* bogue —, puis termine par un test de régression. S’il révèle l’absence d’une bonne couture pour tester le comportement, confiez l’amélioration structurelle à **`/improve-codebase-architecture`**.
 
 - **Un effort vaste et encore flou — nouveau projet ou fonctionnalité trop grande pour une seule session** → **`/wayfinder`**. Lorsque le chemin vers la destination n’est pas encore visible, il construit dans l’outil de suivi une **carte partagée** de **tickets de décision**, puis les résout un à un. Il produit des **décisions, pas des livrables**, jusqu’à dissiper l’incertitude. Utilisez `/grill-with-docs` lorsque l’idée tient dans une seule session ; réservez Wayfinder aux efforts qui dépassent réellement cette limite.
 
@@ -73,15 +73,15 @@ Lisez [PHASE-BOUNDARIES.md](PHASE-BOUNDARIES.md) pour l'arbre ordonné - les cin
 
 - **`/grill-me`** — le même entretien approfondi que `/grill-with-docs`, mais **sans état** : il ne crée aucun fichier ni `CONTEXT.md`. Utilisez-le lorsque vous ne travaillez pas dans un dépôt — pour préciser un plan, une conception ou un texte. Dans un dépôt, préférez `/grill-with-docs`, qui conserve une trace écrite.
 - **`/grilling`** — la primitive d'entretien elle-même : les tournées, la frontière, les faits sont le travail de l'agent et les décisions vous appartiennent. `/grill-me` et `/grill-with-docs` sont les deux voies d'entrée nommées, et `/triage`, `/wayfinder` et `/improve-codebase-architecture` l'exécutent tous en interne. Accédez-y directement uniquement lorsque vous souhaitez que l'entretien soit sans emballage.
-- **`/resolving-merge-conflicts`** — effectuez une fusion en cours ou rebasez un conflit morceau par morceau, en résolvant par **intention** tracée à la source principale de chaque côté plutôt qu'en sélectionnant des lignes, puis terminez l'opération. Il ne fonctionne jamais `--abort`. Autonome et hors de chaque flux : utilisez-le lorsque vous êtes déjà au milieu d'un conflit.
+- **`/resolving-merge-conflicts`** — effectuez une fusion en cours ou rebasez un conflit élément par élément, en résolvant par **intention** tracée à la source principale de chaque côté plutôt qu'en sélectionnant des lignes, puis terminez l'opération. Il ne fonctionne jamais `--abort`. Autonome et hors de chaque flux : utilisez-le lorsque vous êtes déjà au milieu d'un conflit.
 - **`/prototype`** — un petit programme jetable qui répond à une question de conception : ce modèle d’état semble-t-il correct, ou à quoi devrait ressembler cette interface ? Le caractère jetable contraint la manière d’écrire le code, sans obliger à supprimer le résultat : la réponse rejoint le code réel et le prototype reste disponible comme **source principale** sur une branche `prototype/<name>` séparée de la branche principale, liée depuis le ticket de mise en œuvre. C’est un détour par rapport à l’étape 2 du flux principal, à utiliser dès qu’une question de conception résiste à une discussion sur papier.
 - **`/research`** — déléguez les tâches de lecture à un **agent d'arrière-plan** : il étudie une question par rapport aux **sources primaires**, puis laisse un fichier Markdown cité dans le dépôt. Continuez à travailler pendant la lecture. Le fichier qu'il produit est quelque chose à intégrer *dans* le flux principal à `/grill-with-docs`  : la recherche nourrit la réflexion, elle ne la remplace pas.
 - **`/to-questionnaire`** — lorsque la chose qui vous bloque n'est pas dans votre tête ou dans la base de code mais dans celle de **quelqu'un d'autre**, cela lui écrit un questionnaire à remplir. C'est l'inverse de `/grill-me` : au lieu de vous interroger sur le sujet, il vous interroge sur l'**envoi** — à qui il va, ce dont vous avez besoin en retour – et dirige les questions vers l’écart. Ce qui revient est important pour `/grill-with-docs` ou `/to-spec`.
-- **`/wizard`** — pour les étapes que seul un **humain** peut effectuer : provisionner l'infrastructure, configurer les informations d'identification ou les secrets CI, cliquer sur un tableau de bord tiers inconnu, exécuter une migration ou un basculement ponctuel. Il génère un script bash interactif qui ouvre chaque URL, capture chaque valeur et l'écrit dans les secrets `.env` et GitHub — de sorte que la procédure cesse d'être quelque chose que vous réexpliquez à un agent à chaque fois. Invoqué par le modèle, de sorte que l'agent l'atteint au moment où il heurte un mur, vous seul pouvez passer. Si l’agent pouvait le faire lui-même, il le devrait ; c’est là qu’un humain est véritablement au courant.
+- **`/wizard`** — pour les étapes que seul un **humain** peut effectuer : approvisionner l’infrastructure, configurer des identifiants ou des secrets CI, utiliser un tableau de bord tiers inconnu, exécuter une migration ou réaliser un basculement ponctuel. Il génère un script bash interactif qui ouvre chaque URL, recueille chaque valeur et l’écrit dans `.env` ou dans les secrets GitHub, afin que vous n’ayez pas à réexpliquer la procédure à chaque fois. Comme il est invocable par le modèle, l’agent le sélectionne lorsqu’il rencontre une étape que vous seul pouvez accomplir. Si l’agent peut effectuer l’action lui-même, il doit le faire.
 - **`/wait-what`** — le correctif pour un message qui n’est pas clair. Utilisez-le au milieu d’une conversation : l’agent reformule son propos en français clair, ajoute le contexte manquant et reprend le vocabulaire de `CONTEXT.md`. Il agit après coup ; `/grill-with-docs` prévient le problème en établissant un langage partagé dès le départ.
 - **`/teach`** — apprenez un concept sur plusieurs sessions, en utilisant le répertoire actuel comme espace de travail avec état.
 - **`/writing-for-agents`** — référence pour la rédaction des documents que les agents consomment : compétences, AGENTS.md, documents pointés.
 
 ## Précondition
 
-**`/setup-matt-pocock-skills`** — exécutez-le avant le premier flux d’ingénierie afin de configurer l’outil de suivi, les étiquettes de tri et l’organisation de la documentation attendus par les autres skills. Les outils de suivi personnalisés sont également pris en charge.
+**`/setup-mabza-skills`** — exécutez-le avant le premier flux d’ingénierie afin de configurer l’outil de suivi, les étiquettes de tri et l’organisation de la documentation attendus par les autres skills. Les outils de suivi personnalisés sont également pris en charge.

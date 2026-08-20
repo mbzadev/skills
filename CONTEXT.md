@@ -1,18 +1,18 @@
-# Skills de Matt Pocock
+# Skills de Mabza
 
-Une collection de skills chargés par Codex. Les skills sont classés par catégorie et utilisent la configuration propre à chaque dépôt produite par `/setup-matt-pocock-skills`.
+Une collection de skills chargés par Codex. Les skills sont classés par catégorie et utilisent la configuration propre à chaque dépôt produite par `/setup-mabza-skills`.
 
 ## Langage
 
 **Outil de suivi**
 
-: Service ou convention qui héberge les tickets d’un dépôt : issues GitHub ou GitLab, Linear, fichiers Markdown sous `.scratch/`, etc. Des skills comme `to-tickets`, `to-spec` et `triage` y lisent et y écrivent.
+: Service ou convention qui héberge les tickets d’un dépôt : tickets GitHub ou GitLab, Linear, fichiers Markdown sous `.scratch/`, etc. Des skills comme `to-tickets`, `to-spec` et `triage` y lisent et y écrivent.
 
 _Éviter_ : gestionnaire de backlog, service de backlog, hébergeur de problèmes.
 
 **Ticket**
 
-: Unité de travail enregistrée dans l’**outil de suivi** : bug, tâche, spécification ou tranche produite par `to-tickets`.
+: Unité de travail enregistrée dans l’**outil de suivi** : bogue, tâche, spécification ou tranche produite par `to-tickets`.
 
 **Ticket de décision**
 

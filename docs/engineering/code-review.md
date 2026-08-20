@@ -1,17 +1,17 @@
 ## Ce qu’il fait
 
-`code-review` examine la différence entre `HEAD` et un point fixe que vous nommez — un commit, une branche, une balise, `main`, `HEAD~5`  — le long de deux axes. **Normes** demande si le code suit la façon dont ce dépôt écrit le code. **Spécification** demande si le code fait ce que le problème d'origine ou [spec](https://www.aihero.dev/ai-coding-dictionary/spec) a demandé. Chaque axe fonctionne dans son propre [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) afin qu'aucun des deux ne voie le raisonnement de l'autre.
+`code-review` examine le diff entre `HEAD` et un point de référence que vous indiquez — commit, branche, balise, `main` ou `HEAD~5` — selon deux axes. **Normes** vérifie que le code respecte les conventions du dépôt ; **Spécification** vérifie qu’il répond bien à la demande d’origine ou à la [spécification](https://www.aihero.dev/ai-coding-dictionary/spec). Chaque axe est confié à un [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) distinct afin que les analyses restent indépendantes.
 
-Les deux axes ne sont jamais fusionnés et jamais reclassés. Le rapport se termine par le pire problème *par axe* et refuse de nommer un seul gagnant parmi eux, car un changement peut passer un axe et échouer sur l'autre : le code qui suit toutes les conventions tout en implémentant la mauvaise chose réussit les normes et échoue aux spécifications ; un code qui fait exactement ce que le [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket) a demandé en brisant les conventions du dépôt fait l'inverse. Un verdict mitigé permet à l’axe de réussite de cacher celui d’échec.
+Les deux axes restent séparés et ne sont jamais reclassés. Le rapport termine par le problème le plus grave de chaque axe, sans désigner de gagnant unique : un changement peut respecter les normes tout en répondant à la mauvaise demande, ou satisfaire la demande tout en rompant les conventions du dépôt. Un verdict global masquerait l’un de ces échecs.
 
 ## Quand l’utiliser
 
 Tapez `/code-review`, ou laissez l’agent le sélectionner automatiquement lorsque vous demandez la revue d’une branche, d’une PR, d’un travail en cours ou de tout changement « depuis X ».
 
-| Votre situation | Atteindre |
+| Votre situation | Utilisez |
 | --- | --- |
 | Un diff existe et vous voulez savoir s'il est bien construit *et* est la bonne chose | `code-review` |
-| Vous voulez que les bugs soient traqués dans le diff – chemins nuls, courses, un par un | La propre revue intégrée de Codex, pas celle-ci (voir le conflit de noms ci-dessous) |
+| Vous voulez traquer les bogues du diff — chemins nuls, courses, erreurs d’exécution | La revue intégrée de Codex, et non ce skill (voir le conflit de noms ci-dessous) |
 | Rien n'est encore écrit et vous voulez qu'il soit écrit en test d'abord | [tdd](https://aihero.dev/skills-tdd) |
 | Une spécification entière doit être construite, révision incluse | [implement](https://aihero.dev/skills-implement), qui appelle cette compétence elle-même |
 | Toute la base de code a dérivé, pas une seule différence | [améliorer-l'architecture-de-codebase](https://aihero.dev/skills-improve-codebase-architecture) |
@@ -30,7 +30,7 @@ L'axe Spécification a besoin d'une spécification pour exister et être trouvab
 3. Un fichier de spécifications sous `docs/`, `specs/` ou `.scratch/` correspondant au nom de la branche ou de la fonctionnalité.
 4. Je vous le demande.
 
-L'étape 1 dépend de  `docs/agents/issue-tracker.md`, que [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) écrit. Sans cela, l'axe fonctionne toujours si vous lui donnez un chemin. Sans aucune spécification, le sous-agent Spécification est ignoré et le rapport indique « aucune spécification disponible » plutôt que d'inventer des exigences.
+L'étape 1 dépend de  `docs/agents/issue-tracker.md`, que [setup-mabza-skills](https://aihero.dev/skills-setup-mabza-skills) écrit. Sans cela, l'axe fonctionne toujours si vous lui donnez un chemin. Sans aucune spécification, le sous-agent Spécification est ignoré et le rapport indique « aucune spécification disponible » plutôt que d'inventer des exigences.
 
 ## Les deux axes
 
@@ -39,7 +39,7 @@ L'étape 1 dépend de  `docs/agents/issue-tracker.md`, que [setup-matt-pocock-sk
 | Question | Est-ce bien construit ? | Est-ce la bonne chose ? |
 | Lit | Les normes documentées du dépôt, ainsi que la référence en matière d'odeur | Le problème ou la spécification d'origine |
 | Rapports | Violations documentées (peut être difficile) et odeurs (toujours une question de jugement) | Exigences manquantes ou partielles, dérive du périmètre, exigences mal mises en œuvre |
-| Chaque découverte cite | Le fichier des normes et la règle, ou l'odeur nommée plus le beau gosse | La ligne de la spécification |
+| Chaque découverte cite | Le fichier de normes et la règle, ou le nom de l’odeur avec l’extrait concerné | La ligne de la spécification |
 
 Cette conception évite les revues génériques qui ignorent vos normes : elles signalent parfois des choix délibérés et manquent les invariants dont dépend réellement la base de code. La documentation du dépôt est donc la [source principale](https://www.aihero.dev/ai-coding-dictionary/primary-source) de l’axe Normes, et **les conventions du dépôt l’emportent toujours**.
 
@@ -49,11 +49,11 @@ La **référence des mauvaises odeurs** constitue le socle minimal : douze odeu
 
 **Il entre en collision avec celui de Codex `/code-review`. Que dois-je faire ?**
 
-Il s’agit du problème le plus signalé avec la compétence, et il n’est pas résolu. Codex livre son propre `/code-review`, qui fait quelque chose de différent : il recherche les bogues dans le diff, où celui-ci vérifie la conformité aux spécifications et les normes de dépôt. L'installation de cette bibliothèque signifie que l'une d'elles gagne, et laquelle gagne dépend de la manière dont vous avez installé. Via le marché des plugins, tout est alias sous un préfixe `mattpocock-skills:`  et le intégré devient difficile à atteindre avec le nom non qualifié ; via une simple installation de compétences, le fichier local l'emporte et cette compétence masque le fichier intégré. Une réponse simple consiste à supprimer entièrement les compétences intégrées de Codex : une grande sauvegarde de [context](https://www.aihero.dev/ai-coding-dictionary/context) et la collision n'a plus d'importance. L'observation elle-même est sans doute un bug du Codex [harness](https://www.aihero.dev/ai-coding-dictionary/harness) — un auteur de compétence devrait être libre de nommer une compétence comme il l'entend — donc l'autre réponse est de renommer la copie locale. La modification du frontmatter ou le renommage du répertoire est annulé par `npx skills update` ; la solution de contournement durable signalée par les utilisateurs consiste à attribuer à la compétence un nouveau nom et à la supprimer  `code-review`  de l'ensemble géré, en gardant une note de la validation à partir de laquelle vous avez dérivé afin que vous puissiez la resynchroniser manuellement.
+Le problème le plus souvent signalé avec ce skill n’est toujours pas corrigé. Codex fournit son propre `/code-review`, qui recherche des bogues dans le diff, alors que celui-ci vérifie la conformité aux spécifications et aux normes du dépôt. Selon le mode d’installation, l’un peut masquer l’autre : l’installation locale peut prendre le pas sur le skill intégré, tandis que le plugin peut imposer un préfixe de nom. Si cette collision vous gêne, renommez la copie locale et notez la version d’origine afin de pouvoir la resynchroniser après une mise à jour.
 
 **Ses sous-agents continuent d'invoquer `/code-review` à nouveau et génèrent plus d'agents.**
 
-Bug ouvert connu, reproduit par plusieurs personnes et dans plus d'un harnais. Les invites relatives aux normes et aux spécifications n'interdisent pas la délégation, de sorte qu'un sous-agent peut redécouvrir la compétence et se déployer à nouveau : un rapport a atteint plus de 50 agents. Le correctif que les gens ont appliqué sur les forks est une ligne ajoutée aux deux briefs des sous-agents : "Ne pas invoquer `/code-review` ou générer des agents supplémentaires - effectuez cette révision directement." Certains préfèrent le manipuler au niveau du harnais afin que chaque compétence hérite de la garde. Ni l’un ni l’autre n’est encore dans la compétence expédiée. Si vous l'exécutez sans surveillance, surveillez le nombre d'agents.
+Un bogue ouvert, reproduit par plusieurs personnes dans plusieurs harnais, permet à un sous-agent de recharger le skill et de relancer la revue. Certains correctifs ajoutent aux consignes des sous-agents : « N’invoquez pas `/code-review` et ne créez pas d’agent supplémentaire ; effectuez directement cette revue. » Si vous exécutez le skill sans surveillance, contrôlez le nombre d’agents engendrés.
 
 **Dois-je l'exécuter dans la même [session](https://www.aihero.dev/ai-coding-dictionary/session) qui a écrit le code ?**
 
@@ -91,4 +91,4 @@ Non. Il diffère `<fixed-point>...HEAD`, à trois points, qui est mesuré à par
 - [to-spec](https://aihero.dev/skills-to-spec) et [to-tickets](https://aihero.dev/skills-to-tickets) produisent le document par rapport auquel l'axe Spécification vérifie ; une spécification vague rend cet axe vague.
 - [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) est la contrepartie de la base de code entière – cette compétence ne prend en compte qu'une seule différence.
 
-[ask-matt](https://aihero.dev/skills-ask-matt) parcourt l'ensemble de l'ensemble lorsque vous n'êtes pas sûr de la compétence recherchée par la situation.
+[ask-mabza](https://aihero.dev/skills-ask-mabza) parcourt toute la collection lorsque vous n'êtes pas sûr de la compétence recherchée par la situation.

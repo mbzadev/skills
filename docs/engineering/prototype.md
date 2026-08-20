@@ -6,9 +6,9 @@ Le caractère jetable contraint la manière dont le code est *écrit* ; il ne pr
 
 ## Quand l’utiliser
 
-Tapez `/prototype`, ou l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) l'atteint automatiquement lorsqu'une tâche convient.
+Tapez `/prototype`, ou l’[agent](https://www.aihero.dev/ai-coding-dictionary/agent) le sélectionne automatiquement lorsqu’une tâche s’y prête.
 
-Atteignez-le dès que vous rencontrez une question que vous ne pouvez pas régler en parlant – une machine à états dont vous ne pouvez pas garder les cas extrêmes dans votre tête, un écran que vous ne pouvez pas imaginer tant que vous n'avez pas vu trois versions côte à côte. Les séances de [Grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) gonflent exactement sur ces questions : l'agent reformule, vous devinez, et la portée s'agrandit pour combler l'incertitude. Arrêtez de griller, créez la version jetable, regardez-la, puis répondez en une seule ligne. Si, à la place, quelque chose déjà construit se comporte mal et que vous voulez savoir pourquoi, utilisez [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) — le prototypage explore ce qu'il faut construire, pas pourquoi l'objet construit est cassé.
+Utilisez ce skill dès que vous rencontrez une question que vous ne pouvez pas régler en parlant – une machine à états dont vous ne pouvez pas garder les cas extrêmes dans votre tête, un écran que vous ne pouvez pas imaginer tant que vous n'avez pas vu trois versions côte à côte. Les séances de [Grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) gonflent exactement sur ces questions : l'agent reformule, vous devinez, et la portée s'agrandit pour combler l'incertitude. Arrêtez de griller, créez la version jetable, regardez-la, puis répondez en une seule ligne. Si, à la place, quelque chose déjà construit se comporte mal et que vous voulez savoir pourquoi, utilisez [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs) — le prototypage explore ce qu'il faut construire, pas pourquoi l'objet construit est cassé.
 
 Vous arriverez également ici sans le choisir. [wayfinder](https://aihero.dev/skills-wayfinder) fichiers `prototype` décision [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) sur sa carte, et en travailler une est cette compétence.
 
@@ -59,15 +59,15 @@ Cela peut être le cas si vous prototypez des questions auxquelles vous auriez p
 
 - Vous pouvez dire en une phrase à quelle question le prototype existe pour répondre - et c'est écrit en haut de la démo, pas seulement dans votre tête.
 - Quelqu'un qui ne lit pas le code peut piloter la démo logique. Ils ouvrent le fichier, appuient sur les boutons dans un onglet de présentation et décrivent ce qu'ils voient dans leurs propres mots.
-- Quelqu'un dit "attendez, ça ne devrait pas être possible" ou "hein, j'ai supposé X". C'est un bug dans l'*idée*, c'est là tout l'intérêt.
+- Quelqu'un dit "attendez, ça ne devrait pas être possible" ou "hein, j'ai supposé X". C'est un bogue dans l'*idée*, c'est là tout l'intérêt.
 - Les variantes de l'interface utilisateur ne sont pas d'accord sur la mise en page et la hiérarchie des informations, pas seulement sur la couleur et la copie - et le retour que vous obtenez est "l'en-tête de B avec la barre latérale de C".
 - On y répond en une seule séance. Si vous êtes encore en train de le construire un jour plus tard, la question était trop grande ; divisez-le.
 - Quand c'est fini, main contient la décision et aucun du prototype, et le problème d'implémentation pointe vers la branche qui le détient toujours.
 
 ## Où il s’inscrit
 
-`prototype` est un **autonome accessible à tout moment** — vous y entrez pour régler une question de conception, puis vous en ressortez — et c'est aussi une machine sur laquelle fonctionne une autre compétence.
+`prototype` est un **skill autonome, utilisable à tout moment** — vous y entrez pour régler une question de conception, puis vous en ressortez — et c'est aussi une machine sur laquelle fonctionne une autre compétence.
 
 Son plus gros consommateur est [wayfinder](https://aihero.dev/skills-wayfinder). Une carte Wayfinder est composée de **tickets de décision**, et `prototype` est l'un des quatre types de ticket : celui utilisé lorsque la question bloquante est "à quoi cela devrait-il ressembler" ou "comment devrait-il se comporter", qu'aucune discussion ne résout. Wayfinder augmente la fidélité d'une discussion brumeuse en créant quelque chose de concret auquel réagir, et cette compétence est la façon dont cette chose concrète est construite. Un ticket prototype est résolu par la réponse, et le prototype est lié à la carte en tant qu'atout.
 
-Les autres voisins sont en amont et en aval. [grill-me](https://aihero.dev/skills-grill-me) et [grill-with-docs](https://aihero.dev/skills-grill-with-docs) répondent à des questions grillables ; les plus ingrillables viennent ici à la place, et la réponse en une seule ligne remonte dans l'interview. En aval, un modèle d'état validé ou une direction d'interface utilisateur devient une entrée établie pour [to-spec](https://aihero.dev/skills-to-spec), qui peut intégrer l'extrait riche en décisions produit par le prototype plutôt que de le décrire en prose. Pour tout le reste, [ask-matt](https://aihero.dev/skills-ask-matt) vous achemine sur l'ensemble de l'ensemble.
+Ses voisins se situent en amont et en aval. [grill-me](https://aihero.dev/skills-grill-me) et [grill-with-docs](https://aihero.dev/skills-grill-with-docs) traitent les questions qui se prêtent à un entretien ; les questions impossibles à trancher ainsi arrivent ici, et la réponse d’une ligne revient ensuite dans la discussion. En aval, un modèle d’état validé ou une direction d’interface devient une entrée établie pour [to-spec](https://aihero.dev/skills-to-spec), qui peut reprendre les décisions produites par le prototype au lieu de les reformuler en prose. Pour le reste, [ask-mabza](https://aihero.dev/skills-ask-mabza) parcourt la collection.

@@ -1,6 +1,6 @@
 # Limiter les intégrations de suivi aux outils grand public
 
-Dans `setup-matt-pocock-skills`, seuls les outils de suivi **grand public** bénéficient d’une prise en charge de premier ordre. L’ajout d’outils de niche, récents ou expérimentaux proposés par un seul éditeur reste hors périmètre.
+Dans `setup-mabza-skills`, seuls les outils de suivi **grand public** bénéficient d’une prise en charge de premier ordre. L’ajout d’outils de niche, récents ou expérimentaux proposés par un seul éditeur reste hors périmètre.
 
 ## Pourquoi cela est hors de portée
 

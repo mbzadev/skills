@@ -36,4 +36,4 @@ Services tiers (Stripe, Twilio, etc.) que vous ne contrôlez pas. Le module prof
 - Les anciens tests unitaires sur les modules superficiels deviennent des déchets une fois que les tests au niveau de l'interface du module profond existent - supprimez-les.
 - Écrivez de nouveaux tests sur l'interface du module profond. L'**interface est la surface de test**.
 - Les tests s'appuient sur des résultats observables via l'interface, et non sur l'état interne.
-- Les tests doivent survivre aux refactors internes — ils décrivent le comportement, pas la mise en œuvre. Si un test doit changer lorsque l'implémentation change, il teste au-delà de l'interface.
+- Les tests doivent survivre aux refactorisations internes — ils décrivent le comportement, pas la mise en œuvre. Si un test doit changer lorsque l'implémentation change, il teste au-delà de l'interface.

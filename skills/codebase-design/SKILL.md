@@ -25,7 +25,7 @@ Utilisez ces termes exactement et ne leur substituez pas « composant », « 
 
 **Effet de levier** — ce que la profondeur apporte aux appelants : davantage de capacités par unité d’interface apprise. Une implémentation profite à N sites d’appel et à M tests.
 
-**Localité** — ce que la profondeur apporte aux responsables : les changements, les bugs, les connaissances et la vérification se concentrent au même endroit au lieu de se répandre chez les appelants. Corrigé une fois, corrigé partout.
+**Localité** — ce que la profondeur apporte aux responsables : les changements, les bogues, les connaissances et la vérification se concentrent au même endroit au lieu de se répandre chez les appelants. Corrigé une fois, corrigé partout.
 
 ## Profond ou peu profond
 

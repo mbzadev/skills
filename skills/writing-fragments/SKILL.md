@@ -32,7 +32,7 @@ Les fragments sont volontairement hétérogènes. Exemples de ce que pourrait ê
 - Une citation, un morceau de dialogue, une phrase entendue.
 - Une liste d'observations liées qui s'articulent par sensation.
 - Une plainte, un aveu, une punchline.
-- Un **mot principal** — une métaphore compacte ou une monnaie à laquelle la pièce entière peut s'accrocher (un terme qui nomme l'idée, de la même manière que les _balles traçantes_ ou le _brouillard de guerre_ nomme un motif entier).
+- Un **mot principal** — une métaphore compacte ou une monnaie à laquelle la pièce entière peut s'accrocher (un terme qui nomme l'idée, de la même manière que les _tranches verticales_ ou le _brouillard de guerre_ nomme un motif entier).
 
 Parmi ceux-ci, le mot principal est le fragment le plus précieux à atterrir. Il est porteur : nommez le bon dans l'exploration et il façonne la structure, les transitions et le titre plus tard - payant des dividendes tout au long de la phase d'exploitation. Lorsque la conversation tourne autour d’une idée récurrente, incitez-vous à inventer un mot pour celle-ci.
 

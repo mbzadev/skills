@@ -33,7 +33,7 @@ Comment et quand vous saisissez la skill — deux points, tous deux effectivemen
 
 ## Prérequis
 
-Optionnel — incluez-le uniquement lorsque le skill dépend d’un élément préalable ; sinon, omettez entièrement la section. Cela couvre un **espace de travail dans lequel il écrit** — `grill-with-docs` crée `CONTEXT.md` et des ADR, tandis que `teach` construit un répertoire entier —, une **configuration préalable** — `triage`, `to-spec` et `to-tickets` nécessitent un outil de suivi configuré par `setup-matt-pocock-skills` — ou des **outils propres au dépôt**. Un skill sans état qui fonctionne partout n’a pas de prérequis.
+Optionnel — incluez-le uniquement lorsque le skill dépend d’un élément préalable ; sinon, omettez entièrement la section. Cela couvre un **espace de travail dans lequel il écrit** — `grill-with-docs` crée `CONTEXT.md` et des ADR, tandis que `teach` construit un répertoire entier —, une **configuration préalable** — `triage`, `to-spec` et `to-tickets` nécessitent un outil de suivi configuré par `setup-mabza-skills` — ou des **outils propres au dépôt**. Un skill sans état qui fonctionne partout n’a pas de prérequis.
 
 ## <section libre>
 
@@ -47,7 +47,7 @@ Les questions que les lecteurs posent vraiment à propos de cette skill, chacune
 
 Une question observée bat toujours une question inventée, alors allez les chercher avant d'écrire quoi que ce soit :
 
-- **Le wiki.** Si `~/repos/matt/personal-wiki` il existe sur cette machine, c'est la source la plus riche qui soit. Sa `wiki/audience/` zone est organisée autour de ce que le public veut, discute et **est confus par** — lisez `wiki/index.md` d'abord pour le registre des pages, puis les pages relatives à cette skill. Chaque page contient `sources:` des liens vers les fils d'origine X, Discord, GitHub et email ; le wiki est une source secondaire, alors citez la question propre de l'interrogé plutôt que le résumé du wiki. Omettez ce point si le répertoire n'existe pas.
+- **Le wiki.** S’il existe sur cette machine, `~/repos/mabza/personal-wiki` est la source la plus riche. Sa zone `wiki/audience/` est organisée autour de ce que le public veut, discute et **comprend mal** ; lisez d’abord `wiki/index.md` pour connaître les pages disponibles, puis celles qui concernent le skill. Chaque page contient des liens `sources:` vers les échanges d’origine sur X, Discord, GitHub ou par e-mail. Le wiki reste une source secondaire : citez la question de la personne concernée plutôt que son résumé. Ignorez ce point si le répertoire n’existe pas.
 - **Les tickets du dépôt.** `gh issue list --repo mbzadev/skills --search "<nom-du-skill>" --state all`. Une question posée deux fois mérite une réponse dans la page.
 - **`CHANGELOG.md`.** Tout ce qui a été renommé, déplacé ou dont le comportement a changé génère un « où est-ce que c'est parti ? » que la page doit répondre.
 
@@ -63,18 +63,18 @@ Quelques points clés décrivant ce que le lecteur observe lorsque le skill acco
 
 Toujours présente. Situez la skill dans le système en une ou deux phrases :
 
-- **Rôle.** Nommez-le : étape d’une chaîne (`grill-with-docs → to-spec → to-tickets → implement → code-review`), configuration unique (`setup-matt-pocock-skills`), maintenance périodique (`improve-codebase-architecture`) ou outil autonome disponible à tout moment (`diagnosing-bugs`, `prototype`, `handoff`).
+- **Rôle.** Nommez-le : étape d’une chaîne (`grill-with-docs → to-spec → to-tickets → implement → code-review`), configuration unique (`setup-mabza-skills`), maintenance périodique (`improve-codebase-architecture`) ou outil autonome disponible à tout moment (`diagnosing-bugs`, `prototype`, `handoff`).
 - **Voisins.** Les un ou deux frères qui comptent, chacun avec une clause de cause, liés absolument.
-- **La carte.** Pointez vers [ask-matt](https://aihero.dev/skills-ask-matt), le routeur couvrant l'ensemble, afin que cette page reste un nœud et n'ait jamais besoin de redessiner le graphe.
+- **La carte.** Pointez vers [ask-mabza](https://aihero.dev/skills-ask-mabza), le routeur qui couvre toute la collection, afin que cette page reste un nœud du graphe sans avoir à le redessiner.
 
 </page-template>
 
 ## Conventions
 
 - Expliquez le **pourquoi**, pas le processus. La page oriente et situe le skill ; elle ne reproduit jamais les étapes du `SKILL.md` ni les modèles complets. Une personne qui choisit un outil n’a pas besoin de son mode opératoire détaillé.
-- **Ne nommez jamais l’auteur.** La page est un document technique, pas le compte rendu de qui a dit quoi. « Matt dit », « sa réponse », « sa position » ou une réponse citée disparaissent. Conservez la découverte, mais exprimez-la comme une affirmation simple sur le skill : « la correction est une instruction directe » ou « la séparation dépend du nombre de sessions ». Citer un _utilisateur_ reste acceptable lorsqu’il s’agit d’une preuve d’usage réelle et anonyme.
-- Utilisez les **termes principaux** du skill — couture, module profond, balle traçante — afin que la page et le skill parlent le même langage.
-- **Utilisez le terme du dictionnaire de codage par IA [AI Coding Dictionary](https://www.aihero.dev/ai-coding-dictionary) lorsqu'il existe, et liez sa première occurrence sur la page.** Le dictionnaire constitue le vocabulaire de référence pour le codage par IA : _context window_, _subagent_, _harness_, _primary source_, _agent mode_. Préférez son terme à un synonyme que vous inventeriez. Liez la première occurrence de chaque terme à `https://www.aihero.dev/ai-coding-dictionary/<slug>` (le slug est le terme en minuscules avec les non-alphanumériques remplacés par des tirets : _context window_ → `context-window`), et laissez toutes les occurrences ultérieures sans lien. Liez uniquement lorsque le mot porte le sens du dictionnaire : un modèle de domaine *model*, un contexte de fond *context* ou un jeton d'authentification *token* sont des mots différents qui coïncident simplement. Ne liez jamais à l'intérieur d'un titre, d'une balise de code ou d'un lien existant, et ne liez jamais un mot qui désigne une skill dans ce dépôt plutôt que le concept. Pour la liste complète des termes, lisez `~/repos/ai/ai-coding-dictionary/dictionary/` s'il existe sur cette machine — un fichier par terme, le nom du fichier *est* le terme — et sinon [mattpocock/dictionary-of-ai-coding](https://github.com/mattpocock/dictionary-of-ai-coding), qui est la source de vérité dans tous les cas.
+- **Ne nommez jamais l’auteur.** La page est un document technique, pas le compte rendu de qui a dit quoi. « Mabza dit », « sa réponse », « sa position » ou une réponse citée disparaissent. Conservez la découverte, mais exprimez-la comme une affirmation simple sur le skill : « la correction est une instruction directe » ou « la séparation dépend du nombre de sessions ». Citer un _utilisateur_ reste acceptable lorsqu’il s’agit d’une preuve d’usage réelle et anonyme.
+- Utilisez les **termes principaux** du skill — couture, module profond, tranche verticale — afin que la page et le skill parlent le même langage.
+- **Utilisez le terme du dictionnaire de codage par IA [AI Coding Dictionary](https://www.aihero.dev/ai-coding-dictionary) lorsqu'il existe, et liez sa première occurrence sur la page.** Le dictionnaire constitue le vocabulaire de référence pour le codage par IA : _context window_, _subagent_, _harness_, _primary source_, _agent mode_. Préférez son terme à un synonyme que vous inventeriez. Liez la première occurrence de chaque terme à `https://www.aihero.dev/ai-coding-dictionary/<slug>` (le slug est le terme en minuscules avec les non-alphanumériques remplacés par des tirets : _context window_ → `context-window`), et laissez toutes les occurrences ultérieures sans lien. Liez uniquement lorsque le mot porte le sens du dictionnaire : un modèle de domaine *model*, un contexte de fond *context* ou un jeton d'authentification *token* sont des mots différents qui coïncident simplement. Ne liez jamais à l'intérieur d'un titre, d'une balise de code ou d'un lien existant, et ne liez jamais un mot qui désigne une skill dans ce dépôt plutôt que le concept. Pour la liste complète des termes, lisez `~/repos/ai/ai-coding-dictionary/dictionary/` s'il existe sur cette machine — un fichier par terme, le nom du fichier *est* le terme — et sinon [mbzadev/dictionary-of-ai-coding](https://github.com/mbzadev/dictionary-of-ai-coding), qui est la source de vérité dans tous les cas.
 - **Les embranchements figurent dans un tableau ou une liste, jamais dans un paragraphe.** Lorsque la page présente plusieurs artefacts, déclencheurs ou options, le lecteur doit pouvoir repérer directement la ligne correspondant à sa situation. Cette règle s’applique surtout dans `## Quand l’utiliser` et les sections libres.
 - Gardez la page elle-même à faible charge. Il s'agit de documentation *sur* des skills à faible charge cognitive ; le mobilier (titres superflus, liens réitérés) est ce contre quoi elle s'élève.
 
@@ -85,7 +85,7 @@ Toujours présente. Situez la skill dans le système en une ou deux phrases :
 - `## Ce qu’il fait` énonce la contrainte définissante en prose simple.
 - La page ne nomme aucun auteur et ne cite aucun auteur — chaque affirmation se tient sur ses propres pieds.
 - `## Quand l’utiliser` précise le mode d’invocation et la limite de déclenchement.
-- `## Où il s’inscrit` nomme le rôle et renvoie vers `ask-matt`.
+- `## Où il s’inscrit` nomme le rôle et renvoie vers `ask-mabza`.
 - Une condition préalable (espace de travail, configuration préalable, outillage) est énoncée lorsqu'elle existe, et la section est absente lorsqu'aucune n'existe.
 - La partie centrale met en avant le mot principal.
 - Chaque terme du Dictionnaire de l'IA Coding utilisé par la page est orthographié selon la manière du dictionnaire, et son premier usage — et uniquement son premier usage — lie vers l'entrée du dictionnaire.

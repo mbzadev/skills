@@ -10,7 +10,7 @@ Examinez selon deux axes le diff entre `HEAD` et un point fixe fourni par l’ut
 
 Les deux axes fonctionnent comme des **sous-agents parallèles** afin de ne pas polluer le contexte de chacun, puis cette compétence regroupe leurs résultats.
 
-La configuration de l’outil de suivi doit déjà exister : exécutez `/setup-matt-pocock-skills` si `docs/agents/issue-tracker.md` est absent.
+La configuration de l’outil de suivi doit déjà exister : exécutez `/setup-mabza-skills` si `docs/agents/issue-tracker.md` est absent.
 
 ## Processus
 
@@ -63,7 +63,7 @@ Chaque odeur indique *ce que c'est* → *comment réparer* ; comparez-le avec l
 
 - La commande de diff complète et la liste des commits.
 - La liste des fichiers sources des normes que vous avez trouvés à l'étape 3, **plus la référence d'odeur de l'étape 3** collée dans son intégralité — le sous-agent n'y a aucun autre accès.
-- Le brief suivant : « Produisez un rapport par fichier ou fragment lorsque c’est pertinent. (a) Pour chaque violation d’une norme documentée, citez le fichier et la règle. (b) Pour chaque mauvaise odeur de référence, nommez-la et citez le fragment concerné. Distinguez les violations certaines des éléments qui relèvent du jugement. Les normes du dépôt priment sur la liste de référence. Ignorez ce que les outils automatisés imposent déjà. Limite : 400 mots. »
+- La note de cadrage suivant : « Produisez un rapport par fichier ou fragment lorsque c’est pertinent. (a) Pour chaque violation d’une norme documentée, citez le fichier et la règle. (b) Pour chaque mauvaise odeur de référence, nommez-la et citez le fragment concerné. Distinguez les violations certaines des éléments qui relèvent du jugement. Les normes du dépôt priment sur la liste de référence. Ignorez ce que les outils automatisés imposent déjà. Limite : 400 mots. »
 
 **Invite de spécification du sous-agent**
 
@@ -71,7 +71,7 @@ Chaque odeur indique *ce que c'est* → *comment réparer* ; comparez-le avec l
 
 - La commande de diff et la liste des commits.
 - Le chemin ou le contenu récupéré de la spécification.
-- Le brief suivant : « Produisez un rapport couvrant (a) les exigences absentes ou partielles, (b) les comportements ajoutés sans avoir été demandés — dérive de périmètre — et (c) les exigences apparemment présentes mais incorrectement mises en œuvre. Citez la ligne de spécification associée à chaque résultat. Limite : 400 mots. »
+- La note de cadrage suivant : « Produisez un rapport couvrant (a) les exigences absentes ou partielles, (b) les comportements ajoutés sans avoir été demandés — dérive de périmètre — et (c) les exigences apparemment présentes mais incorrectement mises en œuvre. Citez la ligne de spécification associée à chaque résultat. Limite : 400 mots. »
 
 Si la spécification est manquante, ignorez le sous-agent Spécification et notez-le dans le rapport final.
 

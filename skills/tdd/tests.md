@@ -20,7 +20,7 @@ Caractéristiques :
 
 - Test le comportement qui intéresse les utilisateurs/appelants
 - Utilise uniquement l'API publique
-- Survit aux refactors internes
+- Survit aux refactorisations internes
 - Décrit QUOI, pas COMMENT
 - Une assertion logique par test
 

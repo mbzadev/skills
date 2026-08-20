@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "Développement piloté par les tests. À utiliser lorsque l'utilisateur souhaite créer des fonctionnalités ou corriger des bogues en testant d'abord, mentionne « rouge-vert-refactor » ou souhaite des tests d'intégration."
+description: "Développement piloté par les tests. À utiliser lorsque l'utilisateur souhaite créer des fonctionnalités ou corriger des bogues en testant d'abord, mentionne « rouge-vert-refactorisation » ou souhaite des tests d'intégration."
 ---
 
 # Développement piloté par les tests
@@ -11,7 +11,7 @@ Lorsque vous explorez la base de code, lisez  `CONTEXT.md`  (s'il existe) afin q
 
 ## Qu'est-ce qu'un bon test
 
-Les tests vérifient le comportement via des interfaces publiques, et non les détails d'implémentation. Le code peut changer entièrement ; les tests ne devraient pas le faire. Un bon test se lit comme une spécification — « l'utilisateur peut payer avec un panier valide » vous indique exactement quelle fonctionnalité existe — et survit aux refactors car il ne se soucie pas de la structure interne.
+Les tests vérifient le comportement via des interfaces publiques, et non les détails d'implémentation. Le code peut changer entièrement ; les tests ne devraient pas le faire. Un bon test se lit comme une spécification — « l'utilisateur peut payer avec un panier valide » vous indique exactement quelle fonctionnalité existe — et survit aux refactorisations car il ne se soucie pas de la structure interne.
 
 Voir [tests.md](tests.md) pour des exemples et [mocking.md](mocking.md) pour des directives moqueuses.
 
@@ -29,7 +29,7 @@ Lorsque la forme de cette interface est elle-même en question – quelle est la
 
 - **Couplé à l'implémentation** — se moque des collaborateurs internes, teste des méthodes privées ou vérifie via un canal secondaire (interrogeant la base de données au lieu d'utiliser l'interface). Le révélateur : le test s'interrompt lorsque vous refactorisez mais le comportement n'a pas changé.
 - **Tautologique** — l'assertion recalcule la valeur attendue comme le fait le code (`expect(add(a, b)).toBe(a + b)`, un instantané dérivé à la main de la même manière, une constante affirmée égale à elle-même), elle passe donc par construction et ne peut jamais être en désaccord avec le code. Les valeurs attendues doivent provenir d'une source indépendante de vérité : un bon littéral connu, un exemple concret, la spécification.
-- **Découpage horizontal** — écriture de tous les tests d'abord, puis de toute l'implémentation. Les tests groupés vérifient le comportement _imaginé_ : vous testez la _forme_ des choses plutôt que le comportement face à l'utilisateur, les tests sont insensibles aux changements réels et vous vous engagez à tester la structure avant de comprendre l'implémentation. Travaillez plutôt en **tranches verticales** : un test → une implémentation → répétez, chaque test est une **puce traceuse** qui répond à ce que le dernier cycle vous a appris.
+- **Découpage horizontal** — écriture de tous les tests d'abord, puis de toute l'implémentation. Les tests groupés vérifient le comportement _imaginé_ : vous testez la _forme_ des choses plutôt que le comportement face à l'utilisateur, les tests deviennent sensibles aux détails de structure et vous écrivez du code avant d’en comprendre l’implémentation. Travaillez plutôt en **tranches verticales** : un test → une implémentation → répétez, chaque cycle apportant un comportement vérifiable.
 
 ## Règles de la boucle
 
