@@ -1,0 +1,3 @@
+interface:
+  display_name: "Prévention du churn"
+  short_description: "Réduisez le churn volontaire et involontaire : flux d'annulation, save offers, dunning"

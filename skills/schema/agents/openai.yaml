@@ -1,0 +1,3 @@
+interface:
+  display_name: "Balisage schema.org"
+  short_description: "Données structurées JSON-LD pour les rich results Google"

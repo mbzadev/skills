@@ -1,0 +1,3 @@
+interface:
+  display_name: "Tracking analytics"
+  short_description: "Mettez en place et validez le tracking GA4, GTM, événements, conversions et UTM"
