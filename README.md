@@ -1,27 +1,3 @@
-<p>
-  <a href="https://www.aihero.dev/s/skills-newsletter">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://res.cloudinary.com/total-typescript/image/upload/v1777382277/skills-repo-dark_2x.png">
-      <source media="(prefers-color-scheme: light)" srcset="https://res.cloudinary.com/total-typescript/image/upload/v1777382277/skill-repo-light_2x.png">
-      <img alt="Skills Codex" src="https://res.cloudinary.com/total-typescript/image/upload/v1777382277/skill-repo-light_2x.png" width="369">
-    </picture>
-  </a>
-</p>
-
-# Skills Codex pour l’ingénierie logicielle
-
-[![skills.sh](https://skills.sh/b/mbzadev/skills)](https://skills.sh/mbzadev/skills)
-
-Une collection de skills en français pour mener un véritable travail d’ingénierie avec Codex, au-delà du simple « vibe coding ».
-
-Développer de vraies applications est difficile. Des approches telles que GSD, BMAD et Spec-Kit tentent d’aider en prenant en charge le processus. Mais elles vous retirent alors une partie du contrôle et rendent les problèmes de méthode difficiles à corriger.
-
-Ces skills sont volontairement petits, adaptables et composables. Ils s’appuient sur des pratiques d’ingénierie éprouvées et restent faciles à personnaliser.
-
-Pour suivre l’évolution du projet amont et ses nouvelles publications, vous pouvez rejoindre sa lettre d’information :
-
-[S’inscrire à la lettre d’information](https://www.aihero.dev/s/skills-newsletter)
-
 ## Installation
 
 ### 1. Installer les skills dans Codex
