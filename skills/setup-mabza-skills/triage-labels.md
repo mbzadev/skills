@@ -1,8 +1,8 @@
 # Étiquettes de triage
 
-Les compétences parlent en termes de cinq rôles canoniques de tri. Ce fichier mappe ces rôles aux chaînes d'étiquettes réelles utilisées dans le suivi des problèmes de ce dépôt.
+Les compétences parlent en termes de cinq rôles canoniques de tri. Ce fichier associe ces rôles aux chaînes d'étiquettes réelles utilisées dans le suivi des problèmes de ce dépôt.
 
-| Étiquette dans mattpocock/compétences | Étiquette dans notre tracker | Signification |
+| Étiquette dans mbzadev/compétences | Étiquette dans notre outil de suivi | Signification |
 | -------------------------- | -------------------- | ---------------------------------------- |
 | `needs-triage`  | `needs-triage`  | Le responsable doit évaluer ce problème |
 | `needs-info`  | `needs-info`  | En attente d’informations de la part de l’auteur du ticket |

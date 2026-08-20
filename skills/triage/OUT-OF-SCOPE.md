@@ -83,7 +83,7 @@ Le responsable peut :
 
 ## Quand écrire à `.out-of-scope/`
 
-Uniquement lorsqu'une **amélioration** (pas un bug) est *rejetée* en tant que `wontfix`. Cela s'applique aux PR d'amélioration exactement comme aux problèmes : un PR rejeté est enregistré ici afin que la même demande ne soit pas renvoyée sous forme de nouveau code.
+Uniquement lorsqu'une **amélioration** (pas un bogue) est *rejetée* en tant que `wontfix`. Cela s'applique aux PR d'amélioration exactement comme aux problèmes : un PR rejeté est enregistré ici afin que la même demande ne soit pas renvoyée sous forme de nouveau code.
 
 N'écrivez **pas** ici lorsque quelque chose est fermé comme `wontfix` car il est **déjà implémenté**. Il s'agit d'une fonctionnalité intégrée et non rejetée ; l'enregistrer empoisonnerait les contrôles de dédoublonnage avec de faux rejets. Au lieu de cela, le commentaire final indique où se trouve déjà la fonctionnalité.
 
@@ -93,7 +93,7 @@ Le flux :
 2. Vérifiez si un fichier `.out-of-scope/`  correspondant existe déjà
 3. Si oui : ajouter le nouveau numéro à la liste "Demandes antérieures"
 4. Si non : créer un nouveau dossier avec le nom du concept, la décision, le motif et la première demande préalable
-5. Publiez un commentaire sur le problème en expliquant la décision et en mentionnant le `.out-of-scope/` fichier
+5. Publiez un commentaire sur le ticket en expliquant la décision et en mentionnant le fichier `.out-of-scope/`.
 6. Clôturez le problème avec le label `wontfix`.
 
 ## Mise à jour ou suppression de fichiers hors de portée

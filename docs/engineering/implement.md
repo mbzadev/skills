@@ -1,18 +1,18 @@
 ## Ce qu’il fait
 
-`implement` construit des travaux déjà décidés. Vous le pointez vers un [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), un [spec](https://www.aihero.dev/ai-coding-dictionary/spec), ou le plan que vous venez de convenir dans la conversation, et il écrit le code, conduit [tdd](https://aihero.dev/skills-tdd) au coutures, vérifie le type au fur et à mesure, exécute [code-review](https://aihero.dev/skills-code-review) à la fin et s'engage dans la branche actuelle.
+`implement` réalise un travail déjà décidé. Donnez-lui un [ticket](https://www.aihero.dev/ai-coding-dictionary/ticket), une [spécification](https://www.aihero.dev/ai-coding-dictionary/spec) ou le plan convenu dans la conversation ; il écrit le code, applique [tdd](https://aihero.dev/skills-tdd) aux coutures convenues, vérifie les types, lance [code-review](https://aihero.dev/skills-code-review) à la fin et crée le commit sur la branche actuelle.
 
-Il ne rouvre jamais le plan. Il n’y a ni nouvel entretien, ni tour de clarification, ni proposition d’approche différente. Tout ce qui a été réglé en amont constitue l’entrée ; le skill transforme cet accord en code. C’est ce qui le distingue d’un simple « construis ceci » envoyé à un nouvel [agent](https://www.aihero.dev/ai-coding-dictionary/agent), qui risquerait de repenser le travail pendant son exécution.
+Il ne rouvre jamais le plan. Il ne mène pas de nouvel entretien, ne demande pas de clarification et ne propose pas une autre approche. Tout ce qui a été décidé en amont constitue son entrée ; le skill transforme cet accord en code.
 
 ## Quand l’utiliser
 
-Vous l’invoquez explicitement avec `/implement` : Codex ne le déclenche pas seul, car `agents/openai.yaml` définit `policy.allow_implicit_invocation: false`. Lorsque [ask-matt](https://aihero.dev/skills-ask-matt) ou [to-tickets](https://aihero.dev/skills-to-tickets) indique « puis `/implement` pour chaque ticket », il s’agit d’une instruction destinée à l’utilisateur.
+Vous l’invoquez explicitement avec `/implement` : Codex ne le déclenche pas seul, car `agents/openai.yaml` définit `policy.allow_implicit_invocation: false`. Lorsque [ask-mabza](https://aihero.dev/skills-ask-mabza) ou [to-tickets](https://aihero.dev/skills-to-tickets) indique « puis `/implement` pour chaque ticket », il s’agit d’une instruction destinée à l’utilisateur.
 
 Le lieu de résidence actuel du travail détermine s'il s'agit de la bonne compétence :
 
 | Le travail est… | Atteindre |
 | --- | --- |
-| Un ticket sur le tracker | `/implement #42`, un ticket par [session](https://www.aihero.dev/ai-coding-dictionary/session), [clearing](https://www.aihero.dev/ai-coding-dictionary/clearing) contexte entre tickets |
+| Un ticket sur l’outil de suivi | `/implement #42`, un ticket par [session](https://www.aihero.dev/ai-coding-dictionary/session), [clearing](https://www.aihero.dev/ai-coding-dictionary/clearing) contexte entre tickets |
 | Une spécification, pas encore divisée, et la construction s'étend sur des sessions | [to-tickets](https://aihero.dev/skills-to-tickets) d'abord, puis `/implement` par ticket |
 | Une spécification, et la construction est petite | `/implement` directement par rapport à la spécification |
 | Seulement dans la conversation que vous venez d'avoir, et c'est encore petit | `/implement` juste là, dans la même fenêtre |
@@ -20,13 +20,13 @@ Le lieu de résidence actuel du travail détermine s'il s'agit de la bonne comp�
 | Un comportement concret que vous souhaitez tester en premier, sans spécification | [tdd](https://aihero.dev/skills-tdd) directement |
 | Déjà construit et vous souhaitez qu'il soit vérifié | [code-review](https://aihero.dev/skills-code-review) directement |
 
-Le cas de la même session mérite d'être nommé car la première ligne de la compétence ne le couvre pas.  `SKILL.md`  dit "la spécification ou les tickets", ce qui pousse le [model](https://www.aihero.dev/ai-coding-dictionary/model) à partir à la recherche d'un fichier qui n'existe pas. Si le plan réside uniquement dans le fil de discussion, dites-le lorsque vous l'invoquez.
+Le cas de la même session mérite d'être nommé car la première ligne de la compétence ne le couvre pas.  `SKILL.md`  dit "la spécification ou les tickets", ce qui pousse le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) à partir à la recherche d'un fichier qui n'existe pas. Si le plan réside uniquement dans le fil de discussion, dites-le lorsque vous l'invoquez.
 
 ## Prérequis
 
 `implement`  s'engage sur la branche sur laquelle vous vous trouvez. Il n’en crée pas et ne le demande pas. Vérifiez que vous êtes sur la branche sur laquelle vous souhaitez travailler avant de commencer.
 
-Si les tickets provenaient de [to-tickets](https://aihero.dev/skills-to-tickets), le tracker sur lequel ils vivent a été configuré par [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills). `code-review` lit la même configuration pour trouver la spécification d'origine à la clôture.
+Si les tickets provenaient de [to-tickets](https://aihero.dev/skills-to-tickets), l’outil de suivi sur lequel ils vivent a été configuré par [setup-mabza-skills](https://aihero.dev/skills-setup-mabza-skills). `code-review` lit la même configuration pour trouver la spécification d'origine à la clôture.
 
 ## Ce qu'une seule exécution fait
 
@@ -38,7 +38,7 @@ Une course comporte cinq temps, dans l'ordre :
 4. Exécutez la suite de tests complète une fois, à la fin.
 5. Exécutez [code-review](https://aihero.dev/skills-code-review), puis validez-vous dans la branche actuelle.
 
-Un trajet couvre un ticket. Les tickets produits par [to-tickets](https://aihero.dev/skills-to-tickets) sont des tranches verticales de balle traçante dimensionnées pour s'adapter à une seule nouvelle [fenêtre contextuelle](https://www.aihero.dev/ai-coding-dictionary/context-window), le rythme prévu est donc : effacer le contexte, implémenter un ticket, valider, effacer à nouveau. Chaque ticket est autonome, ce qui rend le contexte du ticket précédent jetable.
+Un trajet couvre un ticket. Les tickets produits par [to-tickets](https://aihero.dev/skills-to-tickets) sont des tranches verticales dimensionnées pour tenir dans une seule nouvelle [fenêtre contextuelle](https://www.aihero.dev/ai-coding-dictionary/context-window). Le rythme prévu est donc : effacer le contexte, réaliser un ticket, le valider, puis effacer à nouveau. Chaque ticket est autonome, ce qui rend le contexte du ticket précédent inutile.
 
 ## Coutures pré-convenues
 
@@ -50,7 +50,7 @@ Le mot « convenu à l'avance » fait un vrai travail, et c'est aussi l'articula
 
 **C'est terminé, mais mon ticket est toujours ouvert et les critères d'acceptation ne sont toujours pas cochés.**
 
-Correct et attendu. `implement` n'a aucune étape d'achèvement. Il se termine à la validation et ne touche jamais à l'élément de travail, confirmé sur les problèmes GitHub et sur le tracker de Markdown local, il ne s'agit donc pas d'un problème d'intégration du tracker. Il ne donne pas non plus suite aux conclusions `code-review` produites et ne coche pas les cases `- [ ]` sur le problème d'origine. Fermez le ticket et rapprochez vous-même les critères. Cela mord le plus durement sur une chaîne de dépendance, car `to-tickets` définit la frontière comme des tickets dont les bloqueurs sont tous fermés. Si rien ne se ferme, rien ne se débloque visiblement.
+Correct et attendu. `implement` n'a aucune étape d'achèvement. Il se termine à la validation et ne touche jamais à l'élément de travail, confirmé sur les problèmes GitHub et sur l’outil de suivi de Markdown local, il ne s'agit donc pas d'un problème d'intégration de l’outil de suivi. Il ne donne pas non plus suite aux conclusions `code-review` produites et ne coche pas les cases `- [ ]` sur le problème d'origine. Fermez le ticket et rapprochez vous-même les critères. Cela mord le plus durement sur une chaîne de dépendance, car `to-tickets` définit la frontière comme des tickets dont les bloqueurs sont tous fermés. Si rien ne se ferme, rien ne se débloque visiblement.
 
 **Puis-je le pointer sur tous mes tickets à la fois, ou en exécuter plusieurs en parallèle ?**
 
@@ -72,7 +72,7 @@ Il est probable que le ticket soit trop gros plutôt que la compétence soit mal
 
 **`/implement #2` dans une nouvelle session, j'ai travaillé sur quelque chose de complètement sans rapport.**
 
-`#2` est résolu par rapport à toute liste numérotée que l'agent peut voir, qui dans une nouvelle session peut être un fichier de tâches, une liste de contrôle ou une autre liste de travail plutôt que le tracker configuré. La résolution est confiante plutôt que fermée, de sorte que l’erreur n’est évidente que lorsqu’elle a commencé. Transmettez la référence complète, l'URL du problème ou `owner/repo#2`, et demandez-lui de confirmer le titre avant qu'il ne commence.
+`#2` est résolu par rapport à toute liste numérotée que l'agent peut voir, qui dans une nouvelle session peut être un fichier de tâches, une liste de contrôle ou une autre liste de travail plutôt que l’outil de suivi configuré. La résolution est confiante plutôt que fermée, de sorte que l’erreur n’est évidente que lorsqu’elle a commencé. Transmettez la référence complète, l'URL du problème ou `owner/repo#2`, et demandez-lui de confirmer le titre avant qu'il ne commence.
 
 ## Indicateurs de réussite
 
@@ -94,4 +94,4 @@ Ses voisins sont [to-tickets](https://aihero.dev/skills-to-tickets), qui produit
 
 Cette confiance est la raison pour laquelle [wayfinder](https://aihero.dev/skills-wayfinder) fusionne sur la chaîne à [to-spec](https://aihero.dev/skills-to-spec) plutôt que de boucler sa carte directement dans `implement`. Accédez directement à `implement` à partir d'une carte uniquement lorsque l'effort s'est avéré vraiment minime.
 
-[ask-matt](https://aihero.dev/skills-ask-matt) est le routeur sur l'ensemble de l'ensemble lorsque vous n'êtes pas sûr du flux dans lequel vous vous trouvez.
+[ask-mabza](https://aihero.dev/skills-ask-mabza) est le routeur sur toute la collection lorsque vous n'êtes pas sûr du flux dans lequel vous vous trouvez.

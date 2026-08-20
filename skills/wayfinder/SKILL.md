@@ -21,7 +21,7 @@ La carte est un ticket unique de l’outil de suivi, étiqueté `wayfinder:map`.
 
 La carte est un **index**, pas un entrepôt. Elle répertorie les décisions et pointe vers les tickets qui en contiennent le détail. Chaque décision n’existe qu’à un seul endroit — son ticket — ; la carte n’en conserve que l’essentiel et le lien.
 
-**L’emplacement de la carte, de ses tickets enfants, de ses blocages et de ses requêtes de frontière dépend de l’outil de suivi.** Cette configuration doit déjà exister ; sinon, exécutez `/setup-matt-pocock-skills`. Consultez la section « Opérations d’orientation » du document de suivi pour connaître les conventions du dépôt. Si aucun outil n’est configuré, utilisez le suivi Markdown local.
+**L’emplacement de la carte, de ses tickets enfants, de ses blocages et de ses requêtes de frontière dépend de l’outil de suivi.** Cette configuration doit déjà exister ; sinon, exécutez `/setup-mabza-skills`. Consultez la section « Opérations d’orientation » du document de suivi pour connaître les conventions du dépôt. Si aucun outil n’est configuré, utilisez le suivi Markdown local.
 
 ### Le corps de la carte
 
@@ -87,7 +87,7 @@ La section **Pas encore spécifié** de la carte est l'endroit où cette vision 
 **Brouillard ou ticket ?** Le test est de savoir si vous pouvez poser la question avec précision maintenant – _pas_ si vous pouvez y répondre maintenant.
 
 - **Ticket lorsque** la question est déjà pointue, même si elle est bloquée et que vous ne pouvez pas encore y donner suite.
-- **Pas encore spécifié quand** vous ne pouvez pas encore le formuler aussi clairement. Ne découpez pas le brouillard en morceaux de la taille d'un ticket : il est plus grossier qu'un ticket, et une zone peut se transformer en plusieurs tickets, voire aucun, une fois que la frontière l'atteint.
+- **Pas encore spécifié quand** vous ne pouvez pas encore le formuler aussi clairement. Ne découpez pas le brouillard en morceaux de la taille d’un ticket : il est plus grossier qu’un ticket et une zone peut se transformer en plusieurs tickets, voire aucun, lorsque la frontière la rend exploitable.
 
 **Pas encore spécifié** exclut ce qui a déjà été décidé (décisions jusqu'à présent), ce qui est déjà un ticket en direct et ce qui est hors de portée (la section suivante).
 

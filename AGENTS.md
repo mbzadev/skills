@@ -5,7 +5,7 @@ Les skills sont stockés à plat sous `skills/`, conformément au format natif d
 - `engineering/` — travail quotidien sur le code ;
 - `productivity/` — outils de travail quotidiens non liés au code ;
 - `misc/` — skills conservés mais rarement utilisés ;
-- `in-progress/` — skills bêta publiés pour recueillir du feedback ;
+- `in-progress/` — skills bêta publiés pour recueillir du retour ;
 - `deprecated/` — skills qui ne doivent plus être utilisés.
 
 Les catégories `engineering/` et `productivity/` sont promues. Chaque skill promu doit être référencé dans le `README.md` racine. Les catégories `misc/`, `in-progress/` et `deprecated/` ne doivent pas apparaître dans cette liste publique.
@@ -22,6 +22,6 @@ Les skills classés dans `engineering/` et `productivity/` possèdent également
 
 Chaque `SKILL.md` est soit invoqué uniquement par l’utilisateur, soit invocable par le modèle. Pour une invocation exclusivement humaine, ajoutez `policy.allow_implicit_invocation: false` dans le fichier `agents/openai.yaml` voisin. Pour un skill invocable par le modèle, omettez cette règle. Consultez [`.agents/invocation.md`](./.agents/invocation.md).
 
-[`ask-matt`](./skills/ask-matt/SKILL.md) est le routeur des skills accessibles à l’utilisateur. Chaque ajout, renommage, suppression ou modification d’un skill invoqué par l’utilisateur doit être répercuté dans ce routeur.
+[`ask-mabza`](./skills/ask-mabza/SKILL.md) est le routeur des skills accessibles à l’utilisateur. Chaque ajout, renommage, suppression ou modification d’un skill invoqué par l’utilisateur doit être répercuté dans ce routeur.
 
 Pour relier les skills aux répertoires locaux utilisés par Codex, exécutez `scripts/link-skills.sh`. Chaque entrée est un lien symbolique vers ce dépôt ; un `git pull` suffit donc à maintenir les skills installés à jour. Relancez le script après l’ajout, la suppression ou le renommage d’un skill.

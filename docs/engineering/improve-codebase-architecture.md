@@ -1,10 +1,10 @@
 ## Ce qu’il fait
 
-`improve-codebase-architecture`  étudie une base de code pour des **opportunités d'approfondissement** - des endroits où un module superficiel (une interface presque aussi complexe que ce qu'il cache) pourrait devenir un module profond - les rédige sous la forme d'un rapport HTML autonome, puis [grills](https://www.aihero.dev/ai-coding-dictionary/grilling) vous à travers celui que vous choisissez.
+`improve-codebase-architecture` examine une base de code à la recherche d’**opportunités d’approfondissement** : des endroits où un module superficiel — une interface presque aussi complexe que ce qu’elle dissimule — pourrait devenir un module profond. Il présente les candidats dans un rapport HTML autonome, puis vous guide à travers celui que vous choisissez.
 
-Cela ne change jamais le code. L'ensemble de l'exécution produit un fichier HTML dans le répertoire temporaire de votre système d'exploitation et une conversation ; le refactor lui-même se produit plus tard, dans une [session](https://www.aihero.dev/ai-coding-dictionary/session) distincte, via le flux de construction normal. C'est ce qui en fait une enquête plutôt qu'un outil de refactoring, et c'est pourquoi la compétence vaut la peine d'être exécutée sur une base de code que vous n'êtes pas encore prêt à toucher.
+Le skill ne modifie jamais le code. Il produit un fichier HTML dans le répertoire temporaire du système et une discussion ; la refactorisation intervient ensuite, dans une session distincte, via le flux de construction normal. Il s’agit donc d’une enquête, pas d’un outil de refactorisation.
 
-Deux filtres empêchent le rapport de devenir des conseils de nettoyage génériques. Chaque candidat doit réussir le **test de suppression** : la suppression de ce module concentrerait-elle la complexité derrière une interface plus petite, ou la répartirait-elle simplement entre les appelants ? Seules les caisses « concentrés » donnent droit à une carte. Et à moins que vous ne le pointiez vers une zone spécifique, il lit d'abord l'historique des commits récents et oriente l'analyse vers des chemins qui changent activement, au motif qu'un approfondissement du code que personne ne touche est un refactor que vous n'encaisserez jamais.
+Deux filtres empêchent le rapport de devenir une liste générique de nettoyages. Chaque candidat doit réussir le **test de suppression** : retirer ce module concentrerait-il la complexité derrière une interface plus petite, ou la répartirait-il simplement entre les appelants ? Seuls les candidats qui concentrent réellement la complexité sont retenus. Sauf zone indiquée par l’utilisateur, l’analyse commence par les commits récents afin de privilégier les chemins encore actifs.
 
 ## Quand l’utiliser
 
@@ -23,7 +23,7 @@ Où il est confondu avec frères et sœurs :
 
 - Pour concevoir un module que vous avez déjà choisi, utilisez [codebase-design](https://aihero.dev/skills-codebase-design) — c'est le banc, c'est l'enquête qui trouve quoi mettre dessus.
 - Pour un effort trop important pour être réalisé en une seule séance, utilisez [wayfinder](https://aihero.dev/skills-wayfinder).
-- Pour "cette chose spécifique est cassée", utilisez [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs). Cela revient ici lorsque la véritable conclusion est qu'il n'y a pas de bonne couture pour verrouiller le bug.
+- Pour "cette chose spécifique est cassée", utilisez [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs). Cela revient ici lorsque la véritable conclusion est qu'il n'y a pas de bonne couture pour verrouiller le bogue.
 
 ## Prérequis
 
@@ -33,7 +33,7 @@ Il est écrit à deux endroits. Le rapport va à `<tmpdir>/architecture-review-<
 
 ## Profondeur, et le rapport qui la recherche
 
-La compétence tourne autour d'une idée : **profondeur**. Un module profond met beaucoup de comportement derrière une petite interface stable. Un modèle superficiel divulgue son implémentation via une interface presque aussi large que le code situé en dessous. Le rapport est une chasse à la superficialité – des fonctions pures extraites uniquement à des fins de test alors que les vrais bugs vivent dans la façon dont ils sont appelés (pas de **localité**), des modules qui fuient à travers leurs **coutures**, un concept que vous ne pouvez pas comprendre sans ouvrir cinq fichiers – et une proposition d'approfondissement qui le corrige.
+La compétence tourne autour d'une idée : **profondeur**. Un module profond met beaucoup de comportement derrière une petite interface stable. Un modèle superficiel divulgue son implémentation via une interface presque aussi large que le code situé en dessous. Le rapport est une chasse à la superficialité – des fonctions pures extraites uniquement à des fins de test alors que les vrais bogues vivent dans la façon dont ils sont appelés (pas de **localité**), des modules qui fuient à travers leurs **coutures**, un concept que vous ne pouvez pas comprendre sans ouvrir cinq fichiers – et une proposition d'approfondissement qui le corrige.
 
 Chaque candidat est une carte : les dossiers impliqués, les frictions, une solution en anglais simple, le bénéfice énoncé en termes de **localité** et de **effet de levier**, un schéma avant/après et un badge de force.| Insigne | Ce que cela signifie pour vous |
 | --- | --- |
@@ -51,7 +51,7 @@ La sélection d'un candidat démarre une session de [grilling](https://aihero.de
 
 ** Cela m'a demandé pendant une heure une idée au lieu de me montrer des options. Puis-je désactiver cela ?**
 
-Oui, dites-le lorsque vous l'invoquez (« ne me grillez pas, montrez simplement le rapport »). C’est la plainte la plus bruyante de cette compétence. Un utilisateur l'a dit sans détour : il l'a apprécié comme "un moyen pratique d'obtenir une analyse approfondie des améliorations", et après l'ajout de la boucle de grillage, il l'a trouvé "à la limite inutilisable", rapportant des sessions au cours desquelles il a proposé une solution unique, puis a posé "des dizaines ou des centaines de questions". L'intention de conception est que le rapport vienne en premier et que le grill ne démarre que sur un candidat que vous avez choisi, mais les [modèles](https://www.aihero.dev/ai-coding-dictionary/model) plus faibles passent directement à vous interviewer sur la première idée qu'ils ont eue. Les rapports dans ce fil varient considérablement selon le modèle, et c'est un problème ouvert : la compétence n'a pas encore de mode sans grill documenté.
+Oui, dites-le lorsque vous l'invoquez (« ne me grillez pas, montrez simplement le rapport »). C’est la plainte la plus bruyante de cette compétence. Un utilisateur l'a dit sans détour : il l'a apprécié comme "un moyen pratique d'obtenir une analyse approfondie des améliorations", et après l'ajout de la boucle de grillage, il l'a trouvé "à la limite inutilisable", rapportant des sessions au cours desquelles il a proposé une solution unique, puis a posé "des dizaines ou des centaines de questions". L'intention de conception est que le rapport vienne en premier et que le grill ne démarre que sur un candidat que vous avez choisi, mais les [modèles](https://www.aihero.dev/ai-coding-dictionary/model) plus faibles passent directement à vous interroger sur la première idée qu'ils ont eue. Les rapports dans ce fil varient considérablement selon le modèle, et c'est un problème ouvert : la compétence n'a pas encore de mode sans grill documenté.
 
 **Le rapport s'est ouvert au format HTML brut sans style, sans diagramme. Que s'est-il passé ?**
 
@@ -67,7 +67,7 @@ Avec la prochaine chose que vous construisez à l’esprit. Lorsqu'une grande ve
 
 **Est-ce que cela fonctionne sur une grande base de code existante ?**
 
-En partie. Il est puissant sur les grandes bases de code existantes dépourvues de structure cohérente, et constitue le mécanisme de maintenance recommandé après toute configuration structurelle ponctuelle. Le contrepoids honnête : les utilisateurs avec des projets véritablement incontrôlables rapportent que cela « a un peu aidé mais ne semble toujours pas suffire », et un développeur avec une base de code héritée de huit ans a signalé que le modèle tournait en rond où la même compétence produit un graphique propre sur un dépôt bien rangé. Il n'existe pas encore de compétence `/refactor`  dédiée à ce cas. Si la base de code n'a aucun vocabulaire partagé, [grill-with-docs](https://aihero.dev/skills-grill-with-docs) pour en établir un en premier tend à améliorer considérablement le résultat de cette compétence.
+En partie. Il est puissant sur les grandes bases de code existantes dépourvues de structure cohérente, et constitue le mécanisme de maintenance recommandé après toute configuration structurelle ponctuelle. Le contrepoids honnête : les utilisateurs avec des projets véritablement incontrôlables rapportent que cela « a un peu aidé mais ne semble toujours pas suffire », et un développeur avec une base de code héritée de huit ans a signalé que le modèle tournait en rond où la même compétence produit un graphique propre sur un dépôt bien rangé. Il n'existe pas encore de compétence `/refactorisation`  dédiée à ce cas. Si la base de code n'a aucun vocabulaire partagé, [grill-with-docs](https://aihero.dev/skills-grill-with-docs) pour en établir un en premier tend à améliorer considérablement le résultat de cette compétence.
 
 **En quoi est-ce différent de `/codebase-design` ?**
 
@@ -83,7 +83,7 @@ Partiellement. L'étape d'exploration nomme directement l'outil `Agent` de Codex
 
 **Comment puis-je réellement implémenter des modules profonds dans TypeScript ?**
 
-Il n’y a pas de bonne réponse fournie avec la compétence. La demande récurrente concerne un `TYPESCRIPT.md`  donnant des présentations concrètes de fichiers et de modules pour les principes, et cela n'existe pas. La compétence vous dira où se situe une approfondissement et ce qui doit se trouver derrière la couture ; la traduction de cela en un package ou une structure de répertoires est actuellement à votre charge.
+Il n’y a pas de réponse toute faite dans ce skill. Une demande récurrente concerne un `TYPESCRIPT.md` présentant des exemples concrets de fichiers et de modules, mais ce document n’existe pas encore. Le skill vous indique où se situe un approfondissement et ce qui doit se trouver derrière la couture ; traduire cette recommandation en package ou en structure de répertoires reste à votre charge.
 
 ## Indicateurs de réussite
 
@@ -96,4 +96,4 @@ Il n’y a pas de bonne réponse fournie avec la compétence. La demande récurr
 
 ## Où il s’inscrit
 
-`improve-codebase-architecture` est une **maintenance périodique** — exécutez-la tous les quelques jours, en dehors de toute chaîne, pour mettre le travail en file d'attente plutôt que de le faire. Ses voisins sont [codebase-design](https://aihero.dev/skills-codebase-design), qui possède le vocabulaire approfondi dans lequel chaque candidat est écrit, [grilling](https://aihero.dev/skills-grilling), qui parcourt l'arbre de décision une fois que vous avez choisi un candidat, et [modélisation de domaine](https://aihero.dev/skills-domain-modeling), qui maintient `CONTEXT.md` et les ADR à jour au fur et à mesure que la décision est prise. Ce qu'il produit est une idée, qui réintègre le flux de construction principal à [grill-with-docs](https://aihero.dev/skills-grill-with-docs) ou [to-spec](https://aihero.dev/skills-to-spec). Pour quelle compétence correspond à une situation, [ask-matt](https://aihero.dev/skills-ask-matt) est le routeur sur l'ensemble de l'ensemble.
+`improve-codebase-architecture` est une **maintenance périodique** : exécutez-le tous les quelques jours, en dehors de la chaîne principale, pour mettre les possibilités d’amélioration en file d’attente plutôt que pour les appliquer immédiatement. [codebase-design](https://aihero.dev/skills-codebase-design) fournit le vocabulaire des modules profonds, [grilling](https://aihero.dev/skills-grilling) parcourt l’arbre de décision et [domain-modeling](https://aihero.dev/skills-domain-modeling) maintient `CONTEXT.md` et les ADR. Pour savoir quel skill correspond à votre situation, utilisez [ask-mabza](https://aihero.dev/skills-ask-mabza).

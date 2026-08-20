@@ -1,6 +1,6 @@
 ## Ce qu’il fait
 
-`setup-matt-pocock-skills` répond à trois questions sur un dépôt : où se trouvent les tickets, comment s’appellent les étiquettes de tri et où se trouvent les documents du domaine. Il enregistre les réponses dans des fichiers Markdown sous `docs/agents/`.
+`setup-mabza-skills` répond à trois questions sur un dépôt : où se trouvent les tickets, comment s’appellent les étiquettes de tri et où se trouvent les documents du domaine. Il enregistre les réponses dans des fichiers Markdown sous `docs/agents/`.
 
 Ces fichiers sont les seuls éléments qui varient d’un dépôt à l’autre. Les skills restent identiques partout : ils lisent `docs/agents/issue-tracker.md` au moment de l’exécution et suivent ses instructions. L’ensemble n’est donc pas lié à GitHub et aucun fichier de skill n’a besoin d’être modifié pour cibler un autre outil. L’invocation « lier les skills à un outil de suivi personnalisé » fonctionne avec tout service accessible par programmation.
 
@@ -8,7 +8,7 @@ Il s’agit d’un skill piloté par une conversation, et non d’un script dét
 
 ## Quand l’utiliser
 
-Vous l'invoquez en tapant `/setup-matt-pocock-skills` — l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul. Il est délibérément marqué comme non invocable, donc aucune autre compétence ne peut le déclencher à votre place.
+Vous l’invoquez en tapant `/setup-mabza-skills` : l’agent ne le déclenchera pas seul. Il est volontairement réservé à l’utilisateur, afin qu’aucun autre skill ne modifie la configuration à sa place.
 
 Exécutez-le une fois par dépôt, avant la première utilisation d’un autre skill d’ingénierie. Si [triage](https://aihero.dev/skills-triage), [to-spec](https://aihero.dev/skills-to-spec), [to-tickets](https://aihero.dev/skills-to-tickets) ou [wayfinder](https://aihero.dev/skills-wayfinder) commence à deviner où publier les tickets, ou tente d’appliquer des étiquettes absentes de votre outil de suivi, la configuration n’a pas encore été effectuée. Vous pouvez aussi l’exécuter sur un projet déjà avancé : le skill tient compte de l’existant et ne remet pas en cause le travail accompli.
 
@@ -35,7 +35,7 @@ Il mène chaque section avec la réponse recommandée et ignore toute exploratio
 | **Étiquettes de tri** | conserver les cinq noms canoniques (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) | uniquement si la compétence `triage`  est installée |
 | **Documents du domaine** | contexte unique : un `CONTEXT.md` plus `docs/adr/` à la racine | seulement s'il détecte les signaux monorepo, et alors il offre un multi-contexte `CONTEXT-MAP.md` |
 
-Les options du tracker :
+Les options de l’outil de suivi :
 
 | Options | Où vivent les problèmes | Besoins |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ Non. GitHub, GitLab et le suivi Markdown local sous `.scratch/` sont fournis sou
 
 **Dois-je le réexécuter après avoir mis à jour les compétences ?**
 
-Interrogé directement après la v1.1, Matt a répondu oui. Le message de clôture de la compétence est plus doux : il vous indique qu'une réexécution n'est nécessaire que pour changer de tracker ou recommencer. Les deux sont défendables et la raison de l'écart est réelle : les modèles de départ changent entre les versions, donc un `docs/agents/issue-tracker.md` écrit par une version plus ancienne peut devenir obsolète par rapport aux compétences qui le lisent actuellement. Si une compétence en aval commence à faire quelque chose que la documentation décrit différemment, la réexécution est la solution la moins chère.
+Interrogé directement après la v1.1, Mabza a répondu oui. Le message de clôture de la compétence est plus doux : il vous indique qu'une réexécution n'est nécessaire que pour changer d’outil de suivi ou recommencer. Les deux sont défendables et la raison de l'écart est réelle : les modèles de départ changent entre les versions, donc un `docs/agents/issue-tracker.md` écrit par une version plus ancienne peut devenir obsolète par rapport aux compétences qui le lisent actuellement. Si une compétence en aval commence à faire quelque chose que la documentation décrit différemment, la réexécution est la solution la moins chère.
 
 **Où la configuration est-elle écrite ?** Dans `AGENTS.md`, à la racine du dépôt. Si le fichier n’existe pas, le skill vous présente son contenu avant de le créer. Un bloc `## Skills de l’agent` existant est mis à jour sur place afin d’éviter les doublons.
 
@@ -89,4 +89,4 @@ La réserve est légitime : le modèle configure lui-même les skills qu’il ut
 
 ## Où il s’inscrit
 
-`setup-matt-pocock-skills` est la **configuration unique** pour le flux d'ingénierie, la condition préalable que tout le reste suppose plutôt qu'une étape dans la chaîne. Ses voisins sont ses lecteurs : [triage](https://aihero.dev/skills-triage), qui applique le vocabulaire des étiquettes écrit ici ; [to-spec](https://aihero.dev/skills-to-spec) et [to-tickets](https://aihero.dev/skills-to-tickets), qui publient dans le tracker nommé ici ; et [wayfinder](https://aihero.dev/skills-wayfinder), qui lit la section "Opérations d'orientation" du même fichier de suivi pour savoir comment les cartes et les [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) enfants sont stockés. La disposition du document de domaine qu'il enregistre est celle que [domain-modeling](https://aihero.dev/skills-domain-modeling) remplit plus tard — elle crée  `CONTEXT.md`  et des ADR paresseusement, lorsqu'un terme ou une décision est réellement résolu, donc un dépôt vide après la configuration est l'état attendu. Pour quelle compétence atteindre ensuite, [ask-matt](https://aihero.dev/skills-ask-matt) achemine l'ensemble.
+`setup-mabza-skills` est la **configuration initiale** du flux d’ingénierie : tout le reste la suppose, mais elle ne constitue pas une étape de la chaîne. [triage](https://aihero.dev/skills-triage) applique les étiquettes définies ici ; [to-spec](https://aihero.dev/skills-to-spec) et [to-tickets](https://aihero.dev/skills-to-tickets) publient dans l’outil de suivi indiqué ; [wayfinder](https://aihero.dev/skills-wayfinder) lit les règles de navigation du même fichier. [domain-modeling](https://aihero.dev/skills-domain-modeling) remplira ensuite le document de domaine. Pour choisir le prochain skill, utilisez [ask-mabza](https://aihero.dev/skills-ask-mabza).

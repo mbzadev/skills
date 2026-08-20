@@ -1,14 +1,14 @@
 ## Ce qu’il fait
 
-`resolving-merge-conflicts` fonctionne via une fusion ou un rebase git en cours, morceau par morceau, puis exécute les propres vérifications du projet et termine l'opération avec un commit.
+`resolving-merge-conflicts` fonctionne via une fusion ou un rebase git en cours, élément par élément, puis exécute les propres vérifications du projet et termine l'opération avec un commit.
 
 Il refuse de traiter un conflit comme un problème de texte. Avant de toucher un morceau, il retrace chaque côté jusqu'à sa **[source principale](https://www.aihero.dev/ai-coding-dictionary/primary-source)** — le message de validation, le PR, le problème d'origine — il choisit donc entre deux intentions plutôt qu'entre deux blocs de texte, et il préserve les deux partout où ils sont compatibles. Là où ce n’est vraiment pas le cas, il choisit le camp qui correspond à l’objectif déclaré de la fusion et nomme le compromis. Il n'invente aucun nouveau comportement pour masquer un conflit, et `--abort` n'est pas une option dont il dispose : la fusion est toujours effectuée jusqu'à un commit terminé.
 
 ## Quand l’utiliser
 
-Tapez `/resolving-merge-conflicts`, ou l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) l'atteint automatiquement lorsqu'une tâche convient.
+Tapez `/resolving-merge-conflicts`, ou laissez l’agent le sélectionner automatiquement lorsqu’une tâche s’y prête.
 
-Atteignez-le lorsque git s'est déjà arrêté sur des conflits qu'il n'a pas pu résoudre lui-même. Cela concerne le conflit en face de vous, et non aucun des deux côtés :
+Utilisez ce skill lorsque git s'est déjà arrêté sur des conflits qu'il n'a pas pu résoudre lui-même. Cela concerne le conflit en face de vous, et non aucun des deux côtés :
 
 | Votre situation | Compétence |
 | --- | --- |
@@ -30,7 +30,7 @@ La valeur ajoutée réside dans les étapes « trouver les sources primaires �
 
 **Dois-je éloigner les agents parallèles des mêmes fichiers pour éviter les conflits en premier lieu ?**
 
-Surtout non. Le zonage des fichiers entre des tâches parallèles coûte plus cher qu'il n'en économise, car les agents sont suffisamment doués pour gérer les conflits de fusion pour que le compromis ne soit pas aussi difficile qu'il y paraît. La seule discipline à conserver est de commencer par effectuer de grands refactors. Un grand changement de nom après que dix branches ont été dédoublées, c'est le cas qui reste cher.
+Surtout non. Le zonage des fichiers entre des tâches parallèles coûte plus cher qu'il n'en économise, car les agents sont suffisamment doués pour gérer les conflits de fusion pour que le compromis ne soit pas aussi difficile qu'il y paraît. La seule discipline à conserver est de commencer par effectuer de grands refactorisations. Un grand changement de nom après que dix branches ont été dédoublées, c'est le cas qui reste cher.
 
 Une mise en garde d'un rapport d'utilisateur sur les arbres de travail parallèles : lorsque des frères et sœurs [sessions](https://www.aihero.dev/ai-coding-dictionary/session) créent chacun un ticket dans leur propre arbre, la fusion est mieux effectuée par la session qui a écrit la modification, car c'est celle qui connaît déjà l'intention. Regrouper les conflits de tout le monde sur un seul agent à la fin jette exactement le [contexte](https://www.aihero.dev/ai-coding-dictionary/context) que l'étape 2 de cette compétence doit reconstruire.
 
@@ -48,4 +48,4 @@ Abandonner annule le travail de résolution et vous ramène au même conflit, in
 
 ## Où il s’inscrit
 
-Un outil autonome accessible à tout moment, sans dépendance à aucune autre compétence : il commence lorsque git s'arrête et se termine lorsque l'arborescence est propre et validée. Son seul véritable voisin est [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs), qui prend le relais au moment où une fusion est résolue proprement mais où le code fusionné se comporte mal - un problème de diagnostic, pas de conflit. Il s'éloigne entièrement du flux principal de l'idée à l'expédition, donc [ask-matt](https://aihero.dev/skills-ask-matt) est la carte de ce qui se déroule avant et après.
+Un skill autonome, utilisable à tout moment, sans dépendance à aucune autre compétence : il commence lorsque git s'arrête et se termine lorsque l'arborescence est propre et validée. Son seul véritable voisin est [diagnosing-bugs](https://aihero.dev/skills-diagnosing-bugs), qui prend le relais au moment où une fusion est résolue proprement mais où le code fusionné se comporte mal - un problème de diagnostic, pas de conflit. Il s'éloigne entièrement du flux principal de l'idée à l'expédition, donc [ask-mabza](https://aihero.dev/skills-ask-mabza) est la carte de ce qui se déroule avant et après.

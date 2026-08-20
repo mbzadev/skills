@@ -20,14 +20,14 @@ Montrez-le à l'utilisateur, puis passez immédiatement à l'étape 2. L'utilisa
 
 Générez plus de 3 sous-agents en parallèle. Chacun doit produire une interface **radicalement différente** pour le module profond.
 
-Invitez chaque sous-agent à fournir une description technique distincte (chemins d'accès aux fichiers, détails de couplage, catégorie de dépendance de [DEEPENING.md](DEEPENING.md), ce qui se trouve derrière la couture). Le brief est indépendant de l'explication de l'espace de problèmes destinée à l'utilisateur à l'étape 1. Donnez à chaque agent une contrainte de conception différente :
+Invitez chaque sous-agent à fournir une description technique distincte (chemins d'accès aux fichiers, détails de couplage, catégorie de dépendance de [DEEPENING.md](DEEPENING.md), ce qui se trouve derrière la couture). La note de cadrage est indépendant de l'explication de l'espace de problèmes destinée à l'utilisateur à l'étape 1. Donnez à chaque agent une contrainte de conception différente :
 
 - Agent 1 : "Réduisez l'interface – visez 1 à 3 points d'entrée maximum. Maximisez l'effet de levier par point d'entrée."
 - Agent 2 : "Maximiser la flexibilité – prendre en charge de nombreux cas d'utilisation et extensions."
 - Agent 3 : "Optimiser pour l'appelant le plus courant - rendre le cas par défaut trivial."
 - Agent 4 (le cas échéant) : "Conception autour des ports et des adaptateurs pour les dépendances croisées."
 
-Incluez à la fois le vocabulaire [SKILL.md](SKILL.md) et le vocabulaire CONTEXT.md dans le brief afin que chaque sous-agent nomme les éléments de manière cohérente avec le langage d'architecture et le langage de domaine du projet.
+Incluez à la fois le vocabulaire [SKILL.md](SKILL.md) et le vocabulaire CONTEXT.md dans la note de cadrage afin que chaque sous-agent nomme les éléments de manière cohérente avec le langage d'architecture et le langage de domaine du projet.
 
 Chaque sous-agent génère :
 

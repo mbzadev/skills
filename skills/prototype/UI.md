@@ -13,7 +13,7 @@ Si la question porte sur la logique/l'état plutôt que sur l'apparence de quelq
 
 ## Deux formes — privilégier nettement la forme A
 
-Un prototype d'interface utilisateur est beaucoup plus facile à juger lorsqu'il **se heurte au reste de l'application** : véritable en-tête, vraie barre latérale, données réelles, densité réelle. Une voie jetable en soi est un vide : chaque variante semble bien isolée. Par défaut, la sous-forme A est utilisée chaque fois qu'il existe une page existante plausible pour héberger les variantes. N'atteignez la sous-forme B que si le prototype n'a réellement pas de maison à proximité.
+Un prototype d’interface est plus facile à évaluer lorsqu’il s’intègre au reste de l’application : véritable en-tête, vraie barre latérale, données réelles et densité réaliste. Une page isolée donne au contraire l’impression que chaque variante fonctionne. Utilisez donc la forme A dès qu’une page existante peut accueillir les variantes. Ne choisissez la forme B que si le prototype n’a réellement aucun emplacement naturel dans l’application.
 
 ### Forme A — intégration à une page existante, à privilégier
 
@@ -102,7 +102,7 @@ Une fois qu'une variante a gagné, capturez la réponse - quelle variante et pou
 - **Sous-forme A** — insérez le gagnant dans la page existante ; supprimez les variantes perdantes et le commutateur du principal.
 - **Sous-forme B** — promeut la variante gagnante vers un itinéraire réel ; supprimez la route jetable et le commutateur du principal.
 
-L'ensemble complet des variantes est la source principale, il atterrit donc sur la branche jetable, pas sur le bac - les composants de variantes et le commutateur laissés dans la branche principale pourrissent rapidement et confondent le lecteur suivant.
+L’ensemble des variantes constitue la trace de référence : conservez-le dans la branche temporaire, jamais dans la branche principale. Des composants de variantes et un sélecteur laissés dans le code principal vieillissent rapidement et induisent les prochains lecteurs en erreur.
 
 ## Anti-motifs
 

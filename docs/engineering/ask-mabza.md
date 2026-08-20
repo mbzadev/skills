@@ -1,17 +1,17 @@
 ## Ce qu’il fait
 
-`ask-matt` est le routeur sur les compétences de ce dépôt. Vous décrivez la situation dans laquelle vous vous trouvez - une idée que vous ne pouvez pas démarrer, une pile de rapports de bugs entrants, une [session](https://www.aihero.dev/ai-coding-dictionary/session) qui a duré longtemps - et vous nommez la compétence ou la séquence de compétences qui correspond, ainsi que la position des décisions humaines dans cette séquence.
+`ask-mabza` est le routeur des skills de ce dépôt. Décrivez votre situation — une idée impossible à démarrer, une série de rapports de bogues entrants ou une [session](https://www.aihero.dev/ai-coding-dictionary/session) qui s’éternise — et il vous indiquera le skill ou la séquence de skills adaptée, ainsi que les étapes où une décision humaine est nécessaire.
 
-Il recommande et s'arrête. Il ne grille pas, n'écrit pas de [spec](https://www.aihero.dev/ai-coding-dictionary/spec), n'ouvre pas de fichier ou ne déclenche pas la compétence qu'il vient de nommer ; ce que vous obtenez en retour est la prochaine chose à taper, et vous la tapez. Il s'agit également d'une carte manuscrite des compétences de ce dépôt plutôt que d'une analyse de ce que vous avez installé, elle ne vous fera donc pas passer par vos propres compétences ou celles d'un autre auteur.
+Il recommande, puis s’arrête. Il ne pose pas les questions à votre place, n’écrit pas de [spécification](https://www.aihero.dev/ai-coding-dictionary/spec), n’ouvre aucun fichier et ne déclenche pas le skill qu’il vient de nommer. Il vous donne simplement la prochaine commande à saisir. La carte est maintenue manuellement pour les skills de ce dépôt ; elle ne recense donc ni vos skills personnels ni ceux d’un autre auteur.
 
 ## Quand l’utiliser
 
-Vous l'invoquez en tapant `/ask-matt`  : l'agent ne l'atteindra pas tout seul.
+Vous l’invoquez en tapant `/ask-mabza` : l’agent ne le déclenchera pas seul.
 
 | Votre situation | Ce que le routeur rend |
 | --- | --- |
 | Une idée, mais aucune idée par où commencer | La tête du flux principal et si la build est suffisamment petite pour ignorer la spécification |
-| Bugs et demandes provenant d'autres personnes | La rampe d'accès [triage](https://aihero.dev/skills-triage), et pourquoi les [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) que vous avez générés vous-même n'y appartiennent pas |
+| Bogues et demandes provenant d'autres personnes | La rampe d'accès [triage](https://aihero.dev/skills-triage), et pourquoi les [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) que vous avez générés vous-même n'y appartiennent pas |
 | Deux compétences qui semblent interchangeables | La frontière entre eux, et c'est généralement un test concret plutôt qu'une question de goût. [grill-me](https://aihero.dev/skills-grill-me) ou [grill-with-docs](https://aihero.dev/skills-grill-with-docs) s'active si vous êtes dans un répertoire de travail ; [grill-with-docs](https://aihero.dev/skills-grill-with-docs) ou [wayfinder](https://aihero.dev/skills-wayfinder) active si l'effort correspond à une session |
 | Une longue séance et une décision sur le [contexte](https://www.aihero.dev/ai-coding-dictionary/context) | L'arbre ordonné sur les cinq options à une limite de phase |
 | Une compétence que vous avez déjà choisie | Rien d'utile. Invoquez cette compétence directement. |
@@ -20,14 +20,14 @@ Vous l'invoquez en tapant `/ask-matt`  : l'agent ne l'atteindra pas tout seul.
 
 Le routeur nomme les compétences ; il ne les installe pas. Tout ce qu'il pointe doit être installé pour que la recommandation soit exploitable, et il ne connaît que les compétences promues dans ce dépôt.
 
-Les itinéraires dépendants du tracker — triage, `to-spec`, `to-tickets`, `implement` — supposent que [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) a déjà configuré un outil de suivi des problèmes dans le dépôt. Le routeur se fera un plaisir de les recommander avant que cela ne se produise.
+Les itinéraires dépendants de l’outil de suivi — triage, `to-spec`, `to-tickets`, `implement` — supposent que [setup-mabza-skills](https://aihero.dev/skills-setup-mabza-skills) a déjà configuré un outil de suivi des problèmes dans le dépôt. Le routeur peut les recommander avant que cela ne se produise.
 
 ## Des flux, pas des compétences
 
 Le mot avec lequel la compétence vous permet de réfléchir est **flux** : un chemin *à travers* les compétences, pas un seul. Nommer votre situation vous place sur un flux à une étape, ce qui est une réponse différente de « voici la compétence qui correspond à vos mots-clés ». Il existe quatre types de parcours, et la compétence elle-même les porte intégralement :
 
 - **Le flux principal**, idée d'expédition. Grill, spécification, tickets, implémentation, révision, avec deux branches à l'intérieur : un détour de prototype lorsqu'une question nécessite un code exécutable pour être réglé, et la séparation spécifications-tickets, qui ne rapporte son coût que lorsque la construction s'étend sur plus d'une session.
-- **On-ramps**, pour une situation qui génère du travail puis se fond dans le flux principal : rapports de bugs entrants, quelque chose de cassé, ou un effort trop flou et trop important pour tenir en une seule session.
+- **On-ramps**, pour une situation qui génère du travail puis se fond dans le flux principal : rapports de bogues entrants, quelque chose de cassé, ou un effort trop flou et trop important pour tenir en une seule session.
 - **Autonomes**, issus de chaque flux, recherchés selon leurs propres conditions : le prototype, le questionnaire, le conflit de fusion dans lequel vous êtes déjà assis.
 - **Une couche de vocabulaire en dessous**, les deux références que les autres compétences intègrent lorsque les mots plutôt que le processus sont le problème.
 
@@ -63,7 +63,7 @@ Une plainte juste, déposée comme une question ouverte, affirmant que la majeur
 
 **Peut-il utiliser mes propres compétences ou celles d'un autre auteur ?**
 
-Non. Trois propositions distinctes ont demandé un routeur qui lit votre répertoire local `skills/`  et recommande tout ce qui est installé. `ask-matt` n'est pas cela. Il s'agit d'une carte d'un ensemble, entretenue à la main, et elle ne sait rien des compétences que vous avez écrites ou installées ailleurs.
+Non. Trois propositions distinctes ont demandé un routeur qui lit votre répertoire local `skills/`  et recommande tout ce qui est installé. `ask-mabza` n'est pas cela. Il s'agit d'une carte d'un ensemble, entretenue à la main, et elle ne sait rien des compétences que vous avez écrites ou installées ailleurs.
 
 **Il m'a dit de modifier un SKILL.md.**
 
@@ -71,7 +71,7 @@ Ce conseil est souvent correct et rarement durable. Quelqu'un lui a demandé com
 
 **Il a nommé une compétence que je n'ai pas, ou j'en ai manqué une.**
 
-Vérifiez le journal des modifications pour un changement de nom avant de supposer qu'il a disparu. `writing-great-skills` est devenu [writing-for-agents](https://aihero.dev/skills-writing-for-agents) sans alias, `to-prd` est devenu [to-spec](https://aihero.dev/skills-to-spec), et `pathfinder` est devenu [wayfinder](https://aihero.dev/skills-wayfinder). Quatre compétences ont été purement et simplement retirées dans les compétences qui les absorbaient : `ubiquitous-language`, `design-an-interface`, `qa` et `request-refactor-plan`. Le cas inverse est le décalage du routeur, ci-dessus.
+Vérifiez le journal des modifications pour un changement de nom avant de supposer qu'il a disparu. `writing-great-skills` est devenu [writing-for-agents](https://aihero.dev/skills-writing-for-agents) sans alias, `to-prd` est devenu [to-spec](https://aihero.dev/skills-to-spec), et `pathfinder` est devenu [wayfinder](https://aihero.dev/skills-wayfinder). Quatre compétences ont été purement et simplement retirées dans les compétences qui les absorbaient : `ubiquitous-language`, `design-an-interface`, `qa` et `request-refactorisation-plan`. Le cas inverse est le décalage du routeur, ci-dessus.
 
 ## Indicateurs de réussite
 
@@ -83,6 +83,6 @@ Vérifiez le journal des modifications pour un changement de nom avant de suppos
 
 ## Où il s’inscrit
 
-`ask-matt` est un **routeur autonome** qui s'étend sur l'ensemble de l'ensemble. Ce n’est jamais une étape dans une chaîne ; il pointe vers chaque chaîne, et c'est le nœud auquel les autres pages de documentation renvoient donc aucune d'entre elles n'a besoin de redessiner le graphique. De là, vous atterrissez le plus souvent sur [grill-with-docs](https://aihero.dev/skills-grill-with-docs), la tête du flux principal, ou [triage](https://aihero.dev/skills-triage), la rampe d'accès au travail arrivé plutôt qu'au travail que vous avez commencé.
+`ask-mabza` est un **routeur autonome** qui couvre toute la collection. Ce n’est jamais une étape de la chaîne : il pointe vers chaque parcours et sert de nœud commun aux autres pages de documentation. Vous arrivez le plus souvent sur [grill-with-docs](https://aihero.dev/skills-grill-with-docs), point de départ du flux principal, ou sur [triage](https://aihero.dev/skills-triage), qui traite le travail entrant plutôt que celui que vous avez planifié.
 
 Il s'agit d'une [source secondaire](https://www.aihero.dev/ai-coding-dictionary/secondary-source) sur les compétences qu'elle décrit. Là où le routeur et un `SKILL.md` ne sont pas d'accord, le `SKILL.md` a raison.

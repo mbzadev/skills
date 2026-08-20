@@ -1,11 +1,11 @@
 ---
 name: diagnosing-bugs
-description: "Boucle de diagnostic pour les bugs majeurs et les régressions de performances. À utiliser lorsque l'utilisateur dit \"diagnostiquer\"/\"déboguer ceci\", ou signale quelque chose de cassé/lancement/échec/lent."
+description: "Boucle de diagnostic pour les bogues majeurs et les régressions de performances. À utiliser lorsque l'utilisateur dit \"diagnostiquer\"/\"déboguer ceci\", ou signale quelque chose de cassé/lancement/échec/lent."
 ---
 
 # Diagnostic des bogues
 
-Une discipline pour les bugs difficiles. Sautez les phases uniquement lorsque cela est explicitement justifié.
+Une discipline pour les bogues difficiles. Sautez les phases uniquement lorsque cela est explicitement justifié.
 
 Lorsque vous explorez la base de code, lisez  `CONTEXT.md`  (s'il existe) pour obtenir un modèle mental clair des modules pertinents et vérifiez les ADR dans la zone que vous touchez.
 
@@ -13,30 +13,30 @@ Lorsque vous explorez la base de code, lisez  `CONTEXT.md`  (s'il existe) pour o
 
 Cette compétence vous permet d'afficher les commandes, les sorties et les artefacts capturés. **Rédigez d'abord chaque secret** — écrivez `<REDACTED>` à sa place. Créez des boucles sur les variables d'environnement, afin que les informations d'identification restent dans l'environnement plutôt que dans ce que vous affichez. Les artefacts capturés portent des en-têtes d'authentification : citez uniquement les lignes qui portent le signal.
 
-Si le résultat rédigé ne suffit pas à diagnostiquer le bug, dites-le et demandez à l'utilisateur.
+Si le résultat rédigé ne suffit pas à diagnostiquer le bogue, dites-le et demandez à l'utilisateur.
 
 ## Phase 1 — Créer une boucle de rétroaction
 
-**C’est le cœur du skill.** Tout le reste est mécanique. Si vous disposez d’un signal de réussite ou d’échec **court et précis** pour ce bug — un signal qui passe au rouge sur _ce_ bug — vous en trouverez la cause ; la bissection, les tests d’hypothèses et l’instrumentation ne font qu’exploiter ce signal. Sans lui, lire davantage de code ne vous sauvera pas.
+**C’est le cœur du skill.** Tout le reste est mécanique. Si vous disposez d’un signal de réussite ou d’échec **court et précis** pour ce bogue — un signal qui passe au rouge sur _ce_ bogue — vous en trouverez la cause ; la bissection, les tests d’hypothèses et l’instrumentation ne font qu’exploiter ce signal. Sans lui, lire davantage de code ne vous sauvera pas.
 
 Dépensez des efforts disproportionnés ici. **Soyez agressif. Soyez créatif. Refusez d'abandonner.**
 
 ### Façons d'en construire un : essayez-les à peu près dans cet ordre
 
 1. **Échec du test** quelle que soit la couture qui atteint le bogue : unité, intégration, e2e.
-2. **Script Curl / HTTP** sur un serveur de développement en cours d'exécution.
-3. **Invocation CLI** avec une entrée de luminaire, comparant la sortie standard à un instantané connu.
-4. **Script de navigateur sans tête** (dramaturge/marionnettiste) — pilote l'interface utilisateur, affirme sur DOM/console/réseau.
+2. **Script curl ou requête HTTP** sur un serveur de développement en cours d'exécution.
+3. **Invocation CLI** avec une entrée de test, en comparant la sortie à un instantané connu.
+4. **Script de navigateur sans tête** (Playwright ou Puppeteer) — pilote l'interface utilisateur, affirme sur DOM/console/réseau.
 5. **Rejouez une trace capturée.** Enregistrez une véritable demande réseau/charge utile/journal d'événements sur le disque ; rejouez-le via le chemin du code de manière isolée.
 6. **Harnais jetable.** Faites tourner un sous-ensemble minimal du système (un service, des dépôts simulés) qui exerce le chemin du code de bogue avec un seul appel de fonction.
-7. **Propriété / boucle fuzz.** Si le bug est "parfois une mauvaise sortie", exécutez 1000 entrées aléatoires et recherchez le mode d'échec.
-8. **Harnais Bisection.** Si le bug est apparu entre deux états connus (validation, ensemble de données, version), automatisez le "démarrage à l'état X, vérifiez, répétez" afin de pouvoir le `git bisect run` le.
-9. **Boucle différentielle.** Exécutez la même entrée via l'ancienne version par rapport à la nouvelle version (ou deux configurations) et les sorties diff.
+7. **Propriété ou boucle de fuzzing.** Si le bogue produit parfois une sortie incorrecte, exécutez 1 000 entrées aléatoires et recherchez le mode d’échec.
+8. **Script de bissection.** Si le bogue est apparu entre deux états connus (commit, jeu de données ou version), automatisez la séquence « démarrer à l’état X, vérifier, recommencer » afin de pouvoir l’exécuter avec `git bisect run`.
+9. **Boucle différentielle.** Exécutez la même entrée via l'ancienne version par rapport à la nouvelle version (ou deux configurations) et comparez les sorties.
 10. **Script bash HITL.** Dernier recours. Si un humain doit cliquer, conduisez-les avec `scripts/hitl-loop.template.sh` pour que la boucle soit toujours structurée. La sortie capturée vous est renvoyée.
 
-Créez la bonne boucle de rétroaction et le bug est corrigé à 90 %.
+Créez la bonne boucle de rétroaction et le bogue est corrigé à 90 %.
 
-### Resserrez la boucle
+### Rendez la boucle plus précise
 
 Traitez la boucle comme un produit. Une fois que vous avez _une_ boucle, **serrez** :
 
@@ -44,11 +44,11 @@ Traitez la boucle comme un produit. Une fois que vous avez _une_ boucle, **serre
 - Puis-je rendre le signal plus net ? (Affirmez le symptôme spécifique, et non "ne s'est pas écrasé".)
 - Puis-je le rendre plus déterministe ? (Pin time, seed RNG, isoler le système de fichiers, geler le réseau.)
 
-Une boucle feuilletée de 30 secondes vaut à peine mieux que pas de boucle ; un déterministe de 2 secondes est serré – une superpuissance de débogage.
+Une boucle lente de 30 secondes vaut à peine mieux que pas de boucle ; une boucle déterministe de deux secondes est idéale – une superpuissance de débogage.
 
 ### Bogues non déterministes
 
-L'objectif n'est pas une reproduction nette mais un **taux de reproduction plus élevé**. Bouclez le déclencheur 100 ×, parallélisez, ajoutez du stress, réduisez les fenêtres de synchronisation, injectez du sommeil. Un bug à 50 % de flocons est déboguable ; 1 % ne l'est pas : continuez à augmenter le taux jusqu'à ce qu'il soit déboguable.
+L'objectif n'est pas une reproduction nette mais un **taux de reproduction plus élevé**. Bouclez le déclencheur 100 ×, parallélisez, ajoutez du stress, réduisez les fenêtres de synchronisation, injectez du sommeil. Un bogue à 50 % de cas intermittents restent déboguables ; 1 % ne l'est pas : continuez à augmenter le taux jusqu'à ce qu'il soit déboguable.
 
 ### Quand vous ne pouvez vraiment pas créer de boucle
 
@@ -58,20 +58,20 @@ Arrêtez-vous et dites-le explicitement. Énumérez ce que vous avez essayé. De
 
 La phase 1 est terminée lorsque la boucle est **courte** et **peut passer au rouge**. Vous pouvez nommer une commande — script, test ou boucle — déjà exécutée au moins une fois, puis montrer son invocation et sa sortie expurgée. Cette commande :
 
-- [ ] **Capable en rouge** — il pilote le chemin réel du code de bogue et affirme le **symptôme exact de l'utilisateur**, afin qu'il puisse passer au rouge sur ce bogue et au vert une fois corrigé. Pas "s'exécute sans erreur" - il doit être capable d'_attraper ce bug spécifique_.
-- [ ] **Déterministe** — même verdict à chaque exécution (bugs floconneux : un taux de reproduction élevé et épinglé, comme ci-dessus).
+- [ ] **Capable en rouge** — il pilote le chemin réel du code de bogue et affirme le **symptôme exact de l'utilisateur**, afin qu'il puisse passer au rouge sur ce bogue et au vert une fois corrigé. Pas "s'exécute sans erreur" - il doit être capable d'_attraper ce bogue spécifique_.
+- [ ] **Déterministe** — même verdict à chaque exécution (bogues intermittents : un taux de reproduction élevé et épinglé, comme ci-dessus).
 - [ ] **Rapide** — secondes, pas minutes.
-- [ ] **Agent-runnable** — vous pouvez l'exécuter sans surveillance ; un humain dans la boucle uniquement via `scripts/hitl-loop.template.sh`.
+- [ ] **Exécutable par l’agent** — vous pouvez l'exécuter sans surveillance ; un humain dans la boucle uniquement via `scripts/hitl-loop.template.sh`.
 
 Si vous vous surprenez à lire du code pour construire une théorie avant que cette commande n'existe, **arrêtez – passer directement à une hypothèse est l'échec exact que cette compétence évite.** Pas de commande compatible rouge, pas de phase 2.
 
 ## Phase 2 — Reproduire + minimiser
 
-Exécutez la boucle. Regardez-le devenir rouge : le bug apparaît.
+Exécutez la boucle. Regardez-le devenir rouge : le bogue apparaît.
 
 Confirmez :
 
-- [ ] La boucle produit le mode de défaillance décrit par **l'utilisateur** — et non une défaillance différente qui se trouve à proximité. Mauvais bug = mauvaise solution.
+- [ ] La boucle produit le mode de défaillance décrit par **l'utilisateur** — et non une défaillance différente qui se trouve à proximité. Mauvais bogue = mauvaise solution.
 - [ ] L'échec est reproductible sur plusieurs exécutions (ou, pour les bogues non déterministes, reproductible à un rythme suffisamment élevé pour permettre un débogage).
 - [ ] Vous avez capturé le symptôme exact (message d'erreur, sortie erronée, timing lent) afin que les phases ultérieures puissent vérifier que le correctif y répond réellement.
 
@@ -91,7 +91,7 @@ Générez **3 à 5 hypothèses classées** avant de tester l'une d'entre elles. 
 
 Chaque hypothèse doit être **falsifiable** : indiquez la prédiction qu'elle fait.
 
-> Format : "Si <X> en est la cause, alors <changing Y> fera disparaître le bug / <changing Z> l'aggravera."
+> Format : "Si <X> en est la cause, alors <la modification de Y> fera disparaître le bogue / <la modification de Z> l'aggravera."
 
 Si vous ne pouvez pas énoncer la prédiction, l’hypothèse est une vibration – jetez-la ou affinez-la.
 
@@ -115,9 +115,9 @@ Préférence d'outil :
 
 Écrivez le test de régression **avant le correctif** — mais seulement s'il existe une **couture correcte** pour celui-ci.
 
-Une couture correcte est celle où le test exerce le **véritable modèle de bogue** tel qu'il se produit sur le site d'appel. Si la seule couture disponible est trop superficielle (test avec un seul appelant lorsque le bug nécessite plusieurs appelants, test unitaire qui ne peut pas reproduire la chaîne qui a déclenché le bug), un test de régression donne une fausse confiance.
+Une couture correcte est celle où le test exerce le **véritable modèle de bogue** tel qu'il se produit sur le site d'appel. Si la seule couture disponible est trop superficielle (test avec un seul appelant lorsque le bogue nécessite plusieurs appelants, test unitaire qui ne peut pas reproduire la chaîne qui a déclenché le bogue), un test de régression donne une fausse confiance.
 
-**S'il n'existe aucune couture correcte, c'est en soi le résultat.** Notez-le. L'architecture de la base de code empêche le verrouillage du bug. Signalez-le pour la phase suivante.
+**S'il n'existe aucune couture correcte, c'est en soi le résultat.** Notez-le. L'architecture de la base de code empêche le verrouillage du bogue. Signalez-le pour la phase suivante.
 
 S'il existe une couture correcte :
 
@@ -131,10 +131,10 @@ S'il existe une couture correcte :
 
 Obligatoire avant de déclarer terminé :
 
-- [ ] La repro originale ne se reproduit plus (relancez la boucle Phase 1)
+- [ ] La reproduction d’origine ne se reproduit plus (relancez la boucle Phase 1)
 - [ ] Le test de régression réussit (ou l'absence de couture est documentée)
 - [ ] Tous `[DEBUG-...]` instrumentation supprimée (`grep` le préfixe)
 - [ ] Prototypes jetables supprimés (ou déplacés vers un emplacement de débogage clairement indiqué)
 - [ ] L'hypothèse qui s'est avérée correcte est indiquée dans le message de validation/PR — ainsi le débogueur suivant apprend
 
-**Demandez ensuite : qu’est-ce qui aurait empêché ce bug ?** Si la réponse implique un changement architectural — aucune bonne couture de test, appelants enchevêtrés ou couplage caché — transmettez les détails au skill `/improve-codebase-architecture`. Faites cette recommandation **après** l’installation du correctif, pas avant : vous disposez maintenant de davantage d’informations.
+**Demandez ensuite : qu’est-ce qui aurait empêché ce bogue ?** Si la réponse implique un changement architectural — aucune bonne couture de test, appelants enchevêtrés ou couplage caché — transmettez les détails au skill `/improve-codebase-architecture`. Faites cette recommandation **après** l’installation du correctif, pas avant : vous disposez maintenant de davantage d’informations.

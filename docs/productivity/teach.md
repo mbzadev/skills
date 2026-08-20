@@ -1,33 +1,33 @@
 ## Ce qu’il fait
 
-`teach`  transforme le répertoire dans lequel vous l'exécutez en un espace de travail d'enseignement permanent et vous enseigne un sujet à travers de nombreuses [sessions](https://www.aihero.dev/ai-coding-dictionary/session), dans de courtes leçons HTML autonomes.
+`teach` transforme le répertoire dans lequel vous l’exécutez en un espace de travail pédagogique permanent. Il vous enseigne un sujet au fil de plusieurs [sessions](https://www.aihero.dev/ai-coding-dictionary/session), au moyen de courtes leçons HTML autonomes.
 
-Il n'enseigne pas à partir de ce que le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) sait déjà. [Les connaissances paramétriques](https://www.aihero.dev/ai-coding-dictionary/parametric-knowledge) sont traitées comme non fiables : avant d'enseigner, elles vont trouver des ressources hautement fiables, les enregistrent dans `RESOURCES.md` et les cite dans chaque leçon. L'autre fait structurel est qu'il s'agit de [stateful](https://www.aihero.dev/ai-coding-dictionary/stateful) — la mission, les ressources, les leçons et l'enregistrement de ce que vous avez appris se trouvent tous dans le répertoire sous forme de fichiers, de sorte que la session suivante reprend ces fichiers plutôt que ce qui reste de la dernière conversation.
+Il ne s’appuie pas uniquement sur ce que le [modèle](https://www.aihero.dev/ai-coding-dictionary/model) sait déjà. Les [connaissances paramétriques](https://www.aihero.dev/ai-coding-dictionary/parametric-knowledge) sont considérées comme incertaines : avant d’enseigner, le skill recherche des sources fiables, les consigne dans `RESOURCES.md` et les cite dans chaque leçon. Il conserve également son état ([état persistant](https://www.aihero.dev/ai-coding-dictionary/stateful)) : la mission, les ressources, les leçons et les traces d’apprentissage sont enregistrées dans le répertoire, afin que la session suivante reparte de ces fichiers plutôt que de la seule conversation précédente.
 
 ## Quand l’utiliser
 
-Vous l'invoquez en tapant `/teach` — l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul.
+Vous l’invoquez en tapant `/teach` : l’[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne le déclenchera pas seul.
 
-Atteignez-le lorsque l'apprentissage est le projet : un langage, un framework, une base de code que vous venez de rejoindre, du yoga, des shaders, une certification. Ce n’est pas l’outil d’une explication en passant.
+Utilisez ce skill lorsque l'apprentissage est le projet : un langage, un framework, une base de code que vous venez de rejoindre, du yoga, des shaders, une certification. Ce n’est pas l’outil d’une explication en passant.
 
-| Ce que tu veux | Que rechercher |
+| Ce que vous cherchez | Utilisez |
 | --- | --- |
 | Pour apprendre un sujet sur des semaines, avec des séances qui s'accumulent | `teach` |
 | Une idée expliquée dans la session dans laquelle vous êtes déjà | Demandez simplement, lors de cette session |
 | Le dernier message de l’agent doit être reformulé | [wait-what](https://aihero.dev/skills-wait-what) |
-| Pour affiner la réflexion que vous avez déjà, plutôt que d'acquérir du nouveau matériel | [grille-moi](https://aihero.dev/skills-grill-me) |
+| Pour affiner une réflexion existante plutôt que découvrir un nouveau sujet | [grill-me](https://aihero.dev/skills-grill-me) |
 | Un agent de fond pour lire [sources primaires](https://www.aihero.dev/ai-coding-dictionary/primary-source) et vous laisser un document cité | [recherche](https://aihero.dev/skills-research) |
 | Pour apprendre quelque chose qui s'est produit au milieu d'une grillade, sans faire dérailler le [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) | [transfert](https://aihero.dev/skills-handoff) vers un espace de travail d'enseignement, puis `teach` là |
 
 ## Prérequis
 
-`teach`  crée un répertoire plutôt que de produire un fichier, et la compétence suppose une mission par espace de travail — alors exécutez-la quelque part où vous êtes heureux de vous consacrer à un seul sujet. Gardez-le en dehors du projet dans lequel vous travaillez : un dépôt séparé est le répertoire d'accueil recommandé, plutôt qu'un dossier global `~/.learnings/`  ou le projet de travail lui-même. Un dépôt dédié rend également les leçons validables, c'est ainsi que les équipes les ont partagées.
+`teach` crée un répertoire au lieu d’un fichier et suppose une mission par espace de travail. Exécutez-le donc dans un emplacement dédié à un seul sujet. Gardez cet espace en dehors du projet sur lequel vous travaillez : un dépôt séparé est préférable à un dossier global `~/.learnings/` ou au dépôt de production lui-même. Un dépôt dédié permet aussi de versionner et de valider les leçons.
 
 Ce qui s'accumule dans ce répertoire :
 
 | Chemin | Ce qu'il contient |
 | --- | --- |
-| `MISSION.md` | Pourquoi apprenez-vous cela. Tout le reste en dépend ; s'il manque, la première chose que `teach` fait est de vous interviewer jusqu'à ce qu'il ne le soit plus |
+| `MISSION.md` | Pourquoi apprenez-vous cela. Tout le reste en dépend ; s'il manque, la première chose que `teach` fait est de vous interroger jusqu'à ce qu'il ne le soit plus |
 | `RESOURCES.md` | Les sources vérifiées à partir desquelles il enseigne, divisées en Connaissance et Sagesse (communautés) |
 | `lessons/*.html` | Les leçons numérotées — l'unité primaire d'enseignement |
 | `reference/*.html` | Aide-mémoire compressés, algorithmes, glossaires : les documents sur lesquels vous revenez réellement |
@@ -35,13 +35,13 @@ Ce qui s'accumule dans ce répertoire :
 | `assets/*` | Composants réutilisables – une feuille de style partagée d'abord – pour que les leçons ressemblent à un seul cours |
 | `NOTES.md` | Vos préférences pédagogiques déclarées |
 
-Deux notes honnêtes sur cette liste. Un glossaire convient à la plupart des sujets, mais la compétence contient un `GLOSSARY-FORMAT.md`  auquel `SKILL.md`  ne renvoie plus, vous n'en obtiendrez donc qu'un si vous le demandez ([numéro #559](https://github.com/mattpocock/skills/issues/559)). Et l’espace de travail n’est pas toujours créé là où vous l’attendez – consultez la première question ci-dessous avant de créer un long cours par-dessus.
+Deux précisions importantes. Un glossaire convient à la plupart des sujets, mais le skill contient un `GLOSSARY-FORMAT.md` auquel `SKILL.md` ne renvoie plus : demandez-le explicitement si vous en avez besoin ([numéro #559](https://github.com/mbzadev/skills/issues/559)). L’espace de travail n’est pas toujours créé à l’endroit attendu ; vérifiez la première question ci-dessous avant de construire un cours volumineux.
 
 ## Force de stockage, pas maîtrise
 
-Le mot avec lequel réfléchir est **force de stockage** : rétention à long terme, par opposition à **fluence**, le rappel instantané qui ressemble à une maîtrise pendant que vous lisez et disparaît une semaine plus tard. `teach` construit le premier grâce à des difficultés souhaitables : pratique de récupération, espacement, entrelacement. La connaissance vient en premier, là où la difficulté est l'ennemie car elle ronge la mémoire de travail dont vous avez besoin pour comprendre ; Ensuite, la compétence est acquise à travers une boucle de rétroaction étroite, où la difficulté est l'outil.
+Le concept central est la **force de stockage** : la rétention à long terme, par opposition à la **fluence**, ce rappel immédiat qui ressemble à la maîtrise pendant la lecture puis disparaît une semaine plus tard. `teach` renforce la première grâce à des difficultés souhaitables : rappel actif, espacement et entrelacement. La compréhension vient d’abord, car une difficulté excessive surcharge la mémoire de travail ; la compétence se construit ensuite au moyen d’une boucle de retour étroite, où la difficulté devient un outil.
 
-Deux choses orientent ce que vous apprenez. La **mission** – la raison concrète et concrète pour laquelle vous voulez cela – fonde chaque leçon ; sans cela, les leçons deviennent abstraites et rien ne décide de la suite. À partir de la mission et des dossiers d'apprentissage,  `teach`  sélectionne la leçon suivante dans votre **zone de développement proximal** : suffisamment stimulante pour demander des efforts, pas si loin qu'elle cesse d'être apprise.
+Deux éléments orientent votre apprentissage. La **mission** — la raison concrète pour laquelle vous voulez apprendre ce sujet — donne sa direction à chaque leçon ; sans elle, les leçons deviennent abstraites et rien ne permet de choisir la suite. À partir de la mission et des traces d’apprentissage, `teach` sélectionne la prochaine leçon dans votre **zone proximale de développement** : assez stimulante pour demander un effort, mais pas au point de devenir inaccessible.
 
 C’est aussi pourquoi la compétence repousse plutôt qu’elle n’oblige. Une question qui nécessite de la **sagesse** – un jugement dans le monde réel – obtient une tentative de réponse, puis un pointeur vers une communauté où vous pouvez la tester. Un quiz est une porte d'accès, pas une formalité : un utilisateur a déclaré avoir dit "merci beaucoup" et s'être fait dire que l'exercice était toujours en cours.
 
@@ -57,7 +57,7 @@ Les leçons sont construites à partir de **composants** dans `assets/` : feuil
 
 **Où met-il les fichiers ? Le mien a fini dans `~/.agents/skills`.**
 
-Un vrai bug ouvert ([#377](https://github.com/mattpocock/skills/issues/377)). `SKILL.md` utilise `./` pour deux racines différentes à la fois : `./MISSION-FORMAT.md` et ses frères et sœurs sont vraiment assis à côté de `SKILL.md` dans la compétence installée, tandis que `./lessons/`, `./reference/`, `./learning-records/` et `./assets/` sont censés être dans votre répertoire. Un agent qui résout le premier type dans le répertoire d'installation de la compétence résout également le deuxième type et écrit votre cours dans le dossier des compétences. Vérifiez où a atterri la première leçon avant de construire dessus et nommez explicitement le répertoire lorsque vous commencez plutôt que de vous fier à la compréhension du «répertoire actuel».
+Un vrai bogue ouvert ([#377](https://github.com/mbzadev/skills/issues/377)). `SKILL.md` utilise `./` pour deux racines différentes à la fois : `./MISSION-FORMAT.md` et ses frères et sœurs sont vraiment assis à côté de `SKILL.md` dans la compétence installée, tandis que `./lessons/`, `./reference/`, `./learning-records/` et `./assets/` sont censés être dans votre répertoire. Un agent qui résout le premier type dans le répertoire d'installation de la compétence résout également le deuxième type et écrit votre cours dans le dossier des compétences. Vérifiez où a atterri la première leçon avant de construire dessus et nommez explicitement le répertoire lorsque vous commencez plutôt que de vous fier à la compréhension du «répertoire actuel».
 
 **Est-ce que je reste dans une séance ou en commence une nouvelle par leçon ?**
 
@@ -69,11 +69,11 @@ Pas sur la seule parole du skill : lisez les sources primaires. `teach`, comme t
 
 **La bonne réponse au quiz est toujours la première option.**
 
-Confirmé par plusieurs personnes, sur Sonnet, sur Opus et sur GLM, et toujours non corrigé. `SKILL.md` exige désormais que chaque réponse soit le même nombre de mots, ce qui tue un tell différent – la bonne réponse était autrefois la seule entièrement motivée – mais ne dit rien sur la position. Un contributeur a testé un correctif de niveau d'instruction pour la position et a signalé que la bonne réponse atterrissait toujours dans l'emplacement A 33 fois sur 33 sur neuf leçons ([#335](https://github.com/mattpocock/skills/issues/335)), ce qui indique un composant de quiz aléatoire dans  `assets/`  comme le véritable correctif plutôt que comme une meilleure formulation. En attendant que cela soit livré, considérez la position de réponse comme dénuée de sens. Votre `assets/` répertoire vous appartient, donc demander un composant qui est mélangé au moment du rendu est une solution locale légitime.
+Confirmé par plusieurs personnes, sur Sonnet, sur Opus et sur GLM, et toujours non corrigé. `SKILL.md` exige désormais que chaque réponse soit le même nombre de mots, ce qui tue un tell différent – la bonne réponse était autrefois la seule entièrement motivée – mais ne dit rien sur la position. Un contributeur a testé un correctif de niveau d'instruction pour la position et a signalé que la bonne réponse atterrissait toujours dans l'emplacement A 33 fois sur 33 sur neuf leçons ([#335](https://github.com/mbzadev/skills/issues/335)), ce qui indique un composant de quiz aléatoire dans  `assets/`  comme le véritable correctif plutôt que comme une meilleure formulation. En attendant que cela soit livré, considérez la position de réponse comme dénuée de sens. Votre `assets/` répertoire vous appartient, donc demander un composant qui est mélangé au moment du rendu est une solution locale légitime.
 
 **Cela supposait que je savais déjà des choses et j'utilisais des termes qu'ils n'avaient jamais définis.**
 
-La plainte de fond la plus courante. Il n'y a pas d'étape d'évaluation : `teach` déduit votre niveau à partir de la mission et des dossiers d'apprentissage, et lors de la première session, il n'y a pas de dossier d'apprentissage. Un utilisateur l'exécutant dans un pipeline Wayfinder l'a dit clairement : "Il n'a jamais fait de grillage pour établir mon point de départ, il a donc fait de nombreuses hypothèses sur ce que je savais déjà." Un autre a rapporté des leçons s'appuyant sur un jargon non défini et une leçon adaptée à leur matériel qui couvrait ce que le matériel pouvait faire sans jamais dire ce qu'il ne pouvait pas faire. Deux choses aident : énoncer vos connaissances antérieures et vos lacunes dans le premier message, et corriger le niveau à voix haute lorsqu'un cours manque, car la correction devient un enregistrement d'apprentissage et oriente le suivant. Une étape explicite d'évaluation des connaissances est une demande de fonctionnalité permanente ([#725](https://github.com/mattpocock/skills/issues/725)), et non un comportement expédié.
+La plainte de fond la plus courante. Il n'y a pas d'étape d'évaluation : `teach` déduit votre niveau à partir de la mission et des dossiers d'apprentissage, et lors de la première session, il n'y a pas de dossier d'apprentissage. Un utilisateur l'exécutant dans un pipeline Wayfinder l'a dit clairement : "Il n'a jamais fait de grillage pour établir mon point de départ, il a donc fait de nombreuses hypothèses sur ce que je savais déjà." Un autre a rapporté des leçons s'appuyant sur un jargon non défini et une leçon adaptée à leur matériel qui couvrait ce que le matériel pouvait faire sans jamais dire ce qu'il ne pouvait pas faire. Deux choses aident : énoncer vos connaissances antérieures et vos lacunes dans le premier message, et corriger le niveau à voix haute lorsqu'un cours manque, car la correction devient un enregistrement d'apprentissage et oriente le suivant. Une étape explicite d'évaluation des connaissances est une demande de fonctionnalité permanente ([#725](https://github.com/mbzadev/skills/issues/725)), et non un comportement expédié.
 
 **Est-ce qu'il effectue des répétitions espacées et sait-il quand arrêter d'enseigner ?**
 
@@ -100,8 +100,8 @@ Il n’y a pas de réponse canonique et les différences signalées sont importa
 
 ## Où il s’inscrit
 
-`teach` est un **autonome accessible à tout moment**. Il ne s'agit pas d'une étape dans une chaîne de construction et ne partage aucun artefact avec le flux d'ingénierie ; il est propriétaire de son annuaire et y vit aussi longtemps que dure le sujet.
+`teach` est un **skill autonome, utilisable à tout moment**. Il ne constitue pas une étape de la chaîne d’ingénierie et ne partage aucun artefact avec elle ; il gère son propre répertoire pendant toute la durée de l’apprentissage.
 
 Son voisin le plus proche est [handoff](https://aihero.dev/skills-handoff). Si une séance de questions révèle un sujet que vous ne comprenez pas, ne suspendez pas l’entretien pour l’apprendre sur place : utilisez `/handoff` vers un espace de travail pédagogique, apprenez-y le sujet avec `/teach`, puis revenez reprendre la conversation. Utilisez plutôt [research](https://aihero.dev/skills-research) lorsque vous souhaitez obtenir un document sourcé plutôt que des leçons conçues pour la mémorisation.
 
-Lorsque vous n'êtes pas sûr de la compétence ou du flux qui vous convient, [ask-matt](https://aihero.dev/skills-ask-matt) vous guide sur l'ensemble de l'ensemble.
+Lorsque vous hésitez entre plusieurs skills ou flux de travail, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous oriente dans toute la collection.

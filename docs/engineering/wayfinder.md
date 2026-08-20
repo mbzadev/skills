@@ -10,7 +10,7 @@ Vous l'invoquez en tapant `/wayfinder` — l'[agent](https://www.aihero.dev/ai-c
 
 Il s’agit du flux le plus lourd et le plus dense de l’ensemble, le déclencheur est donc étroit : l’effort doit être véritablement plus important que ce qu’une session d’agent peut contenir, et le chemin vers la destination doit être brumeux. La répartition est claire : `/grill-with-docs` pour la planification d'une seule session, `/wayfinder` pour la planification de plusieurs sessions.
 
-| Ce que vous avez devant vous | Que courir |
+| Ce que vous avez devant vous | Utilisez |
 | --- | --- |
 | Une fonctionnalité bien étendue que vous pouvez régler en une seule séance | [grill-me](https://aihero.dev/skills-grill-me), ou [grill-with-docs](https://aihero.dev/skills-grill-with-docs) lorsqu'il y a une base de code |
 | Un nouveau projet, ou une construction s'étalant sur plusieurs sessions, dont le parcours n'est pas encore clair | `/wayfinder` |
@@ -22,7 +22,7 @@ Il n’est pas nécessaire de partir d’un projet neuf. Wayfinder s’utilise r
 
 ## Prérequis
 
-La carte et ses tickets vivent dans l’outil de suivi du dépôt. Wayfinder dépend donc de la configuration créée par [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills). Celle-ci décrit, dans une section « Opérations d’orientation », la représentation de la carte, des tickets enfants, des dépendances et des requêtes de frontière pour GitHub, GitLab ou le suivi Markdown local. Wayfinder retrouve ce document au moyen du pointeur inscrit dans `AGENTS.md`, sans imposer de chemin fixe. Si aucun outil n’est configuré, il utilise des fichiers Markdown locaux.
+La carte et ses tickets vivent dans l’outil de suivi du dépôt. Wayfinder dépend donc de la configuration créée par [setup-mabza-skills](https://aihero.dev/skills-setup-mabza-skills). Celle-ci décrit, dans une section « Opérations d’orientation », la représentation de la carte, des tickets enfants, des dépendances et des requêtes de frontière pour GitHub, GitLab ou le suivi Markdown local. Wayfinder retrouve ce document au moyen du pointeur inscrit dans `AGENTS.md`, sans imposer de chemin fixe. Si aucun outil n’est configuré, il utilise des fichiers Markdown locaux.
 
 L’outil de suivi joue un rôle fonctionnel : ses relations de blocage rendent la frontière visible directement dans son interface. Lorsqu’il ne possède pas de dépendances natives — dans certaines installations Gitea, par exemple — Wayfinder doit déduire les blocages à partir du texte de la carte. Cette solution fonctionne, mais demande davantage de surveillance.
 
@@ -43,11 +43,11 @@ La **frontière** réunit les tickets ouverts, débloqués et non attribués : c
 
 Chaque ticket porte une étiquette `wayfinder:<type>`  et est soit **[HITL](https://www.aihero.dev/ai-coding-dictionary/human-in-the-loop)** — travaillé avec un humain qui parle pour lui-même — soit **[AFK](https://www.aihero.dev/ai-coding-dictionary/afk)**, piloté par l'agent seul. Un ticket HITL n'est résolu que via l'échange en direct ; un agent qui répond à ses propres questions [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) l'a cassé.
 
-| Tapez | Mode | Atteignez-le quand | Résolu par |
+| Tapez | Mode | Utilisez ce skill quand | Résolu par |
 | --- | --- | --- | --- |
 | `grilling` | HITL | La valeur par défaut. La question peut être réglée en en discutant. | [grilling](https://aihero.dev/skills-grilling) plus [modélisation de domaine](https://aihero.dev/skills-domain-modeling), dans une nouvelle session |
 | `prototype` | HITL | "À quoi cela devrait-il ressembler" ou "comment cela devrait-il se comporter" - une question qui ne peut être résolue par les discussions. | [prototype](https://aihero.dev/skills-prototype), avec l'artefact construit lié au ticket comme atout |
-| `research` | AFK | Un fait extérieur au répertoire de travail bloque une décision. | Un [research](https://aihero.dev/skills-research) [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent), tiré au moment de la cartographie et incendié en parallèle sur une `research/<name>` branche |
+| `research` | AFK | Un fait extérieur au répertoire de travail bloque une décision. | Un [research](https://aihero.dev/skills-research) [sous-agent](https://www.aihero.dev/ai-coding-dictionary/subagent), lancé pendant la cartographie et exécuté en parallèle sur une branche `research/<name>` |
 | `task` | Soit | Rien à décider, mais le travail manuel bloque une décision : fournir un accès, s'inscrire à un service, déplacer des données pour que leur forme soit visible. | L'agent seul là où il peut, sinon une checklist précise pour l'humain |
 
 `task` est le seul type qui *fait* plutôt que décide, et il gagne sa place en débloquant une décision – jamais en livrant une partie de la destination. C’est le type de problème qui se produit le plus souvent dans la pratique : les agents l’interprètent comme une étape de mise en œuvre et commencent à écrire le code du produit à l’intérieur de la carte.
@@ -86,7 +86,7 @@ Non. Tout outil de suivi peut convenir. GitHub est le mieux pris en charge, car 
 
 **Les grillades sont épuisantes. Chaque question comporte trois paragraphes.**
 
-Il s’agit de la plainte la plus grave concernant Wayfinder et elle n’est pas résolue. La décomposition donnée par un utilisateur : la verbosité elle-même provoque l'épuisement des décisions, et la longueur supprime *pourquoi* une question est posée, de sorte que vous perdez la chaîne de décision en décision à mesure que la carte s'allonge. La verbosité ressemble à une propriété de l'ensemble actuel de [models](https://www.aihero.dev/ai-coding-dictionary/model) plutôt qu'à la compétence, et aucun correctif n'a été trouvé. Atténuations du praticien en circulation : exécutez un [effort de raisonnement](https://www.aihero.dev/ai-coding-dictionary/effort) inférieur et mettez une instruction en langage clair dans votre global `AGENTS.md`. Attendez-vous à y réfléchir sérieusement - la quantité de réflexion que Wayfinder vous demande n'est pas un défaut, c'est l'essentiel de sa fonction.
+Il s’agit de la plainte la plus grave concernant Wayfinder et elle n’est pas résolue. La décomposition donnée par un utilisateur : la verbosité elle-même provoque l'épuisement des décisions, et la longueur supprime *pourquoi* une question est posée, de sorte que vous perdez la chaîne de décision en décision à mesure que la carte s'allonge. La verbosité ressemble à une propriété de l'ensemble actuel de [modèles](https://www.aihero.dev/ai-coding-dictionary/model) plutôt qu'à la compétence, et aucun correctif n'a été trouvé. Atténuations du praticien en circulation : exécutez un [effort de raisonnement](https://www.aihero.dev/ai-coding-dictionary/effort) inférieur et mettez une instruction en langage clair dans votre global `AGENTS.md`. Attendez-vous à y réfléchir sérieusement - la quantité de réflexion que Wayfinder vous demande n'est pas un défaut, c'est l'essentiel de sa fonction.
 
 **Une décision que j'avais déjà prise s'est avérée erronée. Dois-je modifier l'ancien ticket ou en créer un nouveau ?**
 
@@ -100,7 +100,7 @@ Il s'agit de cette compétence, renommée  `wayfinder`  dans la v1.1 et invoqué
 
 - La destination est écrite et convenue avant qu'un seul ticket n'existe.
 - Chaque ticket ouvert se lit comme une question. Tout ticket indiquant « construire le X » est soit mal tapé, soit appartient en aval de la carte.
-- Vous pouvez consulter votre tracker et voir quels tickets peuvent être pris sans ouvrir la carte — c'est la frontière qui s'affiche grâce au blocage natif.
+- Vous pouvez consulter votre outil de suivi et voir quels tickets peuvent être pris sans ouvrir la carte — c'est la frontière qui s'affiche grâce au blocage natif.
 - Une session résout un ticket, publie la réponse sous forme de commentaire de résolution, la ferme et laisse une ligne sur les *Décisions jusqu'à présent* de la carte. Puis ça s'arrête.
 - **Pas encore spécifié** rétrécit avec le temps. Une zone de brouillard qui se transforme en ticket disparaît de cette section plutôt que de vivre aux deux endroits.
 - Lorsque la grille d'ouverture en largeur ne révèle aucun brouillard, la compétence s'arrête et vous indique que l'effort est suffisamment faible pour sauter la carte.
@@ -108,6 +108,6 @@ Il s'agit de cette compétence, renommée  `wayfinder`  dans la v1.1 et invoqué
 
 ## Où il s’inscrit
 
-`wayfinder` est une **rampe d'accès situationnelle**, pas la porte d'entrée par défaut. L'idée menée par le grill → la chaîne maritime est toujours le point de départ de la plupart des travaux ; wayfinder est ce sur quoi vous grimpez lorsque l'idée est trop grande pour être retenue en une seule session, et il fusionne à nouveau sur cette chaîne à [to-spec](https://aihero.dev/skills-to-spec), car une carte effacée se transmet plutôt que de se construire.
+`wayfinder` est une **rampe d'accès situationnelle**, pas la porte d'entrée par défaut. L'idée menée par le grill → la chaîne principale est toujours le point de départ de la plupart des travaux ; wayfinder est ce sur quoi vous grimpez lorsque l'idée est trop grande pour être retenue en une seule session, et il fusionne à nouveau sur cette chaîne à [to-spec](https://aihero.dev/skills-to-spec), car une carte effacée se transmet plutôt que de se construire.
 
-En dessous, ce sont principalement d'autres compétences qui portent la planification de Wayfinder : [grilling](https://aihero.dev/skills-grilling) et [domain-modeling](https://aihero.dev/skills-domain-modeling) résolvent le type de ticket par défaut, [prototype](https://aihero.dev/skills-prototype) résout les tickets impossibles à parler, et [research](https://aihero.dev/skills-research) s'exécute en tant que sous-agent afin que sa lecture n'arrive jamais dans votre session. [handoff](https://aihero.dev/skills-handoff) est le pont d'entrée et de sortie - vers une carte issue d'une conversation qui s'est dépassée, d'une seule lorsqu'une quête secondaire apparaît à mi-session. Pour tout le reste, [ask-matt](https://aihero.dev/skills-ask-matt) parcours l'ensemble de l'ensemble.
+Wayfinder s’appuie principalement sur d’autres compétences pour planifier : [grilling](https://aihero.dev/skills-grilling) et [domain-modeling](https://aihero.dev/skills-domain-modeling) résolvent les tickets de décision, [prototype](https://aihero.dev/skills-prototype) traite ceux que la discussion ne suffit pas à trancher et [research](https://aihero.dev/skills-research) travaille comme sous-agent afin que sa lecture ne remplisse pas votre session. [handoff](https://aihero.dev/skills-handoff) sert de pont vers ou depuis une carte lorsqu’une conversation devient trop longue ou qu’une piste secondaire apparaît en cours de session. Pour tout le reste, [ask-mabza](https://aihero.dev/skills-ask-mabza) parcourt la collection.

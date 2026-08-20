@@ -8,7 +8,7 @@ Comment les compétences en ingénierie doivent utiliser la documentation de dom
 - **`CONTEXT-MAP.md`** à la racine du dépôt s'il existe — il pointe vers un `CONTEXT.md` par contexte. Lisez chacun d’entre eux en rapport avec le sujet.
 - **`docs/adr/`** — lisez les ADR qui touchent le domaine dans lequel vous êtes sur le point de travailler. Dans les dépôts multi-contextes, vérifiez également  `src/<context>/docs/adr/`  pour les décisions contextuelles.
 
-Si l'un de ces fichiers n'existe pas, **procédez en silence**. Ne signalez pas leur absence ; ne suggère pas de les créer à l'avance. La compétence `/domain-modeling`  (accessible via `/grill-with-docs` et `/improve-codebase-architecture`) les crée paresseusement lorsque les termes ou les décisions sont réellement résolus.
+Si l’un de ces fichiers n’existe pas, **poursuivez sans le signaler**. Ne demandez pas de les créer à l’avance. La compétence `/domain-modeling` (accessible via `/grill-with-docs` et `/improve-codebase-architecture`) les crée au moment où les termes ou les décisions sont réellement clarifiés.
 
 ## Structure du fichier
 

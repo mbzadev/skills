@@ -1,24 +1,24 @@
 ## Ce qu’il fait
 
-`grill-me`  prend une **idée libre** et vous interviewe jusqu'à ce que vous puissiez vous y engager. Vous n'avez pas besoin d'un plan élaboré pour commencer - en produire un est à cela que sert la [session](https://www.aihero.dev/ai-coding-dictionary/session). Il pose des questions en **tours** : chaque tour représente toute la **frontière** — chaque question dont vous avez déjà réglé les conditions préalables — donc on ne vous demande jamais quelque chose qui dépend d'une réponse qu'il n'a pas encore entendue.
+`grill-me` prend une **idée encore floue** et vous questionne jusqu’à ce qu’elle soit suffisamment claire pour être engagée. Vous n’avez pas besoin d’un plan détaillé pour commencer : la session sert précisément à le construire. Le skill pose ses questions par **tours**. Chaque tour couvre toute la **frontière**, c’est-à-dire les questions dont les prérequis sont déjà réglés ; aucune question ne dépend donc d’une réponse qui n’a pas encore été donnée.
 
 Il est **[apatride](https://www.aihero.dev/ai-coding-dictionary/stateless)**. Il n’écrit aucun fichier et ne laisse aucun espace de travail derrière lui. La seule chose qu’il laisse est une version plus précise de l’idée, dans votre propre tête.
 
 ## Quand l’utiliser
 
-Vous l'invoquez en tapant `/grill-me` — l'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne l'atteindra pas tout seul. Commencez-le dans une **nouvelle conversation**, et non au-dessus d'un plan que vous avez déjà demandé à un agent d'écrire.
+Vous l’invoquez en tapant `/grill-me` : l’[agent](https://www.aihero.dev/ai-coding-dictionary/agent) ne le déclenchera pas seul. Commencez dans une **nouvelle conversation**, plutôt que sur un plan qu’un agent a déjà rédigé.
 
-Atteignez-le dès que vous avez une idée qui mérite d'être prise au sérieux (une fonctionnalité, une direction de produit, un appel professionnel, un écrit) et bien avant d'avoir compris ce que cela implique. Le flou n’est pas une raison pour attendre ; c'est la chose que la séance mange. Si vous pouvez déjà préciser la chose avec précision, vous n'avez pas besoin de la griller.
+Utilisez ce skill dès qu’une idée mérite d’être prise au sérieux (fonctionnalité, orientation produit, décision professionnelle ou texte), bien avant d’en connaître toutes les conséquences. Le flou n’est pas une raison d’attendre : c’est précisément ce que la séance doit réduire. Si l’idée est déjà parfaitement précise, vous n’avez pas besoin de cette compétence.
 
 Laquelle des trois compétences de grillade que vous souhaitez dépend de ce qui se trouve devant vous :
 
 - **N'importe quoi, n'importe où** — `grill-me`. Il n'a besoin d'aucun dépôt et n'écrit aucun fichier, et le sujet n'a pas besoin d'être du code.
-- **Une base de code sur laquelle s'aligner** — [grill-with-docs](https://aihero.dev/skills-grill-with-docs). La même interview, mais [stateful](https://www.aihero.dev/ai-coding-dictionary/stateful) : il lit votre code et garde ce qu'il apprend dans `CONTEXT.md`  et les ADR.
+- **Une base de code sur laquelle s’aligner** — [grill-with-docs](https://aihero.dev/skills-grill-with-docs). Le même entretien, mais [avec état](https://www.aihero.dev/ai-coding-dictionary/stateful) : il lit votre code et conserve ce qu’il apprend dans `CONTEXT.md` et les ADR.
 - **Trop gros pour une session** — [wayfinder](https://aihero.dev/skills-wayfinder). Il trace l'effort sous forme de carte et exécute des sessions de grillades à l'intérieur.
 
 Laissez le [mode plan](https://www.aihero.dev/ai-coding-dictionary/agent-mode) désactivé. Le mode Plan amène l’agent à se précipiter vers la production d’un plan, ce qui est le contraire de rester en enquête.
 
-## C'est une conversation, pas une interview
+## C’est une conversation, pas un interrogatoire
 
 La compétence pose les questions, mais **vous** possédez la portée. C’est la partie qui manque aux gens, et elle sépare une session qui transforme une idée en décisions de celle qui produit des absurdités confiantes.
 
@@ -32,7 +32,7 @@ L’erreur inverse est réelle mais plus rare : rester dans l’entretien si lon
 
 Certaines questions peuvent être répondues en parlant. D’autres ne le peuvent pas, et aucune quantité de grillades ne vous y mènera.
 
-"Un long formulaire ou trois pages ?" et "Comment devrait se sentir cette interaction?" sont **illisibles** – ils ont besoin de quelque chose à quoi réagir. Lorsque vous en frappez un, arrêtez de griller. Construisez la version jetable avec [prototype](https://aihero.dev/skills-prototype), regardez-la, puis revenez et répondez en une seule ligne.
+« Un long formulaire ou trois pages ? » et « Comment cette interaction devrait-elle se comporter ? » sont **impossibles à trancher par la discussion seule** : il faut quelque chose à observer. Lorsque vous rencontrez ce cas, arrêtez les questions, construisez une version jetable avec [prototype](https://aihero.dev/skills-prototype), observez-la, puis revenez répondre en une phrase.
 
 C'est en discutant d'une question insoluble que les séances explosent. L'agent ne cesse de reformuler, vous continuez à deviner, et la portée s'agrandit pour combler l'incertitude.
 
@@ -40,11 +40,11 @@ C'est en discutant d'une question insoluble que les séances explosent. L'agent 
 
 **À combien de questions dois-je m'attendre et comment savoir quand cela se terminera ?**
 
-Comptez les tours, pas les questions. Quarante-six questions réparties en quatre tours constituent une session ordinaire. Cela se termine lorsque la frontière est vide – chaque branche visitée, rien n’est laissé en silence.
+Comptez les tours plutôt que les questions. Une session ordinaire peut compter quarante-six questions réparties en quatre tours. Elle se termine lorsque la frontière est vide : chaque branche a été parcourue et aucune décision importante n’a été laissée de côté.
 
 **Il m'a posé deux cents questions. Qu'est-ce qui n'a pas fonctionné ?**
 
-Généralement, le champ d’application était trop vaste. Demandez à l'agent de diviser d'abord le travail en morceaux plus petits, puis de griller chacun d'entre eux. Les sessions très longues dérivent également dans la **[zone muette](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**, où la [fenêtre contextuelle](https://www.aihero.dev/ai-coding-dictionary/context-window) est suffisamment pleine pour que les questions empirent.
+Généralement, le périmètre était trop vaste. Demandez à l’agent de diviser le travail en morceaux plus petits, puis de traiter chacun séparément. Les sessions très longues dérivent aussi dans la **[zone muette](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**, lorsque la [fenêtre de contexte](https://www.aihero.dev/ai-coding-dictionary/context-window) est si remplie que les questions deviennent moins pertinentes.
 
 **Puis-je revenir sur une question à la fois ?**
 
@@ -75,8 +75,8 @@ Plus que pour la plupart des compétences. Griller s'appuie sur la propre percep
 
 ## Où il s’inscrit
 
-`grill-me` est un **autonome que vous pouvez exécuter n'importe où, sur n'importe quoi**. Le fait d'être apatride est ce qui le rend portable : pas de dépôt, pas d'espace de travail, pas de configuration et aucune hypothèse selon laquelle l'idée concerne même le logiciel. Les gens le signalent aux décisions commerciales, à l'écriture, à ce qu'il faut faire ensuite – tout ce qui ne reste pas immobile dans leur tête.
+`grill-me` est un **skill autonome que vous pouvez utiliser n’importe où, pour n’importe quel sujet**. Son absence d’état le rend portable : aucun dépôt, aucun espace de travail, aucune configuration et aucune hypothèse selon laquelle l’idée concerne un logiciel. Il peut servir à préparer une décision commerciale, un texte ou la prochaine étape d’un projet.
 
-Cette portabilité est toute la différence avec [grill-with-docs](https://aihero.dev/skills-grill-with-docs), qui exécute la même interview mais lit une base de code pour s'aligner et enregistre ce qu'il apprend sous le nom de `CONTEXT.md`  et d'ADR. Les deux reposent sur la primitive [grilling](https://aihero.dev/skills-grilling) ;  `grill-me`  est la porte d'entrée invoquée par l'utilisateur qui ne transporte rien avec elle.
+Cette portabilité le distingue de [grill-with-docs](https://aihero.dev/skills-grill-with-docs), qui pose les mêmes questions tout en lisant la base de code et en enregistrant les décisions dans `CONTEXT.md` et les ADR. Les deux reposent sur la primitive [grilling](https://aihero.dev/skills-grilling) ; `grill-me` est simplement le point d’entrée sans dépôt ni fichier.
 
-Si ce que vous avez grillé s'avère être un logiciel, vous pouvez confier la même conversation à [to-spec](https://aihero.dev/skills-to-spec) et poursuivre le flux de construction - une option, pas le but de la compétence. Lorsque vous ne savez pas quel flux vous convient, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.
+Si ce que vous avez grillé s'avère être un logiciel, vous pouvez confier la même conversation à [to-spec](https://aihero.dev/skills-to-spec) et poursuivre le flux de construction - une option, pas le but de la compétence. Lorsque vous ne savez pas quel flux vous convient, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous dirige.

@@ -14,7 +14,7 @@
 
 Une collection de skills en français pour mener un véritable travail d’ingénierie avec Codex, au-delà du simple « vibe coding ».
 
-Développer de vraies applications est difficile. Des approches telles que GSD, BMAD et Spec-Kit tentent d'aider en s'appropriant le processus. Mais ce faisant, ils vous enlèvent le contrôle et rendent les bogues du processus difficiles à résoudre.
+Développer de vraies applications est difficile. Des approches telles que GSD, BMAD et Spec-Kit tentent d’aider en prenant en charge le processus. Mais elles vous retirent alors une partie du contrôle et rendent les problèmes de méthode difficiles à corriger.
 
 Ces skills sont volontairement petits, adaptables et composables. Ils s’appuient sur des pratiques d’ingénierie éprouvées et restent faciles à personnaliser.
 
@@ -32,7 +32,7 @@ La méthode immédiatement disponible consiste à copier les skills avec `skills
 npx skills@latest add mbzadev/skills
 ```
 
-Dans l’interface de l’installateur, sélectionnez Codex comme cible, puis choisissez les skills voulus. Incluez `setup-matt-pocock-skills` si vous utilisez les flux d’ingénierie du dépôt.
+Dans l’interface de l’installateur, sélectionnez Codex comme cible, puis choisissez les skills voulus. Incluez `setup-mabza-skills` si vous utilisez les flux d’ingénierie du dépôt.
 
 Les fichiers installés vous appartiennent : vous pouvez les adapter, les versionner dans votre projet et récupérer les mises à jour avec `npx skills update`.
 
@@ -44,7 +44,7 @@ La décision d’architecture est documentée dans [`.agents/adr/0002-ship-as-a-
 
 ### 3. Configurer le dépôt cible
 
-Dans Codex, lancez `/setup-matt-pocock-skills` une fois par dépôt. Le skill vous demandera :
+Dans Codex, lancez `/setup-mabza-skills` une fois par dépôt. Le skill vous demandera :
 
 - quel outil de suivi utiliser : GitHub, GitLab, un autre service ou des fichiers locaux ;
 - quelles étiquettes employer pendant le triage ;
@@ -90,7 +90,7 @@ La même tension existe avec les agents. Ils arrivent dans un projet et doivent 
 Exemple
 </summary>
 
-Voici un exemple de fichier [`CONTEXT.md`](https://github.com/mattpocock/course-video-manager/blob/076a5a7a182db0fe1e62971dd7a68bcadf010f1c/CONTEXT.md), tiré du dépôt `course-video-manager`. Laquelle de ces formulations est la plus facile à lire ?
+Voici un exemple de fichier [`CONTEXT.md`](https://github.com/mbzadev/course-video-manager/blob/076a5a7a182db0fe1e62971dd7a68bcadf010f1c/CONTEXT.md), tiré du dépôt `course-video-manager`. Laquelle de ces formulations est la plus facile à lire ?
 
 - **AVANT** : "Il y a un problème lorsqu'une leçon à l'intérieur d'une section d'un cours devient "réelle" (c'est-à-dire qu'elle se voit attribuer une place dans le système de fichiers)"
 - **APRÈS** : "Il y a un problème avec la cascade de matérialisation"
@@ -126,7 +126,7 @@ Pour les tests automatisés, une boucle rouge-vert est essentielle : l’agent 
 
 Le skill **[`/tdd`](./skills/tdd/SKILL.md)** s’intègre à n’importe quel projet. Il encadre la boucle rouge-vert et indique à l’agent ce qui caractérise de bons ou de mauvais tests.
 
-Pour le débogage, j'ai également créé une compétence **[`/diagnosing-bugs`](./skills/diagnosing-bugs/SKILL.md)** qui regroupe les meilleures pratiques de débogage dans une boucle disciplinée, fermée phase par phase.
+Pour le débogage, la compétence **[`/diagnosing-bugs`](./skills/diagnosing-bugs/SKILL.md)** regroupe les bonnes pratiques dans une boucle disciplinée, qui progresse phase par phase.
 
 ### #4 : Nous avons construit une boule de boue
 
@@ -146,7 +146,7 @@ Ceci est intégré à chaque niveau de ces compétences :
 
 - [`/to-spec`](./skills/to-spec/SKILL.md) vous interroge sur les modules que vous touchez avant de créer une spécification
 
-Et surtout, [`/improve-codebase-architecture`](./skills/improve-codebase-architecture/SKILL.md) étudie une base de code pour approfondir les opportunités et vous remet les candidats. Je recommande de l'exécuter sur votre base de code une fois tous les quelques jours. Il s'agit d'une enquête, pas d'un sauvetage : sur une base de code véritablement ancienne, il trouvera de vrais candidats, mais il ne démêlera pas la boue à votre place.
+Et surtout, [`/improve-codebase-architecture`](./skills/improve-codebase-architecture/SKILL.md) étudie la base de code pour repérer les possibilités d’approfondissement et vous présente les meilleurs candidats. Exécutez-le tous les quelques jours. Il s’agit d’une enquête, pas d’un sauvetage : sur une base de code véritablement ancienne, il trouvera des pistes concrètes, mais il ne démêlera pas la complexité à votre place.
 
 ### Résumé
 
@@ -162,11 +162,11 @@ Compétences que j'utilise quotidiennement pour le travail de code.
 
 **Invoqués par l’utilisateur**
 
-- **[ask-matt](./skills/ask-matt/SKILL.md)** — Indiquez votre situation pour trouver le skill ou le flux de travail adapté. Ce routeur couvre tous les skills invoqués par l’utilisateur dans ce dépôt.
+- **[ask-mabza](./skills/ask-mabza/SKILL.md)** — Indiquez votre situation pour trouver le skill ou le flux de travail adapté. Ce routeur couvre tous les skills invoqués par l’utilisateur dans ce dépôt.
 - **[grill-with-docs](./skills/grill-with-docs/SKILL.md)** — Menez une séance de questions approfondie tout en construisant le modèle de domaine du projet, en précisant la terminologie et en mettant à jour `CONTEXT.md` ainsi que les ADR.
 - **[triage](./skills/triage/SKILL.md)** — Faites progresser les tickets entrants dans une machine à états fondée sur des rôles de tri.
 - **[improve-codebase-architecture](./skills/improve-codebase-architecture/SKILL.md)** — Analysez une base de code, présentez les possibilités d’amélioration dans un rapport HTML visuel, puis approfondissez celle que vous choisissez.
-- **[setup-matt-pocock-skills](./skills/setup-matt-pocock-skills/SKILL.md)** — Configurez une fois par dépôt l’outil de suivi, les étiquettes de tri et l’organisation de la documentation du domaine nécessaires aux autres skills d’ingénierie.
+- **[setup-mabza-skills](./skills/setup-mabza-skills/SKILL.md)** — Configurez une fois par dépôt l’outil de suivi, les étiquettes de tri et l’organisation de la documentation du domaine nécessaires aux autres skills d’ingénierie.
 - **[to-spec](./skills/to-spec/SKILL.md)** — Transformez la conversation en cours en spécification et publiez-la dans l’outil de suivi, sans nouvel entretien : le skill synthétise ce qui a déjà été décidé.
 - **[to-tickets](./skills/to-tickets/SKILL.md)** — Divisez un plan, une spécification ou une conversation en tickets, chacun déclarant ses dépendances — sous forme de texte dans un fichier local ou de liens de blocage natifs dans un véritable outil de suivi.
 - **[implement](./skills/implement/SKILL.md)** — Réalisez le travail décrit par une spécification ou des tickets, pilotez `/tdd` selon les coutures convenues, puis terminez par `/code-review` avant le commit.
@@ -175,13 +175,13 @@ Compétences que j'utilise quotidiennement pour le travail de code.
 **Invocables par le modèle**
 
 - **[prototype](./skills/prototype/SKILL.md)** — Créez un prototype jetable pour répondre à une question de conception — un seul fichier HTML partageable pour les questions d'état/de logique, ou plusieurs variantes d'interface utilisateur radicalement différentes pouvant être basculées à partir d'un seul itinéraire.
-- **[diagnosing-bugs](./skills/diagnosing-bugs/SKILL.md)** — Boucle de diagnostic disciplinée pour les bugs difficiles et les régressions de performances : créez une boucle de rétroaction qui passe au rouge sur ce bug → minimiser → hypothèse → instrument → corriger → test de régression.
+- **[diagnosing-bugs](./skills/diagnosing-bugs/SKILL.md)** — Boucle de diagnostic disciplinée pour les bogues difficiles et les régressions de performances : créez une boucle de rétroaction qui passe au rouge sur ce bogue → minimiser → hypothèse → instrument → corriger → test de régression.
 - **[research](./skills/research/SKILL.md)** — Enquêtez sur une question par rapport à des sources primaires hautement fiables et capturez les résultats sous forme de fichier Markdown cité dans le dépôt, exécuté en tant qu'agent d'arrière-plan.
-- **[tdd](./skills/tdd/SKILL.md)** — Développement piloté par les tests avec une boucle de refactor rouge-vert. Crée des fonctionnalités ou corrige des bogues, une tranche verticale à la fois.
+- **[tdd](./skills/tdd/SKILL.md)** — Développement piloté par les tests avec une boucle rouge-vert. Créez des fonctionnalités ou corrigez des bogues, une tranche verticale à la fois.
 - **[domain-modeling](./skills/domain-modeling/SKILL.md)** — Créez et affinez activement le modèle de domaine d'un projet — testez les termes par rapport au glossaire, effectuez des tests de résistance avec des scénarios extrêmes et mettez à jour  `CONTEXT.md`  et les ADR en ligne.
-- **[codebase-design](./skills/codebase-design/SKILL.md)** — Discipline et vocabulaire partagés pour la conception de modules profonds : beaucoup de comportement derrière une petite interface, placée de manière nette, testable via cette interface.
+- **[codebase-design](./skills/codebase-design/SKILL.md)** — Discipline et vocabulaire partagés pour concevoir des modules profonds : beaucoup de comportement derrière une petite interface, clairement délimitée et testable.
 - **[code-review](./skills/code-review/SKILL.md)** — Examinez le diff selon deux axes indépendants : **Normes** — respecte-t-il les conventions du dépôt et les principaux signaux de mauvaise conception ? — et **Spécification** — implémente-t-il fidèlement le ticket ou la spécification d’origine ? Les deux analyses s’exécutent dans des sous-agents distincts.
-- **[resolving-merge-conflicts](./skills/resolving-merge-conflicts/SKILL.md)** — Résolvez une fusion ou un rebasage en conflit, morceau par morceau, en remontant à l’intention de chaque côté, puis terminez l’opération sans utiliser `--abort`.
+- **[resolving-merge-conflicts](./skills/resolving-merge-conflicts/SKILL.md)** — Résolvez une fusion ou un rebasage en conflit, élément par élément, en remontant à l’intention de chaque côté, puis terminez l’opération sans utiliser `--abort`.
 - **[wizard](./skills/wizard/SKILL.md)** — Générez un assistant bash interactif qui guide un humain à travers les étapes que lui seul peut effectuer : provisionnement de l'infrastructure, configuration des informations d'identification ou des secrets CI, navigation dans un tableau de bord tiers inconnu ou exécution d'une migration ou d'un basculement ponctuel.
 
 ### Productivité
@@ -193,7 +193,7 @@ Outils généraux de productivité, non spécifiques au code.
 - **[grill-me](./skills/grill-me/SKILL.md)** — Soyez interrogé sans relâche sur un plan ou une conception jusqu'à ce que chaque branche de l'arbre de conception soit résolue.
 - **[handoff](./skills/handoff/SKILL.md)** — Compactez la conversation en cours dans un document de transfert afin qu'un autre agent puisse continuer le travail.
 - **[teach](./skills/teach/SKILL.md)** — Apprenez à l'utilisateur une nouvelle compétence ou un nouveau concept au cours de plusieurs sessions, en utilisant le répertoire actuel comme espace de travail d'enseignement avec état.
-- **[to-questionnaire](./skills/to-questionnaire/SKILL.md)** — Transformez une décision à laquelle vous ne pouvez pas répondre seule en un questionnaire Markdown pour la seule personne qui le peut — rempli de manière asynchrone ou ensemble lors d'une réunion. Il vous interroge sur l'envoi (à qui il est destiné, ce dont vous avez besoin en retour), pas sur le sujet.
+- **[to-questionnaire](./skills/to-questionnaire/SKILL.md)** — Transformez une décision que vous ne pouvez pas trancher seul en un questionnaire Markdown destiné à la personne qui détient la réponse, à remplir de manière asynchrone ou ensemble lors d’une réunion. Il vous interroge sur l’envoi — le destinataire et les informations attendues —, pas sur le sujet.
 - **[wait-what](./skills/wait-what/SKILL.md)** — Déclenchez-le dès qu’un message n’est pas clair. L’agent le reformule en français clair, avec le contexte manquant et le vocabulaire de `CONTEXT.md`.
 
 **Invocables par le modèle**

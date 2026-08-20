@@ -77,7 +77,7 @@ Utilisez une sirène `flowchart` ou `graph` lorsque le point est "X appelle Y ap
 
 ### Boîtes et flèches construites à la main (quand la disposition de Mermaid vous combat)
 
-Modules comme `<div>`s avec bordures et étiquettes. Flèches sous forme d'éléments SVG `<line>` ou `<path>`  en ligne positionnés de manière absolue sur un conteneur relatif. Atteignez-le lorsque vous souhaitez que le diagramme "après" ressemble à un module profond à bordure épaisse avec des éléments internes grisés - Mermaid ne le rendra pas avec le bon poids.
+Modules comme `<div>`s avec bordures et étiquettes. Flèches sous forme d'éléments SVG `<line>` ou `<path>`  en ligne positionnés de manière absolue sur un conteneur relatif. Utilisez ce skill lorsque vous souhaitez que le diagramme "après" ressemble à un module profond à bordure épaisse avec des éléments internes grisés - Mermaid ne le rendra pas avec le bon poids.
 
 ### Coupe transversale (idéale pour les couches superficielles)
 
@@ -118,6 +118,6 @@ Français clair et concis, avec les noms et verbes architecturaux définis par l
 - "Approfondir : une interface, un endroit pour tester."
 - "Deux adaptateurs justifient la couture : HTTP en prod, in-memory en tests."
 
-**Les puces de gains** expriment chaque avantage avec le vocabulaire du glossaire : _« localité : les bugs se concentrent dans un module »_, _« effet de levier : une interface, N sites d’appel »_, _« l’interface rétrécit ; l’implémentation absorbe les enveloppes »_. N’écrivez pas _« plus facile à maintenir »_ ou _« code plus propre »_ : ces formulations n’appartiennent pas au glossaire.
+**Les puces de gains** expriment chaque avantage avec le vocabulaire du glossaire : _« localité : les bogues se concentrent dans un module »_, _« effet de levier : une interface, N sites d’appel »_, _« l’interface rétrécit ; l’implémentation absorbe les enveloppes »_. N’écrivez pas _« plus facile à maintenir »_ ou _« code plus propre »_ : ces formulations n’appartiennent pas au glossaire.
 
-Pas de couverture, pas de raclement de gorge, pas de « ça vaut le coup de noter que… ». Si une phrase peut être une puce, faites-en une puce. Si une balle peut être coupée, coupez-la. Si un terme ne figure pas dans le glossaire `/codebase-design` , recherchez-en un avant d'en inventer un nouveau.
+Pas de remplissage ni de « ça vaut le coup de noter que… ». Si une phrase peut être une puce, faites-en une puce. Si une puce peut être supprimée, supprimez-la. Si un terme ne figure pas dans le glossaire `/codebase-design`, recherchez-en un avant d’en inventer un nouveau.

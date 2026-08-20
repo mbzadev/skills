@@ -1,14 +1,14 @@
-# Rédiger un brief d’agent
+# Rédiger une note de cadrage d’agent
 
-Un brief d’agent est un commentaire structuré publié sur un ticket ou une pull request GitHub lorsqu’il passe à l’état `ready-for-agent`. Il constitue la spécification de référence à partir de laquelle un agent autonome travaillera. Le corps et la discussion d’origine fournissent le contexte ; le brief forme le contrat d’exécution.
+Une note de cadrage d’agent est un commentaire structuré publié sur un ticket ou une pull request GitHub lorsqu’il passe à l’état `ready-for-agent`. Il constitue la spécification de référence à partir de laquelle un agent autonome travaillera. Le corps et la discussion d’origine fournissent le contexte ; la note de cadrage forme le contrat d’exécution.
 
-Le brief décrit **ce que l’agent doit accomplir**. Pour un ticket, il s’agit de construire le changement. Pour une pull request, il s’agit de terminer ou de corriger le diff existant.
+La note de cadrage décrit **ce que l’agent doit accomplir**. Pour un ticket, il s’agit de construire le changement. Pour une pull request, il s’agit de terminer ou de corriger le diff existant.
 
 ## Principes
 
 ### Durabilité plutôt que précision fragile
 
-Le ticket peut rester en attente plusieurs jours ou plusieurs semaines. La base de code aura peut-être changé entre-temps. Le brief doit donc rester utile après un renommage, un déplacement ou un refactoring.
+Le ticket peut rester en attente plusieurs jours ou plusieurs semaines. La base de code aura peut-être changé entre-temps. La note de cadrage doit donc rester utile après un renommage, un déplacement ou une refactorisation.
 
 - Décrivez les interfaces, les types et les contrats de comportement.
 - Nommez les types, signatures de fonctions et formes de configuration à rechercher.
@@ -38,14 +38,14 @@ Indiquez ce qui reste hors périmètre afin d’éviter les extensions opportuni
 ## Modèle
 
 ```markdown
-## Brief d’agent
+## Note de cadrage d’agent
 
-**Catégorie :** bug / amélioration
+**Catégorie :** bogue / amélioration
 **Résumé :** description en une ligne du résultat attendu
 
 **Comportement actuel :**
 
-Décrire ce qui se passe aujourd’hui. Pour un bug, préciser le comportement cassé.
+Décrire ce qui se passe aujourd’hui. Pour un bogue, préciser le comportement cassé.
 Pour une amélioration, décrire l’état sur lequel elle s’appuie.
 
 **Comportement souhaité :**
@@ -71,12 +71,12 @@ Préciser les cas limites et les conditions d’erreur.
 - Fonctionnalité voisine mais distincte
 ```
 
-## Exemple : correction d’un bug
+## Exemple : correction d’un bogue
 
 ```markdown
-## Brief d’agent
+## Note de cadrage d’agent
 
-**Catégorie :** bug
+**Catégorie :** bogue
 **Résumé :** la troncature d’une description de skill coupe parfois un mot
 
 **Comportement actuel :**
@@ -111,7 +111,7 @@ et ajoute `...` pour signaler la coupe.
 ## Exemple : amélioration
 
 ```markdown
-## Brief d’agent
+## Note de cadrage d’agent
 
 **Catégorie :** amélioration
 **Résumé :** conserver les demandes de fonctionnalité rejetées sous `.out-of-scope/`
@@ -130,7 +130,7 @@ consulte ces fichiers avant d’évaluer une nouvelle demande.
 **Interfaces principales :**
 
 - Format Markdown sous `.out-of-scope/`
-- Étape initiale de collecte du contexte dans le workflow de triage
+- Étape initiale de collecte du contexte dans le flux de travail de triage
 
 **Critères d’acceptation :**
 
@@ -148,10 +148,10 @@ consulte ces fichiers avant d’évaluer une nouvelle demande.
 
 ## Exemple : terminer une pull request
 
-Le comportement actuel décrit l’état du diff. Le brief demande de le terminer ou de le corriger, pas de recréer la fonctionnalité.
+Le comportement actuel décrit l’état du diff. La note de cadrage demande de le terminer ou de le corriger, pas de recréer la fonctionnalité.
 
 ```markdown
-## Brief d’agent
+## Note de cadrage d’agent
 
 **Catégorie :** amélioration
 **Résumé :** terminer l’option `--json` proposée pour `triage list`
@@ -183,12 +183,12 @@ ne change pas en l’absence de l’option.
 ## Contre-exemple
 
 ```markdown
-## Brief d’agent
+## Note de cadrage d’agent
 
-**Résumé :** corriger le bug du triage
+**Résumé :** corriger le bogue du triage
 
 Le triage est cassé. Regarde le fichier principal et corrige la fonction autour
 de la ligne 150.
 ```
 
-Ce brief est insuffisant : il ne précise ni catégorie, ni comportement actuel et souhaité, ni critères d’acceptation, ni limites de périmètre. Il dépend en plus d’un chemin et d’un numéro de ligne rapidement obsolètes.
+Cette note de cadrage est insuffisante : elle ne précise ni la catégorie, ni les comportements actuel et souhaité, ni les critères d’acceptation, ni les limites de périmètre. Elle dépend en outre d’un chemin et d’un numéro de ligne qui deviendront rapidement obsolètes.

@@ -1,5 +1,5 @@
 interface:
   display_name: "Vers des tickets"
-  short_description: "Découper un plan en tickets sous forme de balles traçantes"
+  short_description: "Découper un plan en tickets sous forme de tranches verticales"
 policy:
   allow_implicit_invocation: false

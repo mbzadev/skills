@@ -6,9 +6,9 @@ L'[agent](https://www.aihero.dev/ai-coding-dictionary/agent) écrit le script ; 
 
 ## Quand l’utiliser
 
-Vous pouvez taper `/wizard`, et l'agent peut également l'atteindre lui-même. Lorsqu'il franchit une étape que vous devez franchir – une clé sur laquelle il ne peut pas frapper, un tableau de bord sur lequel il ne peut pas cliquer – il vous crée un assistant au lieu d'écrire les instructions dans le chat, où elles défilent.
+Vous pouvez taper `/wizard`, et l’agent peut également le sélectionner lui-même. Lorsqu’il rencontre une étape que vous devez réaliser — saisir une clé qu’il ne peut pas obtenir ou utiliser un tableau de bord sur lequel il ne peut pas cliquer — il crée un assistant pour vous guider au lieu d’écrire des instructions dans le chat, où elles risqueraient de se perdre.
 
-Atteignez-le lorsque la prochaine chose qui vous bloque est un voyage dans un tableau de bord :
+Utilisez ce skill lorsque la prochaine chose qui vous bloque est un voyage dans un tableau de bord :
 
 | Situation | Que fait l'assistant |
 | --- | --- |
@@ -17,7 +17,7 @@ Atteignez-le lorsque la prochaine chose qui vous bloque est un voyage dans un ta
 | Un projet doit passer de l'état A à l'état B une fois | Parcourt la transition et rapporte ce qu'il n'a pas pu faire |
 | Vous êtes sur le point d'écrire ces étapes dans un fichier README | Écrit une version exécutable à la place, qui ne peut pas pourrir aussi silencieusement |
 
-Ne l'atteignez pas pour *décider* quoi construire ; pour cela, [grill-with-docs](https://aihero.dev/skills-grill-with-docs) et [to-spec](https://aihero.dev/skills-to-spec) sont les outils.
+Ne l’utilisez pas pour *décider* quoi construire ; pour cela, utilisez [grill-with-docs](https://aihero.dev/skills-grill-with-docs) et [to-spec](https://aihero.dev/skills-to-spec).
 
 ## Prérequis
 
@@ -62,7 +62,7 @@ Non. L’agent écrit un script ; ça ne le fait pas fonctionner. Vous exécute
 
 Pas à mi-parcours. Il n'y a pas de bouton de retour - les étapes avancent et une mauvaise réponse à l'étape 3 signifie Ctrl-C et réexécuter. La réexécution est peu coûteuse de par sa conception : toute valeur déjà écrite dans `.env` est proposée par défaut, vous appuyez donc sur Entrée pendant les étapes que vous avez réussies et ne retapez que la mauvaise. Cela s'est produit au cours de la semaine de lancement et n'a pas été fermé depuis : "J'ai adoré ! Une chose cependant : existe-t-il un moyen de revenir en arrière et de corriger ce que vous avez saisi ?"
 
-Il y a un bug ouvert associé. Les touches fléchées dans une invite `ask` insèrent `^[[D` / `^[[C` au lieu de déplacer le curseur, car l'invite utilise `read -r` plutôt que Readline ([numéro 741](https://github.com/mattpocock/skills/issues/741)). Le retour arrière fonctionne ; les touches fléchées ne le font pas. Supprimez l'erreur plutôt que d'y déplacer le curseur.
+Il y a un bogue ouvert associé. Les touches fléchées dans une invite `ask` insèrent `^[[D` / `^[[C` au lieu de déplacer le curseur, car l'invite utilise `read -r` plutôt que Readline ([numéro 741](https://github.com/mbzadev/skills/issues/741)). Le retour arrière fonctionne ; les touches fléchées ne le font pas. Supprimez l'erreur plutôt que d'y déplacer le curseur.
 
 **Est-ce qu'il sait ce que j'ai déjà configuré ?**
 
@@ -74,11 +74,11 @@ Nulle part en particulier. Il s'agit d'une étape autonome et non d'une chaîne.
 
 **Est-ce que ça marche en dehors de Codex ?**
 
-L'artefact le fait, sans condition : c'est un simple script bash et peu importe ce que [harness](https://www.aihero.dev/ai-coding-dictionary/harness) l'a généré. La compétence elle-même est invoquée par le modèle, elle est donc répertoriée partout – tapez `/wizard` dans Codex ou `$wizard` dans le Codex, ou décrivez simplement la configuration sur laquelle vous êtes bloqué. Le fait d'être invoqué par le modèle permet également d'éviter [#693](https://github.com/mattpocock/skills/issues/693), où les surfaces de bureau et Web de Codex suppriment les compétences *invoquées par l'utilisateur* de la liste du [model](https://www.aihero.dev/ai-coding-dictionary/model) et les signalent comme non installées.
+L'artefact le fait, sans condition : c'est un simple script bash et peu importe ce que [harness](https://www.aihero.dev/ai-coding-dictionary/harness) l'a généré. La compétence elle-même est invoquée par le modèle, elle est donc répertoriée partout – tapez `/wizard` dans Codex ou `$wizard` dans le Codex, ou décrivez simplement la configuration sur laquelle vous êtes bloqué. Le fait d'être invoqué par le modèle permet également d'éviter [#693](https://github.com/mbzadev/skills/issues/693), où les surfaces de bureau et Web de Codex suppriment les compétences *invoquées par l'utilisateur* de la liste du [modèle](https://www.aihero.dev/ai-coding-dictionary/model) et les signalent comme non installées.
 
 **N'était-ce pas invoqué par l'utilisateur ?**
 
-C’est effectivement le cas. Il est désormais invoqué par le modèle, de sorte que l'agent l'atteint sans y être invité lorsqu'il atteint une étape que vous devez franchir. Rien de ce que vous pouviez faire avant de cesser de fonctionner - l'invocation de modèle *ajoute* la portée de l'agent, elle ne supprime jamais la vôtre, donc `/wizard`  se comporte exactement comme il le faisait. Ce qui a changé, c'est le mode d'échec qu'il abandonne : l'agent heurte un mur d'informations d'identification en cours de construction et envoie six étapes numérotées dans le chat que vous pouvez suivre manuellement.
+C’est effectivement le cas. Il est désormais invocable par le modèle : l’agent le sélectionne automatiquement lorsqu’il rencontre une étape que vous seul pouvez réaliser. Rien de ce qui fonctionnait auparavant n’a été supprimé ; cette invocation ajoute simplement une possibilité, tandis que `/wizard` reste disponible sur demande. Le mode d’échec change toutefois : au lieu de vous transmettre six étapes numérotées dans le chat lorsqu’il rencontre un écran d’identifiants, l’agent génère l’assistant qui vous guide dans cette procédure.
 
 **Auparavant, c'était dans `in-progress/` — où est-il maintenant ?**
 
@@ -95,4 +95,4 @@ Depuis la version 1.2, il appartient à la catégorie `engineering/`. Il a quitt
 
 ## Où il s’inscrit
 
-`wizard` est un outil autonome accessible à tout moment, situé à la ligne où l'automatisation s'arrête et où un humain doit cliquer. Son voisin le plus proche est [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills), car les deux existent pour mettre un dépôt en état de fonctionnement - celui-ci configure cet ensemble de compétences, tandis que  `wizard`  génère un chemin de configuration pour tout le reste. Il s'associe également à [implement](https://aihero.dev/skills-implement) : lorsqu'une version intègre une fonctionnalité qui nécessite des informations d'identification ou un basculement manuel, un assistant permet de réaliser la moitié humaine. Lorsque vous ne savez pas quelle compétence vous convient le mieux, [ask-matt](https://aihero.dev/skills-ask-matt) vous dirige.
+`wizard` est un skill autonome, utilisable à tout moment, situé à la ligne où l'automatisation s'arrête et où un humain doit cliquer. Son voisin le plus proche est [setup-mabza-skills](https://aihero.dev/skills-setup-mabza-skills), car les deux existent pour mettre un dépôt en état de fonctionnement - celui-ci configure cet ensemble de compétences, tandis que  `wizard`  génère un chemin de configuration pour tout le reste. Il s'associe également à [implement](https://aihero.dev/skills-implement) : lorsqu'une version intègre une fonctionnalité qui nécessite des informations d'identification ou un basculement manuel, un assistant permet de réaliser la moitié humaine. Lorsque vous ne savez pas quelle compétence vous convient le mieux, [ask-mabza](https://aihero.dev/skills-ask-mabza) vous dirige.

@@ -9,7 +9,7 @@ Lorsque le document que vous rédigez est une compétence, lisez [`SKILL-MECHANI
 
 ## Pointeurs de contexte
 
-Un **pointeur de contexte** est une référence contenue dans le contexte de l'agent qui nomme du matériel hors contexte et code la condition pour l'atteindre. La description d'une compétence en est une ; une ligne dans `AGENTS.md`  nommant un document est le même objet. C'est la formulation du pointeur, et non sa cible, qui décide du moment où l'agent atteint le matériau – et avec quelle fiabilité. Une cible incontournable derrière un pointeur faiblement formulé est un bug de variance : aiguisez d'abord le texte, et insérez le contenu uniquement si la netteté échoue.
+Un **pointeur de contexte** est une référence contenue dans le contexte de l'agent qui nomme du matériel hors contexte et code la condition pour l'atteindre. La description d'une compétence en est une ; une ligne dans `AGENTS.md`  nommant un document est le même objet. C'est la formulation du pointeur, et non sa cible, qui décide du moment où l'agent atteint le matériau – et avec quelle fiabilité. Une cible incontournable derrière un pointeur faiblement formulé est un bogue de variance : aiguisez d'abord le texte, et insérez le contenu uniquement si la netteté échoue.
 
 Un pointeur effectue deux tâches : indiquer quel est le matériau et répertorier les **branches** qui devraient déclencher son atteinte (une branche est un cas distinct que le document gère, donc différentes exécutions empruntent des chemins différents à travers elle). Chaque mot d'un pointeur toujours chargé coûte à chaque tour, il gagne donc un élagage encore plus dur que le corps :
 
@@ -24,7 +24,7 @@ Chaque document et pointeur que vous ajoutez dépense l'un des deux budgets suiv
 - **Charge contextuelle** — le coût du matériel toujours chargé sur la fenêtre de l'agent : une ligne `AGENTS.md` , une description de compétence, tout ce qui se trouve dans son contexte à chaque tour, dépenser des jetons et faire attention, qu'il se déclenche ou non.
 - **Charge cognitive** — le coût pour l'humain : quels documents existent et quand les consulter. L'humain est l'indice. Ce n’est pas un coût à minimiser : c’est le prix de l’action humaine ; dépensez-le là où le jugement humain compte, retirez-le là où il n'a pas d'importance.
 
-Le matériel atteint uniquement via un pointeur échappe à la charge de contexte au prix de la propre ligne du pointeur ; le matériel sans aucun pointeur repose entièrement sur la charge cognitive.
+Le matériel chargé uniquement par un pointeur reste hors de la fenêtre de contexte jusqu’à ce que le pointeur se déclenche ; le matériel sans pointeur repose entièrement sur la mémoire de travail de l’agent.
 
 ## Hiérarchie des informations
 
@@ -62,12 +62,12 @@ Diviser un document en deux consomme l'un des deux chargements, donc divisez-le 
 
 Un **mot principal** est un concept compact déjà présent dans le pré-entraînement du modèle avec lequel l'agent réfléchit lors de l'exécution du document (_lesson_, _fog of war_, _tracer bullets_). Répété comme un jeton, jamais comme une phrase, il accumule une définition distribuée et ancre toute une région de comportement dans le moins de jetons, en recrutant des a priori que le modèle détient déjà. Inventer vos propres œuvres si vous les définissez clairement, mais qu'un mot inventé ne recrute aucun a priori - vous payez en jetons de définition ce qu'un mot pré-entraîné donne gratuitement ; recherchez d’abord un mot existant.
 
-Il mouille deux fois. Dans le corps, _exécution_ : l'agent recherche le même comportement à chaque fois que le mot apparaît, et à l'intérieur d'une référence plate, il concentre son attention sur une classe de choses à rechercher. Dans un pointeur, _invocation_ : lorsque le même mot apparaît dans vos invites, vos documents et votre base de code, l'agent relie ce langage partagé au matériel et l'atteint de manière plus fiable.
+Le terme agit deux fois. Dans le corps, il guide l’_exécution_ : l’agent sait quel comportement rechercher chaque fois qu’il le rencontre. Dans un pointeur, il guide l’_invocation_ : lorsque le même mot apparaît dans vos invites, vos documents et votre base de code, l’agent relie ce vocabulaire au contenu associé et le charge plus fiablement.
 
 Recherchez des opportunités de refactoriser avec des mots clés. Une triade énoncée sur trois sites, un pointeur passant une phrase pour faire signe à une idée - chacun est un passage qui ne demande qu'à se réduire en un seul jeton :
 
 - "rapide, déterministe, faible surcharge" → _tight_ (une boucle _tight_).
-- "une boucle en laquelle vous croyez" → _red_ — une porte floue devient un état binaire observable (la boucle passe au _rouge_ sur le bug, ou non).
+- "une boucle en laquelle vous croyez" → _red_ — une porte floue devient un état binaire observable (la boucle passe au _rouge_ sur le bogue, ou non).
 
 Vous gagnez deux fois : moins de jetons et un crochet plus pointu sur lequel l'agent peut accrocher sa réflexion. Supposons que chaque document contient des reformulations selon lesquelles les principaux mots sont retirés – allez les chercher.
 
