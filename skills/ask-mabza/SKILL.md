@@ -82,6 +82,13 @@ Lisez [PHASE-BOUNDARIES.md](PHASE-BOUNDARIES.md) pour l'arbre ordonné - les cin
 - **`/teach`** — apprenez un concept sur plusieurs sessions, en utilisant le répertoire actuel comme espace de travail avec état.
 - **`/writing-for-agents`** — référence pour la rédaction des documents que les agents consomment : compétences, AGENTS.md, documents pointés.
 
+## Marketing
+
+Une collection de 49 skills marketing, distincte des flux d'ingénierie ci-dessus : optimisation de la conversion, contenu & copywriting, SEO & découvrabilité, payant & distribution, mesure & tests, rétention, ingénierie de la croissance, stratégie & monétisation, ventes & RevOps. Tous sont invocables par le modèle — Codex les sélectionne lorsqu'une tâche marketing correspond — et le [catalogue marketing](../../catalog/marketing/README.md) en donne la liste complète par famille.
+
+- **`/product-marketing`** — le point d'entrée de la collection : il crée le document de contexte produit (`.agents/product-marketing.md`) que tous les autres skills marketing lisent en premier. Lancez-le avant tout le reste.
+- Les 48 autres couvrent chaque spécialité : `/cro` et `/copywriting` pour convertir, `/seo-audit` et `/ai-seo` pour la découverte, `/ads` pour le payant, `/analytics` et `/ab-testing` pour la mesure, `/marketing-plan` pour la stratégie d'ensemble. Les guides d'intégration outils associés vivent dans [`tools/`](https://github.com/mbzadev/skills/blob/main/tools/REGISTRY.md) à la racine du dépôt.
+
 ## Précondition
 
 **`/setup-mabza-skills`** — exécutez-le avant le premier flux d’ingénierie afin de configurer l’outil de suivi, les étiquettes de tri et l’organisation de la documentation attendus par les autres skills. Les outils de suivi personnalisés sont également pris en charge.

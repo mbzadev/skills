@@ -1,0 +1,3 @@
+interface:
+  display_name: "Stratégie de contenu"
+  short_description: "Décider quel contenu produire et dans quel ordre"

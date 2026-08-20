@@ -1,0 +1,3 @@
+interface:
+  display_name: "Recherche client"
+  short_description: "Extraire le signal des interviews, reviews et communautés : VOC, personas, JTBD"

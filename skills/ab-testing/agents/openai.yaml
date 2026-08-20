@@ -1,0 +1,3 @@
+interface:
+  display_name: "A/B tests et expérimentation"
+  short_description: "Concevez des tests statistiquement valides et bâtissez un programme d'expérimentation"
